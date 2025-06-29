@@ -1,4 +1,6 @@
 # Shared Infrastructure Services
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FExalt-Application-Limited%2Fexalt-shared-infrastructure.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FExalt-Application-Limited%2Fexalt-shared-infrastructure?ref=badge_shield)
+
 
 This repository contains the core infrastructure services that support the entire Clean Social E-commerce Ecosystem.
 
@@ -85,3 +87,6 @@ shared-infrastructure/
 ## Contact
 - **Team**: Platform Infrastructure Team
 - **Repository**: https://github.com/Exalt-Application-Limited/shared-infrastructure
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FExalt-Application-Limited%2Fexalt-shared-infrastructure.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FExalt-Application-Limited%2Fexalt-shared-infrastructure?ref=badge_large)
