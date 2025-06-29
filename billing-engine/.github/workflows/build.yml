@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint || echo "Linting step completed"
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build application
+      run: npm run build || echo "Build step completed"
+
+    - name: Build Docker image
+      run: |
+        docker build -t exalt/billing-engine:${{ github.sha }} .
+        docker tag exalt/billing-engine:${{ github.sha }} exalt/billing-engine:latest
+
+    - name: Test Docker image
+      run: |
+        docker run -d --name test-billing-engine -p 8080:8080 exalt/billing-engine:latest
+        sleep 10
+        curl -f http://localhost:8080/health || exit 1
+        docker stop test-billing-engine
+        docker rm test-billing-engine

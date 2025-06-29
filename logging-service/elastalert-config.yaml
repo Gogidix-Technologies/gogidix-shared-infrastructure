@@ -1,0 +1,12 @@
+# ElastAlert 2 configuration
+
+es_host: elasticsearch
+es_port: 9200
+writeback_index: elastalert_status
+buffer_time:
+  minutes: 1
+run_every:
+  minutes: 1
+rules_folder: /opt/elastalert/rules
+
+# Alerting options (email, slack, etc.) can be added as needed 

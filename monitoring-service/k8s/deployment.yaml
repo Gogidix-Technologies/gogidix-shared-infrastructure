@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring-service
+  namespace: exalt-shared
+  labels:
+    app: monitoring-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: monitoring-service
+  template:
+    metadata:
+      labels:
+        app: monitoring-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: monitoring-service
+        image: exalt/monitoring-service:latest
+        ports:
+        - containerPort: 8090
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8090"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "monitoring_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: monitoring-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: monitoring-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "9"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: monitoring-secrets
+              key: jwt-secret
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: monitoring-secrets
+              key: api-key
+        - name: PROMETHEUS_HOST
+          value: "prometheus-service"
+        - name: PROMETHEUS_PORT
+          value: "9090"
+        - name: GRAFANA_HOST
+          value: "grafana-service"
+        - name: GRAFANA_PORT
+          value: "3000"
+        - name: ELASTICSEARCH_HOST
+          value: "elasticsearch-service"
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: INFLUXDB_HOST
+          value: "influxdb-service"
+        - name: INFLUXDB_PORT
+          value: "8086"
+        - name: JAEGER_HOST
+          value: "jaeger-service"
+        - name: JAEGER_PORT
+          value: "14268"
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8090
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: monitoring-config
+          mountPath: /app/config
+        - name: monitoring-data
+          mountPath: /app/data
+      volumes:
+      - name: monitoring-config
+        configMap:
+          name: monitoring-config
+      - name: monitoring-data
+        persistentVolumeClaim:
+          claimName: monitoring-data-pvc
+      restartPolicy: Always

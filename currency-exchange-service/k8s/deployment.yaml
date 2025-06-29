@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-exchange-service
+  namespace: exalt-shared
+  labels:
+    app: currency-exchange-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: currency-exchange-service
+  template:
+    metadata:
+      labels:
+        app: currency-exchange-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: currency-exchange-service
+        image: exalt/currency-exchange-service:latest
+        ports:
+        - containerPort: 8082
+          name: http
+        - containerPort: 8083
+          name: admin
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "8082"
+        - name: ADMIN_SERVER_PORT
+          value: "8083"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "currency_exchange_db"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: currency-exchange-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: currency-exchange-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "2"
+        - name: EXCHANGE_RATES_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: currency-exchange-secrets
+              key: exchange-rates-api-key
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: currency-exchange-secrets
+              key: jwt-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8082
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      restartPolicy: Always

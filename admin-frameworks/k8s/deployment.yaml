@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-frameworks
+  labels:
+    app: admin-frameworks
+    component: shared-infrastructure
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: admin-frameworks
+  template:
+    metadata:
+      labels:
+        app: admin-frameworks
+    spec:
+      containers:
+      - name: admin-frameworks
+        image: admin-frameworks:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-frameworks
+  labels:
+    app: admin-frameworks
+spec:
+  selector:
+    app: admin-frameworks
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP

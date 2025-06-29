@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-server-config
+  namespace: shared-infrastructure
+data:
+  application.yml: |
+    spring:
+      application:
+        name: config-server
+      profiles:
+        active: kubernetes
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: http://service-registry:8761/eureka/
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics

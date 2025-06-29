@@ -1,0 +1,58 @@
+/**
+ * Review Component
+ * A comprehensive product review component that combines rating and comment functionality
+ * For use by Team Alpha in customer-facing interfaces
+ */
+
+const tokens = require('../../tokens');
+const localization = require('../../utils/localization');
+const Rating = require('../Rating');
+const { Comment } = require('../Comment');
+
+/**
+ * Review component generator
+ * @param {object} props - Component properties
+ * @returns {string} - HTML for the review element
+ */
+function Review({
+  id,
+  author = {},
+  title = '',
+  content = '',
+  rating = 0,
+  maxRating = 5,
+  helpfulCount = 0,
+  isHelpful = false,
+  timestamp = new Date(),
+  verifiedPurchase = false,
+  images = [],
+  locale = localization.DEFAULT_LOCALE,
+  onHelpfulClick,
+  onReportClick,
+  className = '',
+  ...otherProps
+}) {
+  // Get text direction based on locale
+  const dir = localization.getTextDirection(locale);
+  
+  // Generate unique ID if not provided
+  const reviewId = id || `review-${Math.random().toString(36).substring(2, 9)}`;
+  
+  // Format timestamp based on locale
+  const formattedTime = localization.formatLocalizedDate(timestamp, locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  // Get translations
+  const translations = getTranslations(locale);
+  
+  // Create rating component
+  const ratingComponent = Rating({
+    value: rating,
+    maxValue: maxRating,
+    readOnly: true,
+    size: 'md',
+    locale
+  });

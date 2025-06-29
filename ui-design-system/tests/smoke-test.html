@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Commerce Templates Smoke Test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .header {
+      background-color: #1a73e8;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      margin-bottom: 10px;
+    }
+    
+    .tabs {
+      display: flex;
+      background-color: #f1f1f1;
+      border-bottom: 1px solid #ddd;
+      overflow-x: auto;
+    }
+    
+    .tab-button {
+      background-color: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 15px 20px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+    
+    .tab-button:hover {
+      background-color: #ddd;
+    }
+    
+    .tab-button.active {
+      background-color: #fff;
+      border-bottom: 3px solid #1a73e8;
+      color: #1a73e8;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 20px;
+      border-top: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .mock-data {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border-left: 4px solid #1a73e8;
+    }
+    
+    .mock-data h3 {
+      margin-bottom: 10px;
+      color: #1a73e8;
+    }
+    
+    pre {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    
+    .button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    
+    .button:hover {
+      background-color: #1557b0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Social Commerce Templates Smoke Test</h1>
+      <p>Test the functionality of our UI templates for the Social Commerce domain</p>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab-button active" onclick="openTab(event, 'product-detail')">ProductDetail</button>
+      <button class="tab-button" onclick="openTab(event, 'shopping-cart')">ShoppingCart</button>
+      <button class="tab-button" onclick="openTab(event, 'user-profile')">UserProfile</button>
+      <button class="tab-button" onclick="openTab(event, 'order-summary')">OrderSummary</button>
+      <button class="tab-button" onclick="openTab(event, 'vendor-list')">VendorList</button>
+      <button class="tab-button" onclick="openTab(event, 'vendor-detail')">VendorDetail</button>
+    </div>
+    
+    <div id="product-detail" class="tab-content active">
+      <div class="mock-data">
+        <h3>Mock Data for ProductDetail</h3>
+        <pre id="product-detail-mock"></pre>
+      </div>
+      <button class="button" onclick="renderProductDetail()">Render ProductDetail Template</button>
+      <div id="product-detail-output"></div>
+    </div>
+    
+    <div id="shopping-cart" class="tab-content">
+      <div class="mock-data">
+        <h3>Mock Data for ShoppingCart</h3>
+        <pre id="shopping-cart-mock"></pre>
+      </div>
+      <button class="button" onclick="renderShoppingCart()">Render ShoppingCart Template</button>
+      <div id="shopping-cart-output"></div>
+    </div>
+    
+    <div id="user-profile" class="tab-content">
+      <div class="mock-data">
+        <h3>Mock Data for UserProfile</h3>
+        <pre id="user-profile-mock"></pre>
+      </div>
+      <button class="button" onclick="renderUserProfile()">Render UserProfile Template</button>
+      <div id="user-profile-output"></div>
+    </div>
+    
+    <div id="order-summary" class="tab-content">
+      <div class="mock-data">
+        <h3>Mock Data for OrderSummary</h3>
+        <pre id="order-summary-mock"></pre>
+      </div>
+      <button class="button" onclick="renderOrderSummary()">Render OrderSummary Template</button>
+      <div id="order-summary-output"></div>
+    </div>
+    <div id="vendor-list" class="tab-content">
+      <div class="mock-data">
+        <h3>Mock Data for VendorList</h3>
+        <pre id="vendor-list-mock"></pre>
+      </div>
+      <button class="button" onclick="renderVendorList()">Render VendorList Template</button>
+      <div id="vendor-list-output"></div>
+    </div>
+    
+    <div id="vendor-detail" class="tab-content">
+      <div class="mock-data">
+        <h3>Mock Data for VendorDetail</h3>
+        <pre id="vendor-detail-mock"></pre>
+      </div>
+      <button class="button" onclick="renderVendorDetail()">Render VendorDetail Template</button>
+      <div id="vendor-detail-output"></div>
+    </div>
+  </div>
+  
+  <script>
+    // Mock data for templates
+    const vendorListMock = {
+      vendors: [
+        {
+          id: 'vendor-1',
+          name: 'AudioTech',
+          logo: 'https://via.placeholder.com/150x150?text=AudioTech',
+          bannerImage: 'https://via.placeholder.com/600x200?text=AudioTech+Banner',
+          description: 'Premium audio equipment and accessories for audiophiles.',
+          categories: ['Electronics', 'Audio', 'Headphones'],
+          rating: 4.8,
+          reviewCount: 342,
+          verified: true,
+          featured: true,
+          location: 'New York, NY',
+          productsCount: 48,
+          tags: ['premium', 'wireless', 'noise-cancellation'],
+          fulfillmentScore: 98
+        },
+        {
+          id: 'vendor-2',
+          name: 'TechGadgets',
+          logo: 'https://via.placeholder.com/150x150?text=TechGadgets',
+          bannerImage: 'https://via.placeholder.com/600x200?text=TechGadgets+Banner',
+          description: 'Latest tech gadgets and accessories at competitive prices.',
+          categories: ['Electronics', 'Gadgets', 'Accessories'],
+          rating: 4.5,
+          reviewCount: 215,
+          verified: true,
+          featured: false,
+          location: 'San Francisco, CA',
+          productsCount: 123,
+          tags: ['affordable', 'latest-tech', 'fast-shipping'],
+          fulfillmentScore: 92
+        },
+        {
+          id: 'vendor-3',
+          name: 'Home Essentials',
+          logo: 'https://via.placeholder.com/150x150?text=Home+Essentials',
+          bannerImage: 'https://via.placeholder.com/600x200?text=Home+Essentials+Banner',
+          description: 'Everything you need for a modern and comfortable home.',
+          categories: ['Home & Kitchen', 'Furniture', 'Decor'],
+          rating: 4.2,
+          reviewCount: 178,
+          verified: true,
+          featured: false,
+          location: 'Chicago, IL',
+          productsCount: 85,
+          tags: ['home', 'kitchen', 'quality'],
+          fulfillmentScore: 89
+        },
+        {
+          id: 'vendor-4',
+          name: 'Fashion Forward',
+          logo: 'https://via.placeholder.com/150x150?text=Fashion+Forward',
+          bannerImage: 'https://via.placeholder.com/600x200?text=Fashion+Forward+Banner',
+          description: 'Trendy fashion items for every season and occasion.',
+          categories: ['Clothing', 'Fashion', 'Accessories'],
+          rating: 4.7,
+          reviewCount: 290,
+          verified: true,
+          featured: true,
+          location: 'Los Angeles, CA',
+          productsCount: 210,
+          tags: ['trendy', 'seasonal', 'designer'],
+          fulfillmentScore: 95
+        }
+      ],
+      filters: {
+        categories: ['Electronics', 'Home & Kitchen', 'Clothing', 'Books', 'Sports'],
+        ratings: [5, 4, 3, 2, 1],
+        features: ['verified', 'featured', 'free-shipping', '24h-support'],
+        sortOptions: ['rating', 'newest', 'oldest', 'a-z', 'z-a']
+      },
+      pagination: {
+        currentPage: 1,
+        totalPages: 5,
+        totalItems: 20
+      },
+      locale: 'en-US'
+    };
+    
+    const vendorDetailMock = {
+      vendor: {
+        id: 'vendor-1',
+        name: 'AudioTech',
+        logo: 'https://via.placeholder.com/150x150?text=AudioTech',
+        bannerImage: 'https://via.placeholder.com/1200x300?text=AudioTech+Banner',
+        description: 'Premium audio equipment and accessories for audiophiles.',
+        about: 'AudioTech was founded in 2010 with a mission to provide high-quality audio equipment to consumers. We specialize in headphones, speakers, and audio accessories, all designed to deliver exceptional sound quality.',
+        categories: ['Electronics', 'Audio', 'Headphones'],
+        rating: 4.8,
+        reviewCount: 342,
+        verified: true,
+        featured: true,
+        location: 'New York, NY',
+        established: '2010',
+        productsCount: 48,
+        customersCount: 3400,
+        ordersCount: 7280,
+        fulfillmentScore: 98,
+        isFollowed: false,
+        achievements: [
+          { name: 'Top Seller', icon: 'award', description: 'Top-selling vendor in Audio category' },
+          { name: 'Fast Shipper', icon: 'truck', description: 'Consistently ships orders within 24 hours' },
+          { name: 'Quality Service', icon: 'shield', description: 'Maintains high customer satisfaction' }
+        ],
+        social: {
+          facebook: 'https://facebook.com/audiotech',
+          twitter: 'https://twitter.com/audiotech',
+          instagram: 'https://instagram.com/audiotech'
+        },
+        email: 'support@audiotech.example.com',
+        phone: '+1 (555) 123-4567',
+        address: '123 Audio Street, New York, NY 10001, USA',
+        businessHours: {
+          'Monday': '9:00 AM - 6:00 PM',
+          'Tuesday': '9:00 AM - 6:00 PM',
+          'Wednesday': '9:00 AM - 6:00 PM',
+          'Thursday': '9:00 AM - 6:00 PM',
+          'Friday': '9:00 AM - 6:00 PM',
+          'Saturday': '10:00 AM - 4:00 PM',
+          'Sunday': 'Closed'
+        },
+        ratingDistribution: {
+          five: 270,
+          four: 45,
+          three: 17,
+          two: 8,
+          one: 2
+        },
+        policies: {
+          shipping: 'We offer free standard shipping on all orders over $50. Standard shipping typically takes 3-5 business days. Express shipping is available for an additional fee and typically takes 1-2 business days.',
+          returns: 'We accept returns within 30 days of purchase. Products must be in original packaging and in unused condition. Return shipping is the responsibility of the customer unless the item is defective.',
+          payment: 'We accept all major credit cards, PayPal, and Apple Pay. Payment information is securely encrypted and never stored on our servers.',
+          terms: 'By placing an order with AudioTech, you agree to our terms and conditions. We reserve the right to refuse service to anyone for any reason at any time.'
+        }
+      },
+      products: [
+        {
+          id: 'prod-1',
+          name: 'Premium Wireless Headphones',
+          description: 'High-quality wireless headphones with noise cancellation',
+          price: 199.99,
+          compareAtPrice: 249.99,
+          currencySymbol: '$',
+          rating: 4.9,
+          reviewCount: 120,
+          inStock: true,
+          image: 'https://via.placeholder.com/300x300?text=Headphones',
+          badge: 'Best Seller'
+        },
+        {
+          id: 'prod-2',
+          name: 'Portable Bluetooth Speaker',
+          description: 'Compact speaker with powerful sound and long battery life',
+          price: 89.99,
+          compareAtPrice: 119.99,
+          currencySymbol: '$',
+          rating: 4.7,
+          reviewCount: 85,
+          inStock: true,
+          image: 'https://via.placeholder.com/300x300?text=Speaker'
+        },
+        {
+          id: 'prod-3',
+          name: 'True Wireless Earbuds',
+          description: 'Comfortable earbuds with premium sound quality',
+          price: 149.99,
+          currencySymbol: '$',
+          rating: 4.8,
+          reviewCount: 74,
+          inStock: true,
+          image: 'https://via.placeholder.com/300x300?text=Earbuds',
+          badge: 'New'
+        },
+        {
+          id: 'prod-4',
+          name: 'Home Theater System',
+          description: '5.1 surround sound system for immersive audio experience',
+          price: 499.99,
+          compareAtPrice: 599.99,
+          currencySymbol: '$',
+          rating: 4.6,
+          reviewCount: 42,
+          inStock: false,
+          image: 'https://via.placeholder.com/300x300?text=Home+Theater'
+        },
+        {
+          id: 'prod-5',
+          name: 'Audio Interface',
+          description: 'Professional audio interface for studio recording',
+          price: 159.99,
+          currencySymbol: '$',
+          rating: 4.9,
+          reviewCount: 36,
+          inStock: true,
+          image: 'https://via.placeholder.com/300x300?text=Interface',
+          badge: 'Staff Pick'
+        },
+        {
+          id: 'prod-6',
+          name: 'Vinyl Record Player',
+          description: 'Classic record player with modern connectivity',
+          price: 129.99,
+          currencySymbol: '$',
+          rating: 4.5,
+          reviewCount: 28,
+          inStock: true,
+          image: 'https://via.placeholder.com/300x300?text=Record+Player'
+        }
+      ],
+      reviews: [
+        {
+          id: 'review-1',
+          userName: 'Sarah Johnson',
+          userAvatar: 'https://via.placeholder.com/50x50?text=SJ',
+          date: '2025-05-15',
+          rating: 5,
+          title: 'Excellent products and service!',
+          content: 'I\'ve ordered multiple products from AudioTech and have always been impressed with the quality and customer service. The shipping is fast and their support team is very responsive.',
+          helpfulCount: 24,
+          orderDetails: 'Premium Wireless Headphones, Bluetooth Speaker'
+        },
+        {
+          id: 'review-2',
+          userName: 'Michael Chen',
+          userAvatar: 'https://via.placeholder.com/50x50?text=MC',
+          date: '2025-04-20',
+          rating: 4,
+          title: 'Great products but shipping could be faster',
+          content: 'The headphones I ordered are fantastic and exactly as described. My only complaint is that shipping took longer than expected, almost a week.',
+          helpfulCount: 12,
+          vendorResponse: {
+            date: '2025-04-21',
+            content: 'Thank you for your feedback, Michael. We\'re sorry about the shipping delay and are working to improve our logistics. We hope you enjoy your headphones!'
+          }
+        },
+        {
+          id: 'review-3',
+          userName: 'Emily Wilson',
+          date: '2025-03-10',
+          rating: 5,
+          title: 'Outstanding quality!',
+          content: 'The sound quality of AudioTech products is outstanding. I\'ve tried many brands over the years and these are by far the best. Worth every penny.',
+          helpfulCount: 31,
+          images: [
+            'https://via.placeholder.com/100x100?text=Image1',
+            'https://via.placeholder.com/100x100?text=Image2'
+          ]
+        }
+      ],
+      activeTab: 'overview',
+      locale: 'en-US'
+    };
+    
+    const productDetailMock = {
+      product: {
+        id: 'prod-123',
+        name: 'Premium Wireless Headphones',
+        description: 'Experience crystal clear audio with our premium wireless headphones. Features noise cancellation and 30-hour battery life.',
+        price: 149.99,
+        compareAtPrice: 199.99,
+        currencySymbol: '$',
+        rating: 4.7,
+        reviewCount: 253,
+        sku: 'PHN-WL-BLK',
+        inStock: true,
+        images: [
+          { id: 'img-1', src: 'https://via.placeholder.com/600x600?text=Headphone+Main', alt: 'Headphones main view' },
+          { id: 'img-2', src: 'https://via.placeholder.com/600x600?text=Headphone+Side', alt: 'Headphones side view' },
+          { id: 'img-3', src: 'https://via.placeholder.com/600x600?text=Headphone+Case', alt: 'Headphones case' }
+        ],
+        variants: [
+          { id: 'var-1', name: 'Color', value: 'Black', inStock: true },
+          { id: 'var-2', name: 'Color', value: 'White', inStock: true },
+          { id: 'var-3', name: 'Color', value: 'Red', inStock: false }
+        ],
+        vendor: {
+          id: 'ven-1',
+          name: 'AudioTech',
+          logo: 'https://via.placeholder.com/150x50?text=AudioTech',
+          rating: 4.8
+        },
+        specifications: [
+          { name: 'Battery Life', value: '30 hours' },
+          { name: 'Connectivity', value: 'Bluetooth 5.0' },
+          { name: 'Noise Cancellation', value: 'Active' },
+          { name: 'Weight', value: '250g' }
+        ],
+        relatedProducts: [
+          { id: 'rel-1', name: 'Wireless Earbuds', image: 'https://via.placeholder.com/200x200?text=Earbuds', price: 89.99 },
+          { id: 'rel-2', name: 'Headphone Stand', image: 'https://via.placeholder.com/200x200?text=Stand', price: 29.99 },
+          { id: 'rel-3', name: 'Audio Cable', image: 'https://via.placeholder.com/200x200?text=Cable', price: 14.99 }
+        ]
+      },
+      locale: 'en-US'
+    };
+    
+    const shoppingCartMock = {
+      items: [
+        {
+          id: 'item-1',
+          product: {
+            id: 'prod-123',
+            name: 'Premium Wireless Headphones',
+            image: 'https://via.placeholder.com/100x100?text=Headphones',
+            price: 149.99,
+            compareAtPrice: 199.99,
+            sku: 'PHN-WL-BLK'
+          },
+          quantity: 1,
+          variant: { color: 'Black' },
+          price: 149.99
+        },
+        {
+          id: 'item-2',
+          product: {
+            id: 'prod-456',
+            name: 'Smartphone Stand',
+            image: 'https://via.placeholder.com/100x100?text=Stand',
+            price: 24.99,
+            sku: 'STD-ADJ-SLV'
+          },
+          quantity: 2,
+          variant: {},
+          price: 49.98
+        }
+      ],
+      savedItems: [
+        {
+          id: 'saved-1',
+          product: {
+            id: 'prod-789',
+            name: 'Wireless Charger',
+            image: 'https://via.placeholder.com/100x100?text=Charger',
+            price: 34.99,
+            sku: 'CHG-WL-BLK'
+          }
+        }
+      ],
+      recommendations: [
+        {
+          id: 'rec-1',
+          name: 'Bluetooth Speaker',
+          image: 'https://via.placeholder.com/100x100?text=Speaker',
+          price: 79.99
+        },
+        {
+          id: 'rec-2',
+          name: 'Phone Case',
+          image: 'https://via.placeholder.com/100x100?text=Case',
+          price: 19.99
+        }
+      ],
+      summary: {
+        subtotal: 199.97,
+        shipping: 5.99,
+        tax: 12.00,
+        discount: 20.00,
+        total: 197.96
+      },
+      shippingOptions: [
+        { id: 'ship-1', name: 'Standard Shipping', price: 5.99, estimatedDelivery: '3-5 business days' },
+        { id: 'ship-2', name: 'Express Shipping', price: 12.99, estimatedDelivery: '1-2 business days' },
+        { id: 'ship-3', name: 'Free Shipping', price: 0, estimatedDelivery: '5-7 business days', minimumOrder: 200 }
+      ],
+      locale: 'en-US'
+    };
+    
+    const userProfileMock = {
+      user: {
+        id: 'user-123',
+        displayName: 'John Doe',
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.com',
+        phone: '+1 (555) 123-4567',
+        birthDate: '1990-05-15',
+        gender: 'male',
+        avatar: 'https://via.placeholder.com/150x150?text=JD',
+        joinDate: '2023-01-15',
+        stats: {
+          orders: 12,
+          reviews: 5,
+          wishlistItems: 8
+        }
+      },
+      orders: [
+        {
+          id: 'order-1',
+          number: '10045782',
+          date: '2025-05-10',
+          status: 'Delivered',
+          total: 235.98,
+          currencySymbol: '$',
+          items: [
+            {
+              product: {
+                id: 'prod-123',
+                name: 'Premium Wireless Headphones',
+                thumbnail: 'https://via.placeholder.com/50x50?text=Headphones'
+              }
+            },
+            {
+              product: {
+                id: 'prod-456',
+                name: 'Smartphone Stand',
+                thumbnail: 'https://via.placeholder.com/50x50?text=Stand'
+              }
+            }
+          ]
+        },
+        {
+          id: 'order-2',
+          number: '10045890',
+          date: '2025-06-01',
+          status: 'Processing',
+          total: 149.99,
+          currencySymbol: '$',
+          items: [
+            {
+              product: {
+                id: 'prod-789',
+        }
+      ],
+      addresses: [
+        {
+          id: 'addr-123',
+          name: 'Home',
+          line1: '123 Main Street',
+          line2: 'Apt 4B',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62704',
+          country: 'United States',
+          isDefault: true
+        },
+        {
+          id: 'addr-456',
+          name: 'Work',
+          line1: '456 Office Park',
+          line2: 'Suite 200',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62701',
+          country: 'United States',
+          isDefault: false
+        }
+      ],
+      wishlist: [
+        {
+          id: 'prod-789',
+          name: 'Wireless Headphones',
+          price: 149.99,
+          image: 'https://via.placeholder.com/100'
+        },
+        {
+          id: 'prod-101',
+          name: 'Fitness Tracker',
+          price: 89.95,
+          image: 'https://via.placeholder.com/100'
+        }
+      ],
+      paymentMethods: [
+        {
+          id: 'pay-123',
+          type: 'Visa',
+          last4: '4242',
+          expiry: '05/25',
+          isDefault: true
+        },
+        {
+          id: 'pay-456',
+          type: 'MasterCard',
+          last4: '9876',
+          expiry: '12/24',
+          isDefault: false
+        }
+      ],
+      securitySettings: {
+        twoFactorEnabled: true,
+        lastPasswordChange: '2023-01-15'
+      },
+      notificationPreferences: {
+        email: true,
+        sms: false,
+        app: true,
+        marketing: true
+      },
+      socialConnections: {
+        facebook: true,
+        google: true,
+        twitter: false,
+        instagram: true
+      },
+      locale: 'en-US'
+    };
+
+    document.getElementById('user-profile-mock').textContent = JSON.stringify(userProfileMock, null, 2);
+    
+    // OrderSummary mock data
+    const orderSummaryMock = {
+      id: 'ord-6789',
+      number: 'XE-12345-6789',
+      date: '2023-06-15T14:30:00',
+      status: 'Shipped',
+      currencySymbol: '$',
+      items: [
+        {
+          product: {
+            id: 'prod-123',
+            name: 'Wireless Noise Cancelling Headphones',
+            image: 'https://via.placeholder.com/150',
+            sku: 'SKU-WH-123'
+          },
+          variant: {
+            color: 'Black',
+            size: 'One Size'
+          },
+          price: 149.99,
+          quantity: 1
+        },
+        {
+          product: {
+            id: 'prod-456',
+            name: 'Smart Watch Series 5',
+            image: 'https://via.placeholder.com/150',
+            sku: 'SKU-SW-456'
+          },
+          variant: {
+            color: 'Silver',
+            size: '44mm'
+          },
+          price: 299.99,
+          quantity: 1
+        },
+        {
+          product: {
+            id: 'prod-789',
+            name: 'Charging Cable',
+            image: 'https://via.placeholder.com/150',
+            sku: 'SKU-CC-789'
+          },
+          price: 19.99,
+          quantity: 2
+        }
+      ],
+      summary: {
+        subtotal: 489.96,
+        tax: 39.20,
+        shipping: 0.00,
+        discount: 49.00,
+        total: 480.16
+      },
+      shipping: {
+        method: 'Express Shipping - 2 Day Delivery',
+        address: {
+          name: 'Jane Smith',
+          line1: '123 Main Street',
+          line2: 'Apt 4B',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62704',
+          country: 'US',
+          phone: '(555) 123-4567'
+        },
+        trackingNumber: '1Z999AA10123456789',
+        trackingUrl: 'https://www.example.com/tracking',
+        estimatedDelivery: 'June 17, 2023'
+      },
+      billing: {
+        payment: {
+          type: 'Visa',
+          last4: '4242',
+          expiry: '05/25'
+        },
+        address: {
+          name: 'Jane Smith',
+          line1: '123 Main Street',
+          line2: 'Apt 4B',
+          city: 'Springfield',
+          state: 'IL',
+          postalCode: '62704',
+          country: 'US',
+          phone: '(555) 123-4567'
+        }
+      },
+      locale: 'en-US'
+    };
+
+    document.getElementById('order-summary-mock').textContent = JSON.stringify(orderSummaryMock, null, 2);
+    
+    // Display mock data in JSON format
+    document.getElementById('product-detail-mock').textContent = JSON.stringify(productDetailMock, null, 2);
+    document.getElementById('shopping-cart-mock').textContent = JSON.stringify(shoppingCartMock, null, 2);
+    document.getElementById('user-profile-mock').textContent = JSON.stringify(userProfileMock, null, 2);
+    document.getElementById('order-summary-mock').textContent = JSON.stringify(orderSummaryMock, null, 2);
+    document.getElementById('vendor-list-mock').textContent = JSON.stringify(vendorListMock, null, 2);
+    document.getElementById('vendor-detail-mock').textContent = JSON.stringify(vendorDetailMock, null, 2);
+    
+    // Tab functionality
+    function openTab(evt, tabName) {
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+      }
+      
+      const tabButtons = document.getElementsByClassName('tab-button');
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+      }
+      
+      document.getElementById(tabName).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+    
+    // Template render functions (these would normally use the actual templates)
+    function renderProductDetail() {
+      try {
+        // In a real environment, we would import and use the actual template
+        // For this smoke test, we'll just simulate the output
+        document.getElementById('product-detail-output').innerHTML = `
+          <div class="mock-result">
+            <h3>ProductDetail Template Output</h3>
+            <pre>const output = ProductDetail(productDetailMock);
+document.getElementById('product-detail-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('product-detail-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+    
+    function renderShoppingCart() {
+      try {
+        document.getElementById('shopping-cart-output').innerHTML = `
+          <div class="mock-result">
+            <h3>ShoppingCart Template Output</h3>
+            <pre>const output = ShoppingCart(shoppingCartMock);
+document.getElementById('shopping-cart-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('shopping-cart-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+    
+    function renderUserProfile() {
+      try {
+        document.getElementById('user-profile-output').innerHTML = `
+          <div class="mock-result">
+            <h3>UserProfile Template Output</h3>
+            <pre>const output = UserProfile(userProfileMock);
+document.getElementById('user-profile-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('user-profile-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+    
+    function renderOrderSummary() {
+      try {
+        document.getElementById('order-summary-output').innerHTML = `
+          <div class="mock-result">
+            <h3>OrderSummary Template Output</h3>
+            <pre>const output = OrderSummary(orderSummaryMock);
+document.getElementById('order-summary-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('order-summary-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+    
+    function renderVendorList() {
+      try {
+        document.getElementById('vendor-list-output').innerHTML = `
+          <div class="mock-result">
+            <h3>VendorList Template Output</h3>
+            <pre>const output = VendorList(vendorListMock);
+document.getElementById('vendor-list-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('vendor-list-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+    
+    function renderVendorDetail() {
+      try {
+        document.getElementById('vendor-detail-output').innerHTML = `
+          <div class="mock-result">
+            <h3>VendorDetail Template Output</h3>
+            <pre>const output = VendorDetail(vendorDetailMock);
+document.getElementById('vendor-detail-output').innerHTML = output;</pre>
+            <p>Since this is just a smoke test file, we're simulating the output.</p>
+          </div>
+        `;
+      } catch (error) {
+        document.getElementById('vendor-detail-output').innerHTML = `<div class="error">${error.message}</div>`;
+      }
+    }
+  </script>
+</body>
+</html>

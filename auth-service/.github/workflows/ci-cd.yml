@@ -1,0 +1,30 @@
+name: Auth Service CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/auth-service/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/auth-service/**'
+  workflow_dispatch:
+
+jobs:
+  auth_service_cicd:
+    uses: ./.github/workflows/java-microservice-template.yml
+    with:
+      service_path: social-ecommerce-ecosystem/shared-infrastructure/auth-service
+      java_version: '17'
+      enable_sonarcloud: false
+      docker_image_name: auth-service
+      deploy_to_k8s: false
+      k8s_namespace: default
+    secrets:
+      # Uncomment and configure with your actual secrets when ready
+      # sonar_token: ${{ secrets.SONAR_TOKEN }}
+      # docker_registry: ${{ secrets.DOCKER_REGISTRY }}
+      # docker_username: ${{ secrets.DOCKER_USERNAME }}
+      # docker_password: ${{ secrets.DOCKER_PASSWORD }}
+      # k8s_config: ${{ secrets.KUBE_CONFIG }} 

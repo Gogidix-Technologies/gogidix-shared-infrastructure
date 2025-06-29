@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feature-flag-service
+  namespace: exalt-shared
+  labels:
+    app: feature-flag-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: feature-flag-service
+  template:
+    metadata:
+      labels:
+        app: feature-flag-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: feature-flag-service
+        image: exalt/feature-flag-service:latest
+        ports:
+        - containerPort: 8090
+          name: http
+        - containerPort: 9092
+          name: metrics
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "8090"
+        - name: PROMETHEUS_PORT
+          value: "9092"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "feature_flags_db"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: feature-flag-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: feature-flag-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "4"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: feature-flag-secrets
+              key: jwt-secret
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: feature-flag-secrets
+              key: admin-password
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8090
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      restartPolicy: Always

@@ -1,0 +1,1 @@
+console.log("Currency exchange service started on port 3001"); const http = require("http"); const server = http.createServer((req, res) => { res.writeHead(200, {"Content-Type": "application/json"}); res.end(JSON.stringify({status: "running", service: "currency-exchange", port: 3001})); }); server.listen(3001);

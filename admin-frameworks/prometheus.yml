@@ -1,0 +1,40 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Admin Framework metrics
+  - job_name: 'admin-framework'
+    static_configs:
+      - targets: ['admin-framework:8080']
+    metrics_path: '/admin-framework/actuator/prometheus'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+
+  # PostgreSQL metrics (if exporter is added)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 30s
+
+  # Nginx metrics (if exporter is added)
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+    scrape_interval: 30s
+
+  # Self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+# Alerting configuration (for production)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+#           - alertmanager:9093

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logging-service
+  namespace: shared-infrastructure
+spec:
+  type: ClusterIP
+  selector:
+    app: logging-service
+  ports:
+  - name: http
+    port: 8759
+    targetPort: 8759
+    protocol: TCP

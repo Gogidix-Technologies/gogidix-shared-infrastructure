@@ -1,0 +1,83 @@
+/**
+ * ProductList Component
+ * A flexible and customizable product listing component for displaying 
+ * collections of products in various layouts (grid, list, carousel).
+ * Supports filtering, sorting, pagination, and social commerce features.
+ * For use by Team Alpha in customer-facing interfaces
+ */
+
+const tokens = require('../../tokens');
+const localization = require('../../utils/localization');
+const ProductCard = require('../ProductCard');
+
+/**
+ * ProductList component generator
+ * @param {Object} props - Component properties
+ * @param {Array} props.products - Array of product objects to display
+ * @param {string} [props.layout="grid"] - Display layout: "grid", "list", or "carousel"
+ * @param {number} [props.columns=3] - Number of columns for grid layout
+ * @param {Object} [props.filters={}] - Active filters
+ * @param {Object} [props.sorting={}] - Sorting preferences
+ * @param {Object} [props.pagination={}] - Pagination options
+ * @param {boolean} [props.showFilters=false] - Whether to show filter panel
+ * @param {boolean} [props.showSorting=true] - Whether to show sorting options
+ * @param {boolean} [props.showSocialMetrics=true] - Whether to show social metrics on cards
+ * @param {Function} [props.onProductClick] - Click handler for product cards
+ * @param {Function} [props.onFilterChange] - Filter change handler
+ * @param {Function} [props.onSortChange] - Sort change handler
+ * @param {Function} [props.onPageChange] - Page change handler
+ * @param {string} [props.emptyStateMessage] - Message to show when no products are available
+ * @param {string} [props.locale=localization.DEFAULT_LOCALE] - Locale for the component
+ * @param {string} [props.className=""] - Additional CSS class names
+ * @returns {string} HTML for the product list component
+ */
+function ProductList({
+  products = [],
+  layout = 'grid', // 'grid', 'list', 'carousel'
+  columns = 3,
+  filters = {},
+  sorting = {
+    field: 'relevance',
+    direction: 'desc'
+  },
+  pagination = {
+    page: 1,
+    perPage: 12,
+    total: 0
+  },
+  showFilters = false,
+  showSorting = true,
+  showSocialMetrics = true,
+  onProductClick,
+  onFilterChange,
+  onSortChange,
+  onPageChange,
+  emptyStateMessage,
+  locale = localization.DEFAULT_LOCALE,
+  className = '',
+  ...otherProps
+}) {
+  // Set up translations based on locale
+  const translations = getTranslations(locale);
+
+  // Handle RTL layout
+  const dir = localization.isRTL(locale) ? 'rtl' : 'ltr';
+
+  // Create unique ID
+  const productListId = `product-list-${Math.random().toString(36).substring(2, 10)}`;
+  
+  // Determine gaps between products based on layout type
+  const gaps = {
+    grid: {
+      column: tokens.spacing.md,
+      row: tokens.spacing.lg
+    },
+    list: {
+      column: 0,
+      row: tokens.spacing.md
+    },
+    carousel: {
+      column: tokens.spacing.md,
+      row: 0
+    }
+  };

@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: "Translation Service API"
+  description: "RESTful API for Translation Service service"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:TBD/api/v1"
+paths:
+  /health:
+    get:
+      summary: "Health check"
+      responses:
+        '200':
+          description: "Service is healthy"

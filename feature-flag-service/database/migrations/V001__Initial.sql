@@ -1,0 +1,1 @@
+-- Initial schema for feature-flag-service

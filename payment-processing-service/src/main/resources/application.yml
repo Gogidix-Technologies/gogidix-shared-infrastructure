@@ -1,0 +1,19 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: payment-processing-service
+  profiles:
+    active: dev
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+eureka:
+  client:
+    enabled: false
+  instance:
+    hostname: localhost

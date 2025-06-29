@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-design-system
+  namespace: exalt-shared
+  labels:
+    app: ui-design-system
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ui-design-system
+  template:
+    metadata:
+      labels:
+        app: ui-design-system
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: ui-design-system
+        image: exalt/ui-design-system:latest
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DEFAULT_THEME
+          value: "light"
+        - name: DEFAULT_LOCALE
+          value: "en"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+      restartPolicy: Always

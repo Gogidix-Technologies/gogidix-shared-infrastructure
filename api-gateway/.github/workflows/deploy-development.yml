@@ -1,0 +1,73 @@
+name: API Gateway Deployment (Development)
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -DskipTests
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Login to DockerHub
+      # Uncomment and replace with your Docker registry when ready
+      # uses: docker/login-action@v2
+      # with:
+      #   registry: your-registry-url
+      #   username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #   password: ${{ secrets.DOCKERHUB_TOKEN }}
+      run: echo "Docker login placeholder - configure with your registry credentials"
+      
+    - name: Build and push Docker image
+      # uses: docker/build-push-action@v3
+      # with:
+      #   context: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+      #   push: true
+      #   tags: your-registry/api-gateway:dev-${GITHUB_SHA::8}
+      run: |
+        docker build -t api-gateway:dev-${GITHUB_SHA::8} .
+        echo "Image built successfully. Enable push to your registry when ready."
+    
+    - name: Deploy to Kubernetes Development
+      # To use kubectl commands, you would need to set up kubernetes config
+      # uses: Azure/k8s-deploy@v1.4
+      # with:
+      #   namespace: development
+      #   manifests: |
+      #     social-ecommerce-ecosystem/shared-infrastructure/api-gateway/k8s/deployment.yaml
+      #     social-ecommerce-ecosystem/shared-infrastructure/api-gateway/k8s/service.yaml
+      #   images: |
+      #     your-registry/api-gateway:dev-${GITHUB_SHA::8}
+      run: |
+        echo "Kubernetes deployment placeholder"
+        echo "To enable real deployment, configure kubectl and necessary secrets"
+        
+    - name: Send deployment notification
+      if: always()
+      run: |
+        echo "Sending deployment notification"
+        # Replace with your notification mechanism (Slack, email, etc.)
+        # Example:
+        # curl -X POST -H 'Content-type: application/json' --data '{"text":"API Gateway deployed to dev"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+

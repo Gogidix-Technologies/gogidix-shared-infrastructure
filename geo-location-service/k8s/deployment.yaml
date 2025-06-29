@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: geo-location-service
+  namespace: exalt-shared
+  labels:
+    app: geo-location-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: geo-location-service
+  template:
+    metadata:
+      labels:
+        app: geo-location-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: geo-location-service
+        image: exalt/geo-location-service:latest
+        ports:
+        - containerPort: 8087
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8087"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "geo_location_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "6"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: jwt-secret
+        - name: GOOGLE_MAPS_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: google-maps-api-key
+        - name: OPENCAGE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: opencage-api-key
+        - name: MAPBOX_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: geo-location-secrets
+              key: mapbox-access-token
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8087
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8087
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      restartPolicy: Always

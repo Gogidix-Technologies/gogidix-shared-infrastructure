@@ -1,0 +1,37 @@
+# Service Registry (Eureka Server) Configuration
+server:
+  port: 8761
+
+spring:
+  security:
+    user:
+      name: eureka
+      password: eureka123
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.ecosystem.registry: DEBUG
+    com.netflix.eureka: INFO
+    com.netflix.discovery: INFO

@@ -1,0 +1,233 @@
+  // Create filters panel
+  let filtersHtml = '';
+  if (showFilters) {
+    // Simple category, price, rating filters
+    filtersHtml = `
+      <div class="product-filters" style="
+        padding: ${tokens.spacing.md};
+        border: 1px solid ${tokens.colors.neutral.gray[200]};
+        border-radius: ${tokens.borders.borderRadius.md};
+        margin-bottom: ${tokens.spacing.md};
+        background-color: ${tokens.colors.neutral.gray[50]};
+      ">
+        <h3 style="
+          font-size: ${tokens.typography.textStyles.heading4.fontSize};
+          font-weight: ${tokens.typography.fontWeights.semiBold};
+          margin-top: 0;
+          margin-bottom: ${tokens.spacing.md};
+        ">
+          ${translations.filters}
+        </h3>
+        
+        ${Object.keys(filters).map(filterKey => {
+          const filter = filters[filterKey];
+          
+          if (filter.type === 'checkbox' && Array.isArray(filter.options)) {
+            return `
+              <div class="filter-group" style="margin-bottom: ${tokens.spacing.md};">
+                <h4 style="
+                  font-size: ${tokens.typography.textStyles.bodyLarge.fontSize};
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-top: 0;
+                  margin-bottom: ${tokens.spacing.sm};
+                ">
+                  ${filter.label || filterKey}
+                </h4>
+                
+                <div style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: ${tokens.spacing.xs};
+                ">
+                  ${filter.options.map(option => `
+                    <label style="
+                      display: flex;
+                      align-items: center;
+                      cursor: pointer;
+                    ">
+                      <input 
+                        type="checkbox" 
+                        name="filter-${filterKey}" 
+                        value="${option.value}" 
+                        ${option.selected ? 'checked' : ''}
+                        onclick="handleFilterChange('${productListId}', '${filterKey}', '${option.value}', this.checked)"
+                        style="
+                          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+                        "
+                      />
+                      <span>${option.label}</span>
+                      ${option.count !== undefined ? `
+                        <span style="
+                          color: ${tokens.colors.neutral.gray[500]};
+                          margin-${dir === 'rtl' ? 'right' : 'left'}: ${tokens.spacing.xs};
+                        ">
+                          (${localization.formatLocalizedNumber(option.count, locale)})
+                        </span>
+                      ` : ''}
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          
+          if (filter.type === 'price' || filter.type === 'range') {
+            return `
+              <div class="filter-group" style="margin-bottom: ${tokens.spacing.md};">
+                <h4 style="
+                  font-size: ${tokens.typography.textStyles.bodyLarge.fontSize};
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-top: 0;
+                  margin-bottom: ${tokens.spacing.sm};
+                ">
+                  ${filter.label || filterKey}
+                </h4>
+                
+                <div style="
+                  display: flex;
+                  gap: ${tokens.spacing.sm};
+                  align-items: center;
+                ">
+                  <input 
+                    type="number" 
+                    value="${filter.min || ''}" 
+                    min="${filter.minLimit || 0}" 
+                    max="${filter.max || filter.maxLimit || 1000}"
+                    placeholder="${filter.minPlaceholder || translations.minPrice}"
+                    onchange="handleRangeFilterChange('${productListId}', '${filterKey}', 'min', this.value)"
+                    style="
+                      width: 50%;
+                      padding: ${tokens.spacing.xs} ${tokens.spacing.sm};
+                      border: ${tokens.borders.presets.input.normal};
+                      border-radius: ${tokens.borders.borderRadius.md};
+                      font-family: inherit;
+                    "
+                  />
+                  <span>-</span>
+                  <input 
+                    type="number" 
+                    value="${filter.max || ''}" 
+                    min="${filter.min || filter.minLimit || 0}" 
+                    max="${filter.maxLimit || 10000}"
+                    placeholder="${filter.maxPlaceholder || translations.maxPrice}"
+                    onchange="handleRangeFilterChange('${productListId}', '${filterKey}', 'max', this.value)"
+                    style="
+                      width: 50%;
+                      padding: ${tokens.spacing.xs} ${tokens.spacing.sm};
+                      border: ${tokens.borders.presets.input.normal};
+                      border-radius: ${tokens.borders.borderRadius.md};
+                      font-family: inherit;
+                    "
+                  />
+                </div>
+              </div>
+            `;
+          }
+          
+          if (filter.type === 'rating') {
+            return `
+              <div class="filter-group" style="margin-bottom: ${tokens.spacing.md};">
+                <h4 style="
+                  font-size: ${tokens.typography.textStyles.bodyLarge.fontSize};
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-top: 0;
+                  margin-bottom: ${tokens.spacing.sm};
+                ">
+                  ${filter.label || translations.customerRating}
+                </h4>
+                
+                <div style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: ${tokens.spacing.xs};
+                ">
+                  ${[4, 3, 2, 1].map(rating => `
+                    <label style="
+                      display: flex;
+                      align-items: center;
+                      cursor: pointer;
+                    ">
+                      <input 
+                        type="checkbox" 
+                        name="filter-rating" 
+                        value="${rating}" 
+                        ${(filter.selected || []).includes(rating) ? 'checked' : ''}
+                        onclick="handleFilterChange('${productListId}', 'rating', '${rating}', this.checked)"
+                        style="
+                          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+                        "
+                      />
+                      <div style="display: flex; align-items: center;">
+                        ${Array(5).fill(0).map((_, i) => `
+                          <i 
+                            class="icon-star${i < rating ? '-filled' : ''}" 
+                            style="
+                              color: ${i < rating ? tokens.colors.brand.accent[500] : tokens.colors.neutral.gray[300]};
+                              font-size: 1em;
+                            "
+                          ></i>
+                        `).join('')}
+                        <span style="margin-${dir === 'rtl' ? 'right' : 'left'}: ${tokens.spacing.xs};">
+                          ${translations.andAbove}
+                        </span>
+                      </div>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          
+          return '';
+        }).join('')}
+        
+        <div style="
+          display: flex;
+          justify-content: space-between;
+          margin-top: ${tokens.spacing.md};
+        ">
+          <button
+            class="clear-filters-btn"
+            onclick="clearFilters('${productListId}')"
+            style="
+              background: none;
+              border: none;
+              color: ${tokens.colors.brand.primary[600]};
+              cursor: pointer;
+              font-family: inherit;
+              font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+              text-decoration: underline;
+              
+              &:hover {
+                color: ${tokens.colors.brand.primary[700]};
+              }
+            "
+          >
+            ${translations.clearFilters}
+          </button>
+          
+          <button
+            class="apply-filters-btn"
+            onclick="applyFilters('${productListId}')"
+            style="
+              background-color: ${tokens.colors.brand.primary[600]};
+              border: none;
+              color: white;
+              cursor: pointer;
+              font-family: inherit;
+              font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+              font-weight: ${tokens.typography.fontWeights.medium};
+              padding: ${tokens.spacing.xs} ${tokens.spacing.md};
+              border-radius: ${tokens.borders.borderRadius.md};
+              
+              &:hover {
+                background-color: ${tokens.colors.brand.primary[700]};
+              }
+            "
+          >
+            ${translations.applyFilters}
+          </button>
+        </div>
+      </div>
+    `;
+  }

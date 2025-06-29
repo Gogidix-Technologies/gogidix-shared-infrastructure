@@ -1,0 +1,8 @@
+# Default owners for everything in the repo
+* @Micro-Services-Social-Ecommerce-App/Admins
+
+# Specialized components
+/components/reporting/ @Micro-Services-Social-Ecommerce-App/Admins
+/components/region/ @Micro-Services-Social-Ecommerce-App/Admins
+/components/dashboard/ @Micro-Services-Social-Ecommerce-App/Admins
+/components/policy/ @Micro-Services-Social-Ecommerce-App/Admins

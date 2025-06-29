@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: feature-flag-service
+  namespace: exalt-shared
+  labels:
+    app: feature-flag-service
+    component: infrastructure
+    domain: shared
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8090
+    targetPort: 8090
+    protocol: TCP
+    name: http
+  - port: 9092
+    targetPort: 9092
+    protocol: TCP
+    name: metrics
+  selector:
+    app: feature-flag-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feature-flag-service-external
+  namespace: exalt-shared
+  labels:
+    app: feature-flag-service
+    component: infrastructure
+    domain: shared
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8090
+    targetPort: 8090
+    protocol: TCP
+    name: http
+  selector:
+    app: feature-flag-service

@@ -1,0 +1,236 @@
+  // Create social interactions section
+  const socialMetricsHtml = `
+    <div class="social-metrics" style="
+      display: flex;
+      gap: ${tokens.spacing.lg};
+      margin-top: ${tokens.spacing.md};
+      padding-top: ${tokens.spacing.md};
+      border-top: 1px solid ${tokens.colors.neutral.gray[200]};
+    ">
+      <div class="metric" style="display: flex; align-items: center;">
+        <i class="icon-heart" style="
+          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+          color: ${tokens.colors.neutral.gray[600]};
+        "></i>
+        <span style="font-size: ${tokens.typography.textStyles.bodySmall.fontSize};">
+          ${localization.formatLocalizedNumber(socialMetrics.likes || 0, locale)}
+        </span>
+      </div>
+      
+      <div class="metric" style="display: flex; align-items: center;">
+        <i class="icon-share" style="
+          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+          color: ${tokens.colors.neutral.gray[600]};
+        "></i>
+        <span style="font-size: ${tokens.typography.textStyles.bodySmall.fontSize};">
+          ${localization.formatLocalizedNumber(socialMetrics.shares || 0, locale)}
+        </span>
+      </div>
+      
+      <div class="metric" style="display: flex; align-items: center;">
+        <i class="icon-eye" style="
+          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+          color: ${tokens.colors.neutral.gray[600]};
+        "></i>
+        <span style="font-size: ${tokens.typography.textStyles.bodySmall.fontSize};">
+          ${localization.formatLocalizedNumber(socialMetrics.views || 0, locale)}
+        </span>
+      </div>
+    </div>
+  `;
+  
+  // Create action buttons
+  const addToCartButton = Button({
+    children: translations.addToCart,
+    variant: 'primary',
+    size: 'lg',
+    onClick: onAddToCart ? `addToCart('${productDetailId}')` : '',
+    disabled: !inStock,
+    className: 'add-to-cart-button',
+    style: 'width: 100%;',
+    locale
+  });
+  
+  const saveForLaterButton = Button({
+    children: `<i class="icon-bookmark"></i> ${translations.saveForLater}`,
+    variant: 'secondary',
+    size: 'lg',
+    onClick: onSaveForLater ? `saveForLater('${productDetailId}')` : '',
+    className: 'save-for-later-button',
+    style: 'width: 100%; margin-top: ' + tokens.spacing.md,
+    locale
+  });
+  
+  const shareButton = Button({
+    children: `<i class="icon-share"></i> ${translations.share}`,
+    variant: 'text',
+    size: 'md',
+    onClick: onShare ? `shareProduct('${productDetailId}')` : '',
+    className: 'share-button',
+    style: 'width: 100%; margin-top: ' + tokens.spacing.md,
+    locale
+  });
+  
+  // Create reviews section
+  let reviewsHtml = '';
+  if (reviews && reviews.length > 0) {
+    const reviewsList = reviews.map(review => Review({
+      ...review,
+      locale
+    })).join('');
+    
+    reviewsHtml = `
+      <div class="reviews-section" style="margin-top: ${tokens.spacing.xl};">
+        <h2 style="
+          font-size: ${tokens.typography.textStyles.heading3.fontSize};
+          font-weight: ${tokens.typography.fontWeights.semiBold};
+          margin-bottom: ${tokens.spacing.md};
+        ">
+          ${translations.customerReviews}
+          <span style="color: ${tokens.colors.neutral.gray[600]}; font-size: 0.9em;">
+            (${localization.formatLocalizedNumber(reviews.length, locale)})
+          </span>
+        </h2>
+        
+        <div class="rating-summary" style="
+          display: flex;
+          align-items: center;
+          margin-bottom: ${tokens.spacing.lg};
+        ">
+          <div style="
+            font-size: 3rem;
+            font-weight: ${tokens.typography.fontWeights.semiBold};
+            margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.lg};
+            line-height: 1;
+          ">
+            ${localization.formatLocalizedNumber(ratings.average, locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+          </div>
+          
+          <div>
+            ${Rating({
+              value: ratings.average,
+              maxValue: 5,
+              readOnly: true,
+              size: 'lg',
+              locale
+            })}
+            <div style="
+              font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+              color: ${tokens.colors.neutral.gray[600]};
+              margin-top: ${tokens.spacing.xs};
+            ">
+              ${localization.formatLocalizedNumber(ratings.count, locale)} ${ratings.count === 1 ? translations.review : translations.reviews}
+            </div>
+          </div>
+        </div>
+        
+        <div class="reviews-list">
+          ${reviewsList}
+        </div>
+        
+        <div class="write-review" style="margin-top: ${tokens.spacing.xl};">
+          <h3 style="
+            font-size: ${tokens.typography.textStyles.heading4.fontSize};
+            font-weight: ${tokens.typography.fontWeights.semiBold};
+            margin-bottom: ${tokens.spacing.md};
+          ">
+            ${translations.writeReview}
+          </h3>
+          
+          ${onReviewSubmit ? `
+            <div>
+              <div style="margin-bottom: ${tokens.spacing.md};">
+                <label style="
+                  display: block;
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-bottom: ${tokens.spacing.xs};
+                ">
+                  ${translations.yourRating}
+                </label>
+                
+                ${Rating({
+                  value: 0,
+                  maxValue: 5,
+                  readOnly: false,
+                  size: 'md',
+                  onChange: `setReviewRating('${productDetailId}')`,
+                  locale
+                })}
+              </div>
+              
+              <div style="margin-bottom: ${tokens.spacing.md};">
+                <label style="
+                  display: block;
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-bottom: ${tokens.spacing.xs};
+                " for="${productDetailId}-review-title">
+                  ${translations.reviewTitle}
+                </label>
+                
+                <input 
+                  type="text" 
+                  id="${productDetailId}-review-title"
+                  placeholder="${translations.reviewTitlePlaceholder}"
+                  style="
+                    width: 100%;
+                    padding: ${tokens.spacing.sm} ${tokens.spacing.md};
+                    border: ${tokens.borders.presets.input.normal};
+                    border-radius: ${tokens.borders.borderRadius.md};
+                    font-family: inherit;
+                    font-size: ${tokens.typography.textStyles.bodyMedium.fontSize};
+                    
+                    &:focus {
+                      border: ${tokens.borders.presets.input.focus};
+                      box-shadow: ${tokens.shadows.presets.input.focus};
+                      outline: none;
+                    }
+                  "
+                />
+              </div>
+              
+              <div style="margin-bottom: ${tokens.spacing.md};">
+                <label style="
+                  display: block;
+                  font-weight: ${tokens.typography.fontWeights.medium};
+                  margin-bottom: ${tokens.spacing.xs};
+                " for="${productDetailId}-review-content">
+                  ${translations.reviewContent}
+                </label>
+                
+                <textarea 
+                  id="${productDetailId}-review-content"
+                  placeholder="${translations.reviewContentPlaceholder}"
+                  style="
+                    width: 100%;
+                    min-height: 120px;
+                    padding: ${tokens.spacing.sm} ${tokens.spacing.md};
+                    border: ${tokens.borders.presets.input.normal};
+                    border-radius: ${tokens.borders.borderRadius.md};
+                    font-family: inherit;
+                    font-size: ${tokens.typography.textStyles.bodyMedium.fontSize};
+                    resize: vertical;
+                    
+                    &:focus {
+                      border: ${tokens.borders.presets.input.focus};
+                      box-shadow: ${tokens.shadows.presets.input.focus};
+                      outline: none;
+                    }
+                  "
+                ></textarea>
+              </div>
+              
+              <div style="text-align: ${dir === 'rtl' ? 'left' : 'right'};">
+                ${Button({
+                  children: translations.submitReview,
+                  variant: 'primary',
+                  size: 'md',
+                  onClick: `submitReview('${productDetailId}')`,
+                  locale
+                })}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }

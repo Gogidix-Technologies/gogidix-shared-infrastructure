@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: translation-service
+  namespace: exalt-shared
+  labels:
+    app: translation-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: translation-service
+  template:
+    metadata:
+      labels:
+        app: translation-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: translation-service
+        image: exalt/translation-service:latest
+        ports:
+        - containerPort: 8094
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8094"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "translation_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "13"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: jwt-secret
+        - name: GOOGLE_TRANSLATE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: google-translate-api-key
+        - name: MICROSOFT_TRANSLATOR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: microsoft-translator-api-key
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: aws-access-key-id
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: aws-secret-access-key
+        - name: DEEPL_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: deepl-api-key
+        - name: WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: translation-secrets
+              key: webhook-secret
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8094
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8094
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: translation-cache
+          mountPath: /app/cache
+        - name: translation-dictionaries
+          mountPath: /app/dictionaries
+      volumes:
+      - name: translation-cache
+        emptyDir:
+          sizeLimit: 1Gi
+      - name: translation-dictionaries
+        configMap:
+          name: translation-dictionaries
+      restartPolicy: Always

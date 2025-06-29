@@ -1,0 +1,452 @@
+/**
+ * VendorList Template (Part 3)
+ * 
+ * This part contains:
+ * - Pagination component
+ * - Main VendorList component
+ * - Event handlers and scripts
+ * 
+ * @module templates/VendorList
+ * @requires utilities/localization
+ * @requires utilities/design-tokens
+ */
+
+/**
+ * Pagination Component
+ * 
+ * Creates pagination controls for vendor listing
+ * 
+ * @param {Object} props - Component props
+ * @param {number} props.currentPage - Current page number
+ * @param {number} props.totalPages - Total number of pages
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for pagination controls
+ */
+function Pagination({ currentPage = 1, totalPages = 1, locale = 'en-US' }) {
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-pagination--rtl' : '';
+  
+  if (totalPages <= 1) {
+    return '';
+  }
+  
+  // Determine which page numbers to show
+  const showPages = [];
+  const maxVisiblePages = 5;
+  
+  if (totalPages <= maxVisiblePages) {
+    // Show all pages if there are 5 or fewer
+    for (let i = 1; i <= totalPages; i++) {
+      showPages.push(i);
+    }
+  } else {
+    // Always show first page
+    showPages.push(1);
+    
+    // Calculate middle pages
+    if (currentPage <= 3) {
+      // Near beginning
+      showPages.push(2, 3);
+      if (totalPages > 4) showPages.push('ellipsis');
+    } else if (currentPage >= totalPages - 2) {
+      // Near end
+      if (totalPages > 4) showPages.push('ellipsis');
+      showPages.push(totalPages - 2, totalPages - 1);
+    } else {
+      // Middle
+      showPages.push('ellipsis', currentPage, 'ellipsis');
+    }
+    
+    // Always show last page
+    showPages.push(totalPages);
+  }
+  
+  return `
+    <nav class="vendor-pagination ${rtlClass}" aria-label="${getTranslation('vendor.pagination', locale) || 'Vendors pagination'}">
+      <ul class="vendor-pagination__list">
+        <li class="vendor-pagination__item">
+          <button 
+            class="vendor-pagination__button vendor-pagination__button--prev"
+            ${currentPage === 1 ? 'disabled' : ''}
+            data-page="${currentPage - 1}"
+            aria-label="${getTranslation('vendor.previousPage', locale) || 'Previous page'}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="${direction === 'rtl' ? '9 18 15 12 9 6' : '15 18 9 12 15 6'}"></polyline>
+            </svg>
+          </button>
+        </li>
+        
+        ${showPages.map(page => {
+          if (page === 'ellipsis') {
+            return `
+              <li class="vendor-pagination__item vendor-pagination__item--ellipsis">
+                <span>…</span>
+              </li>
+            `;
+          }
+          
+          return `
+            <li class="vendor-pagination__item">
+              <button 
+                class="vendor-pagination__button ${page === currentPage ? 'vendor-pagination__button--active' : ''}"
+                ${page === currentPage ? 'disabled' : ''}
+                data-page="${page}"
+                aria-label="${getTranslation('vendor.goToPage', locale) || 'Go to page'} ${page}"
+                ${page === currentPage ? 'aria-current="page"' : ''}
+              >
+                ${page}
+              </button>
+            </li>
+          `;
+        }).join('')}
+        
+        <li class="vendor-pagination__item">
+          <button 
+            class="vendor-pagination__button vendor-pagination__button--next"
+            ${currentPage === totalPages ? 'disabled' : ''}
+            data-page="${currentPage + 1}"
+            aria-label="${getTranslation('vendor.nextPage', locale) || 'Next page'}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="${direction === 'rtl' ? '15 18 9 12 15 6' : '9 18 15 12 9 6'}"></polyline>
+            </svg>
+          </button>
+        </li>
+      </ul>
+      
+      <div class="vendor-pagination__info">
+        ${getTranslation('vendor.pageInfo', locale) || 'Page'} ${currentPage} ${getTranslation('vendor.pageOf', locale) || 'of'} ${totalPages}
+      </div>
+    </nav>
+  `;
+}
+
+/**
+ * ActiveFilters Component
+ * 
+ * Displays currently active filters with option to remove individual filters
+ * 
+ * @param {Object} props - Component props
+ * @param {Object} props.filters - Applied filters
+ * @param {Array} props.categories - Category options for label mapping
+ * @param {Array} props.locations - Location options for label mapping
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for active filters display
+ */
+function ActiveFilters({ filters = {}, categories = [], locations = [], locale = 'en-US' }) {
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-active-filters--rtl' : '';
+  
+  // Create a flattened array of all active filters
+  const activeFilters = [];
+  
+  // Helper function to find label from value
+  const findLabel = (options, value) => {
+    const option = options.find(opt => opt.value === value);
+    return option ? option.label : value;
+  };
+  
+  // Add category filters
+  if (filters.categories && filters.categories.length) {
+    filters.categories.forEach(category => {
+      activeFilters.push({
+        type: 'categories',
+        value: category,
+        label: findLabel(categories, category)
+      });
+    });
+  }
+  
+  // Add featured filters
+  if (filters.featured && filters.featured.length) {
+    filters.featured.forEach(featured => {
+      const label = featured === 'featured' 
+        ? (getTranslation('vendor.featured', locale) || 'Featured')
+        : (getTranslation('vendor.verified', locale) || 'Verified');
+      activeFilters.push({ type: 'featured', value: featured, label });
+    });
+  }
+  
+  // Add rating filter
+  if (filters.rating) {
+    const ratingLabel = `${filters.rating}+ ${getTranslation('vendor.stars', locale) || 'Stars'}`;
+    activeFilters.push({ type: 'rating', value: filters.rating, label: ratingLabel });
+  }
+  
+  // Add location filters
+  if (filters.location && filters.location.length) {
+    filters.location.forEach(loc => {
+      activeFilters.push({
+        type: 'location',
+        value: loc,
+        label: findLabel(locations, loc)
+      });
+    });
+  }
+  
+  if (activeFilters.length === 0) {
+    return '';
+  }
+  
+  return `
+    <div class="vendor-active-filters ${rtlClass}">
+      <div class="vendor-active-filters__header">
+        <span class="vendor-active-filters__label">
+          ${getTranslation('vendor.activeFilters', locale) || 'Active Filters:'}
+        </span>
+      </div>
+      
+      <div class="vendor-active-filters__list">
+        ${activeFilters.map(filter => `
+          <div class="vendor-active-filters__item" data-filter-type="${filter.type}" data-filter-value="${filter.value}">
+            <span class="vendor-active-filters__text">${filter.label}</span>
+            <button class="vendor-active-filters__remove" aria-label="${getTranslation('vendor.removeFilter', locale) || 'Remove filter'}: ${filter.label}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        `).join('')}
+        
+        <div class="vendor-active-filters__action">
+          <button class="vendor-active-filters__clear" data-action="clear-all-filters">
+            ${getTranslation('vendor.clearAll', locale) || 'Clear All'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * VendorList Template Component
+ * 
+ * A comprehensive template for displaying vendors in a filterable, searchable list
+ * 
+ * @param {Object} props - Component props
+ * @param {Array} props.vendors - Array of vendor objects
+ * @param {string} props.viewType - View type ('grid' or 'list')
+ * @param {Object} props.filters - Applied filters
+ * @param {number} props.currentPage - Current page number
+ * @param {number} props.totalPages - Total number of pages
+ * @param {string} props.currentSort - Current sort option
+ * @param {string} props.searchQuery - Current search query
+ * @param {Array} props.categories - Available categories
+ * @param {Array} props.locations - Available locations
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for vendor list template
+ */
+function VendorList({
+  vendors = [],
+  viewType = 'grid',
+  filters = {},
+  currentPage = 1,
+  totalPages = 1,
+  currentSort = 'recommended',
+  searchQuery = '',
+  categories = [],
+  locations = [],
+  locale = 'en-US'
+}) {
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-list--rtl' : '';
+  
+  // Prepare featured filter options
+  const featuredOptions = [
+    { value: 'featured', label: getTranslation('vendor.featured', locale) || 'Featured', count: vendors.filter(v => v.featured).length },
+    { value: 'verified', label: getTranslation('vendor.verified', locale) || 'Verified', count: vendors.filter(v => v.verified).length }
+  ];
+  
+  // Prepare rating filter options
+  const ratingOptions = [
+    { value: '4', label: getTranslation('vendor.fourStarsAndAbove', locale) || '4 Stars & Above', count: vendors.filter(v => v.rating >= 4).length },
+    { value: '3', label: getTranslation('vendor.threeStarsAndAbove', locale) || '3 Stars & Above', count: vendors.filter(v => v.rating >= 3).length },
+    { value: '2', label: getTranslation('vendor.twoStarsAndAbove', locale) || '2 Stars & Above', count: vendors.filter(v => v.rating >= 2).length }
+  ];
+  
+  return `
+    <div class="vendor-list ${rtlClass}" id="vendor-list">
+      <div class="vendor-list__sidebar">
+        ${FilterSidebar({
+          filters,
+          categories,
+          featuredOptions,
+          ratingOptions,
+          locationOptions: locations,
+          locale
+        })}
+      </div>
+      
+      <div class="vendor-list__main">
+        <div class="vendor-list__header">
+          ${SearchBar({ query: searchQuery, locale })}
+          
+          <div class="vendor-list__controls">
+            ${SortSelector({ currentSort, locale })}
+            ${ViewToggle({ currentView: viewType, locale })}
+          </div>
+        </div>
+        
+        ${ActiveFilters({ filters, categories, locations, locale })}
+        
+        <div class="vendor-list__content">
+          <div class="vendor-list__result-summary">
+            <span class="vendor-list__count">
+              ${vendors.length} ${getTranslation(vendors.length === 1 ? 'vendor.vendor' : 'vendor.vendors', locale) || (vendors.length === 1 ? 'vendor' : 'vendors')}
+            </span>
+          </div>
+          
+          ${vendors.length > 0 ? `
+            <div class="vendor-list__grid vendor-list__grid--${viewType}">
+              ${vendors.map(vendor => VendorCard({ vendor, viewType, locale })).join('')}
+            </div>
+          ` : EmptyState({ message: getTranslation('vendor.noVendorsMessage', locale) || 'Try adjusting your search or filters to find what you are looking for.', locale })}
+          
+          ${Pagination({ currentPage, totalPages, locale })}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Vendor List Scripts -->
+    <script>
+      (function() {
+        // DOM elements
+        const vendorList = document.getElementById('vendor-list');
+        if (!vendorList) return;
+        
+        // View toggle
+        const viewToggleButtons = vendorList.querySelectorAll('.vendor-view-toggle__button');
+        viewToggleButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const viewType = button.getAttribute('data-view');
+            
+            // Update active state
+            viewToggleButtons.forEach(btn => btn.classList.remove('vendor-view-toggle__button--active'));
+            button.classList.add('vendor-view-toggle__button--active');
+            
+            // Update grid view
+            const grid = vendorList.querySelector('.vendor-list__grid');
+            if (grid) {
+              grid.className = grid.className.replace(/vendor-list__grid--\\S+/, '');
+              grid.classList.add(\`vendor-list__grid--\${viewType}\`);
+            }
+            
+            // Update vendor cards
+            const cards = vendorList.querySelectorAll('.vendor-card');
+            cards.forEach(card => {
+              card.classList.remove('vendor-card--grid', 'vendor-card--list');
+              card.classList.add(\`vendor-card--\${viewType}\`);
+            });
+            
+            // Dispatch event
+            vendorList.dispatchEvent(new CustomEvent('vendorViewChange', {
+              detail: { viewType }
+            }));
+          });
+        });
+        
+        // Search functionality
+        const searchForm = vendorList.querySelector('.vendor-search__form');
+        if (searchForm) {
+          searchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const query = searchForm.querySelector('.vendor-search__input').value;
+            
+            vendorList.dispatchEvent(new CustomEvent('vendorSearch', {
+              detail: { query }
+            }));
+          });
+          
+          // Search clear button
+          const clearButton = searchForm.querySelector('.vendor-search__clear');
+          if (clearButton) {
+            clearButton.addEventListener('click', () => {
+              const input = searchForm.querySelector('.vendor-search__input');
+              input.value = '';
+              input.focus();
+              
+              vendorList.dispatchEvent(new CustomEvent('vendorSearch', {
+                detail: { query: '' }
+              }));
+            });
+          }
+        }
+        
+        // Sort selector
+        const sortSelect = vendorList.querySelector('.vendor-sort__select');
+        if (sortSelect) {
+          sortSelect.addEventListener('change', () => {
+            vendorList.dispatchEvent(new CustomEvent('vendorSort', {
+              detail: { sortBy: sortSelect.value }
+            }));
+          });
+        }
+        
+        // Filter inputs
+        const filterInputs = vendorList.querySelectorAll('.vendor-filter-group__input');
+        filterInputs.forEach(input => {
+          input.addEventListener('change', () => {
+            const filterGroup = input.getAttribute('data-filter-group');
+            const value = input.value;
+            const checked = input.checked;
+            const type = input.type;
+            
+            vendorList.dispatchEvent(new CustomEvent('vendorFilter', {
+              detail: { filterGroup, value, checked, type }
+            }));
+          });
+        });
+        
+        // Clear all filters
+        const clearFilterButtons = vendorList.querySelectorAll('[data-action="clear-all-filters"]');
+        clearFilterButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            vendorList.dispatchEvent(new CustomEvent('vendorClearFilters'));
+          });
+        });
+        
+        // Clear individual filters
+        const activeFilterRemoveButtons = vendorList.querySelectorAll('.vendor-active-filters__remove');
+        activeFilterRemoveButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const filterItem = button.closest('.vendor-active-filters__item');
+            const filterType = filterItem.getAttribute('data-filter-type');
+            const filterValue = filterItem.getAttribute('data-filter-value');
+            
+            vendorList.dispatchEvent(new CustomEvent('vendorRemoveFilter', {
+              detail: { filterType, filterValue }
+            }));
+          });
+        });
+        
+        // Pagination
+        const paginationButtons = vendorList.querySelectorAll('.vendor-pagination__button:not([disabled])');
+        paginationButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const page = parseInt(button.getAttribute('data-page'), 10);
+            
+            vendorList.dispatchEvent(new CustomEvent('vendorPageChange', {
+              detail: { page }
+            }));
+          });
+        });
+        
+        // View vendor
+        const viewVendorButtons = vendorList.querySelectorAll('[data-action="view-vendor"]');
+        viewVendorButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const vendorId = button.getAttribute('data-vendor-id');
+            
+            vendorList.dispatchEvent(new CustomEvent('vendorView', {
+              detail: { vendorId }
+            }));
+          });
+        });
+      })();
+    </script>
+  `;
+}
+
+module.exports = VendorList;

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geo-location-service-config
+  namespace: shared-infrastructure
+data:
+  application.yml: |
+    spring:
+      application:
+        name: geo-location-service
+      profiles:
+        active: kubernetes
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: http://service-registry:8761/eureka/
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics

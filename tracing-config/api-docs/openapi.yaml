@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: "Tracing Config API"
+  description: "RESTful API for Tracing Config service"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:TBD/api/v1"
+paths:
+  /health:
+    get:
+      summary: "Health check"
+      responses:
+        '200':
+          description: "Service is healthy"

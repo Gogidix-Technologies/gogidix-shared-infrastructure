@@ -1,0 +1,118 @@
+  // Format prices based on locale and currency
+  const formattedPrice = localization.formatLocalizedCurrency(price, currency, locale);
+  const formattedCompareAtPrice = compareAtPrice ? localization.formatLocalizedCurrency(compareAtPrice, currency, locale) : '';
+  const formattedDiscount = discount ? `${localization.formatLocalizedNumber(discount, locale)}%` : '';
+  
+  // Create rating component
+  const ratingComponent = Rating({
+    value: ratings.average,
+    maxValue: 5,
+    readOnly: true,
+    showValue: true,
+    showCount: true,
+    count: ratings.count,
+    locale
+  });
+  
+  // Create image gallery with thumbnails
+  const mainImageUrl = images && images.length > 0 ? images[0].large || images[0].url : '';
+  let imageGalleryHtml = '';
+  
+  if (images && images.length > 0) {
+    const thumbnailsHtml = images.map((image, index) => `
+      <div 
+        class="product-thumbnail ${index === 0 ? 'active' : ''}" 
+        onclick="switchProductImage('${productDetailId}', ${index})"
+        data-image-index="${index}"
+        style="
+          width: 60px;
+          height: 60px;
+          border: 2px solid ${index === 0 ? tokens.colors.brand.primary[500] : tokens.colors.neutral.gray[300]};
+          border-radius: ${tokens.borders.borderRadius.md};
+          margin-bottom: ${tokens.spacing.sm};
+          cursor: pointer;
+          overflow: hidden;
+          
+          &:hover {
+            border-color: ${tokens.colors.brand.primary[300]};
+          }
+        "
+      >
+        <img 
+          src="${image.thumbnail || image.url}" 
+          alt="${title} ${index + 1}"
+          loading="${index < 4 ? 'eager' : 'lazy'}"
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          "
+        />
+      </div>
+    `).join('');
+    
+    imageGalleryHtml = `
+      <div class="product-image-gallery" style="
+        display: flex;
+        margin-bottom: ${tokens.spacing.lg};
+      ">
+        <div class="product-thumbnails" style="
+          display: flex;
+          flex-direction: column;
+          margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.md};
+        ">
+          ${thumbnailsHtml}
+        </div>
+        
+        <div class="product-main-image" style="
+          flex-grow: 1;
+          position: relative;
+          min-height: 400px;
+          border-radius: ${tokens.borders.borderRadius.lg};
+          overflow: hidden;
+          background-color: ${tokens.colors.neutral.gray[100]};
+        ">
+          <img 
+            id="${productDetailId}-main-image"
+            src="${mainImageUrl}" 
+            alt="${title}"
+            style="
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+            "
+          />
+          
+          ${!inStock ? `
+            <div class="out-of-stock-overlay" style="
+              position: absolute;
+              top: ${tokens.spacing.md};
+              ${dir === 'rtl' ? 'right' : 'left'}: ${tokens.spacing.md};
+              background-color: ${tokens.colors.semantic.danger.dark};
+              color: white;
+              padding: ${tokens.spacing.xs} ${tokens.spacing.md};
+              border-radius: ${tokens.borders.borderRadius.md};
+              font-weight: ${tokens.typography.fontWeights.medium};
+            ">
+              ${translations.outOfStock}
+            </div>
+          ` : ''}
+          
+          ${discount ? `
+            <div class="discount-badge" style="
+              position: absolute;
+              top: ${tokens.spacing.md};
+              ${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.md};
+              background-color: ${tokens.colors.semantic.success.main};
+              color: white;
+              padding: ${tokens.spacing.xs} ${tokens.spacing.md};
+              border-radius: ${tokens.borders.borderRadius.md};
+              font-weight: ${tokens.typography.fontWeights.medium};
+            ">
+              -${formattedDiscount}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }

@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+    tier: infrastructure
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: ${DOCKER_REGISTRY:-socialecommerceecosystem}/auth-service:${IMAGE_TAG:-latest}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: ${ENVIRONMENT:-prod}
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-service-config
+                  key: database.url
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: auth-service-secrets
+                  key: database.username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth-service-secrets
+                  key: database.password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-service-secrets
+                  key: jwt.secret
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://service-registry:8761/eureka/
+            # Password policy configuration
+            - name: PASSWORD_POLICY_MIN_LENGTH
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-service-config
+                  key: password.policy.min-length
+                  optional: true
+            - name: PASSWORD_POLICY_REQUIRE_UPPERCASE
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-service-config
+                  key: password.policy.require-uppercase
+                  optional: true
+            # Account lockout configuration
+            - name: ACCOUNT_LOCKOUT_MAX_ATTEMPTS
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-service-config
+                  key: account.lockout.max-attempts
+                  optional: true
+            - name: ACCOUNT_LOCKOUT_DURATION_MINUTES
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-service-config
+                  key: account.lockout.duration-minutes
+                  optional: true
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - port: 8081
+      targetPort: 8081
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-config
+data:
+  database.url: "jdbc:mysql://mysql:3306/auth_service?createDatabaseIfNotExist=true"
+  password.policy.min-length: "8"
+  password.policy.require-uppercase: "true"
+  password.policy.require-lowercase: "true"
+  password.policy.require-digit: "true"
+  password.policy.require-special: "true"
+  account.lockout.max-attempts: "5"
+  account.lockout.duration-minutes: "30"
+---
+# Create this Secret separately using kubectl or a secure vault solution in production
+# The YAML below is for reference only
+# kubectl create secret generic auth-service-secrets \
+#   --from-literal=database.username=your-db-username \
+#   --from-literal=database.password=your-secure-db-password \
+#   --from-literal=jwt.secret=your-secure-jwt-secret-key

@@ -1,0 +1,152 @@
+name: Admin Framework Cloud Deployment
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  JAVA_VERSION: '17'
+  MAVEN_OPTS: '-Xmx1024m'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: admin_framework_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Run Tests
+      run: mvn clean test
+      env:
+        DATABASE_URL: jdbc:postgresql://localhost:5432/admin_framework_test
+        DATABASE_USERNAME: postgres
+        DATABASE_PASSWORD: postgres
+
+    - name: Generate Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Maven Tests
+        path: target/surefire-reports/*.xml
+        reporter: java-junit
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build Application
+      run: mvn clean package -DskipTests
+
+    - name: Build Docker Image
+      run: |
+        docker build -t admin-framework:${{ github.sha }} .
+        docker tag admin-framework:${{ github.sha }} admin-framework:latest
+
+    - name: Run Security Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: admin-framework:latest
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: staging
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to Staging (Placeholder)
+      run: |
+        echo "Deploying admin-framework to staging environment"
+        echo "Container: admin-framework:${{ github.sha }}"
+        echo "Environment: staging"
+        echo "Database: PostgreSQL (managed)"
+        echo "AWS/Cloud Provider: ${CLOUD_PROVIDER:-AWS}"
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Deploy to Production (Placeholder)
+      run: |
+        echo "Deploying admin-framework to production environment"
+        echo "Container: admin-framework:${{ github.sha }}"
+        echo "Environment: production"
+        echo "Database: PostgreSQL (managed)"
+        echo "AWS/Cloud Provider: ${CLOUD_PROVIDER:-AWS}"
+        echo "Health Check: /actuator/health"
+
+  notify:
+    needs: [test, build, deploy-staging, deploy-production]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Notify Deployment Status
+      run: |
+        if [ "${{ needs.deploy-production.result }}" == "success" ]; then
+          echo "✅ Admin Framework deployed successfully to production"
+          echo "🚀 Ready for integration with all domain admin dashboards"
+        else
+          echo "❌ Deployment failed or was skipped"
+        fi

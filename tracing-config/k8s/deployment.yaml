@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracing-config
+  namespace: exalt-shared
+  labels:
+    app: tracing-config
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tracing-config
+  template:
+    metadata:
+      labels:
+        app: tracing-config
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: tracing-config
+        image: exalt/tracing-config:latest
+        ports:
+        - containerPort: 8093
+          name: http
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 14268
+          name: jaeger-http
+        - containerPort: 14250
+          name: jaeger-grpc
+        - containerPort: 6831
+          name: jaeger-udp
+        - containerPort: 6832
+          name: jaeger-compact
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8093"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "tracing_config_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: tracing-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tracing-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "12"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: tracing-secrets
+              key: jwt-secret
+        - name: ELASTICSEARCH_HOST
+          value: "elasticsearch-service"
+        - name: ELASTICSEARCH_PORT
+          value: "9200"
+        - name: ELASTICSEARCH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: tracing-secrets
+              key: elasticsearch-username
+        - name: ELASTICSEARCH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: tracing-secrets
+              key: elasticsearch-password
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8093
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8093
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: tracing-config
+          mountPath: /app/config
+      volumes:
+      - name: tracing-config
+        configMap:
+          name: tracing-config
+      restartPolicy: Always

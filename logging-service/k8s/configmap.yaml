@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logging-service-config
+  namespace: exalt-shared
+  labels:
+    app: logging-service
+    component: infrastructure
+    domain: shared
+data:
+  application-k8s.properties: |
+    # Server Configuration
+    server.port=8409
+    spring.application.name=logging-service
+    
+    # Database Configuration
+    spring.datasource.url=jdbc:postgresql://postgres-service:5432/logging_db
+    spring.datasource.username=${DB_USERNAME}
+    spring.datasource.password=${DB_PASSWORD}
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    
+    # JPA Configuration
+    spring.jpa.hibernate.ddl-auto=validate
+    spring.jpa.show-sql=false
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+    
+    # Elasticsearch Configuration
+    spring.elasticsearch.uris=http://elasticsearch-service:9200
+    spring.elasticsearch.username=${ELASTICSEARCH_USERNAME}
+    spring.elasticsearch.password=${ELASTICSEARCH_PASSWORD}
+    
+    # Kafka Configuration
+    spring.kafka.bootstrap-servers=kafka-service:9092
+    spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+    spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+    
+    # Redis Configuration
+    spring.redis.host=redis-service
+    spring.redis.port=6379
+    spring.redis.database=1
+    
+    # Logging Configuration
+    logging.level.com.exalt.ecosystem.shared.logging=INFO
+    logging.level.org.springframework=WARN
+    logging.level.org.hibernate=WARN
+    logging.level.org.elasticsearch=INFO
+    
+    # Management Endpoints
+    management.endpoints.web.exposure.include=health,info,metrics,prometheus,loggers
+    management.endpoint.health.show-details=always
+    management.metrics.export.prometheus.enabled=true
+    
+    # Security Configuration
+    spring.security.oauth2.resourceserver.jwt.issuer-uri=http://auth-service:8401
+    
+    # Custom Logging Properties
+    logging.retention.days=30
+    logging.rotation.size=100MB
+    logging.compression.enabled=true
+    
+  logback-spring.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        
+        <springProfile name="k8s">
+            <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                    <providers>
+                        <timestamp/>
+                        <logLevel/>
+                        <loggerName/>
+                        <message/>
+                        <mdc/>
+                        <stackTrace/>
+                    </providers>
+                </encoder>
+            </appender>
+            
+            <root level="INFO">
+                <appender-ref ref="STDOUT"/>
+            </root>
+        </springProfile>
+    </configuration>

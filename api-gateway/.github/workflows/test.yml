@@ -1,0 +1,84 @@
+name: API Gateway Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  workflow_dispatch:
+
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Run unit tests
+      run: mvn test
+      
+    - name: Upload test reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: unit-test-reports
+        path: social-ecommerce-ecosystem/shared-infrastructure/api-gateway/target/surefire-reports
+        
+  integration_tests:
+    runs-on: ubuntu-latest
+    needs: unit_tests
+    defaults:
+      run:
+        working-directory: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+    
+    services:
+      # Add service dependencies for integration tests here (e.g., databases, message brokers, etc.)
+      # Example:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Run integration tests
+      run: mvn verify -Dskip.unit.tests=true -Dskip.integration.tests=false
+      
+    - name: Upload integration test reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-test-reports
+        path: social-ecommerce-ecosystem/shared-infrastructure/api-gateway/target/failsafe-reports
+

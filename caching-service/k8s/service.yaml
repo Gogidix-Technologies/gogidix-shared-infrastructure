@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: caching-service
+  namespace: exalt-shared
+  labels:
+    app: caching-service
+    component: infrastructure
+    domain: shared
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8403
+    targetPort: 8403
+    protocol: TCP
+    name: http
+  selector:
+    app: caching-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: exalt-shared
+  labels:
+    app: redis
+    component: cache
+    domain: shared
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: redis

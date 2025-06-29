@@ -1,0 +1,66 @@
+name: API Gateway Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  workflow_dispatch:
+
+jobs:
+  code_quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for better code quality analysis
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.sonar/cache
+        key: ${{ runner.os }}-sonar
+        restore-keys: ${{ runner.os }}-sonar
+    
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    - name: Analyze with SonarCloud
+      # Replace with your own SonarCloud organization and project key
+      # Note: This will need proper secrets configuration in your GitHub repository
+      # You can comment out this step if you don't have SonarCloud set up yet
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        echo "Placeholder for SonarCloud analysis command"
+        echo "To enable SonarCloud, add the appropriate secrets to your repository"
+        echo "Example command: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar"
+      
+    - name: Run Checkstyle
+      run: |
+        mvn checkstyle:check || echo "Checkstyle issues found, please review"
+        
+    - name: Run SpotBugs
+      run: |
+        mvn com.github.spotbugs:spotbugs-maven-plugin:check || echo "SpotBugs issues found, please review"
+

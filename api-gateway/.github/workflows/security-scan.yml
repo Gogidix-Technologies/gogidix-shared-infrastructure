@@ -1,0 +1,48 @@
+name: API Gateway Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'social-ecommerce-ecosystem/shared-infrastructure/api-gateway/**'
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight
+  workflow_dispatch:
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: social-ecommerce-ecosystem/shared-infrastructure/api-gateway
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Run OWASP Dependency Check
+      run: |
+        mvn org.owasp:dependency-check-maven:check -DfailBuildOnCVSS=8
+    
+    - name: Scan Docker image for vulnerabilities
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+      run: |
+        docker build -t api-gateway:${GITHUB_SHA::8} .
+        echo "To enable Docker security scanning, you can use tools like Trivy or Snyk. Example:"
+        echo "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image api-gateway:${GITHUB_SHA::8}"
+        
+    - name: Run container security scan
+      run: |
+        echo "Running a placeholder for container security scan"
+        echo "To enable real security scanning, configure appropriate tools and secrets"
+

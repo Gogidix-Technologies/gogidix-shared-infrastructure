@@ -1,0 +1,1 @@
+require("dotenv").config(); console.log("Currency exchange service started on port 3000"); const express = require("express"); const app = express(); app.get("/", (req, res) => res.json({status: "running", service: "currency-exchange"})); app.listen(3000);

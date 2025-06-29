@@ -1,0 +1,173 @@
+  // Build complete product list HTML
+  return `
+    <div 
+      id="${productListId}" 
+      class="product-list ${className}" 
+      dir="${dir}"
+      data-layout="${layout}"
+      data-locale="${locale}"
+      ${Object.entries(otherProps).map(([key, value]) => `${key}="${value}"`).join(' ')}
+    >
+      <div style="
+        display: ${showFilters ? 'flex' : 'block'};
+        flex-wrap: wrap;
+        gap: ${tokens.spacing.lg};
+      ">
+        ${showFilters ? `
+          <div class="product-list-sidebar" style="
+            flex: 0 0 100%;
+            
+            @media (min-width: 768px) {
+              flex: 0 0 250px;
+            }
+          ">
+            ${filtersHtml}
+          </div>
+        ` : ''}
+        
+        <div class="product-list-main" style="
+          flex: 1;
+        ">
+          ${sortingHtml}
+          ${productsHtml}
+          ${paginationHtml}
+        </div>
+      </div>
+      
+      <script>
+        // Event handlers
+        function productClicked(listId, productId) {
+          ${onProductClick ? `
+            // Custom handler would be injected here
+            console.log('Product clicked:', listId, productId);
+          ` : ''}
+        }
+        
+        function handleFilterChange(listId, filterName, value, isChecked) {
+          ${onFilterChange ? `
+            // Custom handler would be injected here
+            console.log('Filter changed:', listId, filterName, value, isChecked);
+          ` : ''}
+        }
+        
+        function handleRangeFilterChange(listId, filterName, bound, value) {
+          ${onFilterChange ? `
+            // Custom handler would be injected here
+            console.log('Range filter changed:', listId, filterName, bound, value);
+          ` : ''}
+        }
+        
+        function clearFilters(listId) {
+          ${onFilterChange ? `
+            // Custom handler would be injected here
+            console.log('Filters cleared:', listId);
+          ` : ''}
+        }
+        
+        function applyFilters(listId) {
+          ${onFilterChange ? `
+            // Custom handler would be injected here
+            console.log('Filters applied:', listId);
+          ` : ''}
+        }
+        
+        function handleSortChange(listId, sortValue) {
+          ${onSortChange ? `
+            // Custom handler would be injected here
+            console.log('Sort changed:', listId, sortValue);
+          ` : ''}
+        }
+        
+        function toggleLayout(listId, layoutType) {
+          // Updates the layout attribute in the DOM, actual data change would be handled by the application
+          const productList = document.getElementById(listId);
+          if (productList) {
+            productList.dataset.layout = layoutType;
+            
+            ${onLayoutChange ? `
+              // Custom handler would be injected here
+              console.log('Layout toggled:', listId, layoutType);
+            ` : ''}
+          }
+        }
+        
+        function changePage(listId, page) {
+          ${onPageChange ? `
+            // Custom handler would be injected here
+            console.log('Page changed:', listId, page);
+          ` : ''}
+        }
+      </script>
+    </div>
+  `;
+}
+
+/**
+ * Get translations based on locale
+ */
+function getTranslations(locale) {
+  const translations = {
+    en: {
+      filters: 'Filters',
+      sortBy: 'Sort by',
+      sortRelevance: 'Relevance',
+      sortPriceAsc: 'Price: Low to High',
+      sortPriceDesc: 'Price: High to Low',
+      sortRatingDesc: 'Highest Rated',
+      sortNewest: 'Newest First',
+      sortPopular: 'Most Popular',
+      clearFilters: 'Clear All',
+      applyFilters: 'Apply',
+      noProductsFound: 'No products found',
+      tryAdjustingFilters: 'Try adjusting your filters or search criteria',
+      showingProducts: 'Showing {start}-{end} of {total} products',
+      minPrice: 'Min',
+      maxPrice: 'Max',
+      customerRating: 'Customer Rating',
+      andAbove: '& above'
+    },
+    ar: {
+      filters: 'الفلاتر',
+      sortBy: 'ترتيب حسب',
+      sortRelevance: 'صلة',
+      sortPriceAsc: 'السعر: من الأقل إلى الأعلى',
+      sortPriceDesc: 'السعر: من الأعلى إلى الأقل',
+      sortRatingDesc: 'الأعلى تقييماً',
+      sortNewest: 'الأحدث أولاً',
+      sortPopular: 'الأكثر شعبية',
+      clearFilters: 'مسح الكل',
+      applyFilters: 'تطبيق',
+      noProductsFound: 'لم يتم العثور على منتجات',
+      tryAdjustingFilters: 'حاول تعديل الفلاتر أو معايير البحث',
+      showingProducts: 'عرض {start}-{end} من {total} منتج',
+      minPrice: 'الحد الأدنى',
+      maxPrice: 'الحد الأقصى',
+      customerRating: 'تقييم العملاء',
+      andAbove: 'وأعلى'
+    },
+    fr: {
+      filters: 'Filtres',
+      sortBy: 'Trier par',
+      sortRelevance: 'Pertinence',
+      sortPriceAsc: 'Prix: croissant',
+      sortPriceDesc: 'Prix: décroissant',
+      sortRatingDesc: 'Mieux notés',
+      sortNewest: 'Plus récents',
+      sortPopular: 'Plus populaires',
+      clearFilters: 'Effacer tout',
+      applyFilters: 'Appliquer',
+      noProductsFound: 'Aucun produit trouvé',
+      tryAdjustingFilters: 'Essayez d\'ajuster vos filtres ou critères de recherche',
+      showingProducts: 'Affichage de {start}-{end} sur {total} produits',
+      minPrice: 'Min',
+      maxPrice: 'Max',
+      customerRating: 'Avis clients',
+      andAbove: 'et plus'
+    },
+    // Add more locales as needed
+  };
+  
+  return translations[locale] || translations['en'];
+}
+
+module.exports = ProductList;

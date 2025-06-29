@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Admin Frameworks API
+  description: Administrative framework components for the Social E-commerce Ecosystem
+  version: 1.0.0
+  contact:
+    name: Exalt Application Limited
+    url: https://exalt-app.com
+    email: support@exalt-app.com
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+  - url: https://api-dev.exalt-app.com/admin
+    description: Development environment
+  - url: https://api.exalt-app.com/admin
+    description: Production environment
+
+paths:
+  /actuator/health:
+    get:
+      summary: Health check endpoint
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is healthy
+          
+  /admin/dashboards:
+    get:
+      summary: Get available dashboards
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: List of available dashboards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    type:
+                      type: string
+
+  /admin/policies:
+    get:
+      summary: Get admin policies
+      tags:
+        - Policy
+      responses:
+        '200':
+          description: List of admin policies
+          
+  /admin/regions:
+    get:
+      summary: Get regional configurations
+      tags:
+        - Region
+      responses:
+        '200':
+          description: List of regional configurations
+
+components:
+  schemas:
+    Dashboard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          
+tags:
+  - name: Health
+    description: Health monitoring endpoints
+  - name: Dashboard
+    description: Dashboard management
+  - name: Policy
+    description: Policy management
+  - name: Region
+    description: Regional configuration

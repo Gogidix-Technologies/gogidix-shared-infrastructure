@@ -1,0 +1,91 @@
+name: Deploy to Development
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Development Environment
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Java admin framework
+        run: |
+          cd admin-framework
+          mvn clean package -DskipTests
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build Docker image
+        run: |
+          docker build -t exalt/currency-exchange-service:dev-${{ github.sha }} .
+          docker tag exalt/currency-exchange-service:dev-${{ github.sha }} exalt/currency-exchange-service:dev-latest
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.REGISTRY_URL }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Push Docker image
+        run: |
+          docker push exalt/currency-exchange-service:dev-${{ github.sha }}
+          docker push exalt/currency-exchange-service:dev-latest
+
+      - name: Deploy to Kubernetes
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: exalt-dev
+          manifests: |
+            k8s/deployment.yaml
+            k8s/service.yaml
+            k8s/hpa.yaml
+          images: |
+            exalt/currency-exchange-service:dev-${{ github.sha }}
+
+      - name: Wait for deployment
+        run: |
+          kubectl rollout status deployment/currency-exchange-service -n exalt-dev --timeout=300s
+
+      - name: Run smoke tests
+        run: |
+          CURRENCY_URL=$(kubectl get service currency-exchange-service -n exalt-dev -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          if [ -z "$CURRENCY_URL" ]; then
+            CURRENCY_URL=$(kubectl get service currency-exchange-service -n exalt-dev -o jsonpath='{.spec.clusterIP}')
+          fi
+          curl -f http://$CURRENCY_URL:8082/health || exit 1
+          echo "Smoke tests passed!"
+
+      - name: Notify deployment status
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: |
+            Currency Exchange Service deployment to development: ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

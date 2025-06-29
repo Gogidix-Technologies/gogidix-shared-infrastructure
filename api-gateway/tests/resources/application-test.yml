@@ -1,0 +1,128 @@
+server:
+  port: 0  # Use a random port for testing
+
+spring:
+  application:
+    name: api-gateway-test
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=X-Response-Time, ${now:yyyy-MM-dd'T'HH:mm:ss.SSS}
+        - AddRequestHeader=X-Request-ID, ${random.uuid}
+        - RequestLoggingFilter
+        - GlobalExceptionHandlerFilter
+        - name: RequestRateLimiter
+          args:
+            key-resolver: "#{@ipAddressKeyResolver}"
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+      routes:
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authServiceCircuitBreaker
+                fallbackUri: forward:/fallback
+        - id: user-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceCircuitBreaker
+                fallbackUri: forward:/fallback
+        - id: product-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/products/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productServiceCircuitBreaker
+                fallbackUri: forward:/fallback
+        - id: public-endpoint
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/public/**
+        - id: secured-endpoint
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/secured/**
+          filters:
+            - name: SecurityFilter
+        - id: rate-limited-endpoint
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/rate-limited/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 2
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: GET,POST,PUT,DELETE,OPTIONS
+            allowedHeaders: "*"
+            maxAge: 3600
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/auth
+
+eureka:
+  client:
+    enabled: false  # Disable Eureka for tests
+    register-with-eureka: false
+    fetch-registry: false
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 1000
+    instances:
+      authServiceCircuitBreaker:
+        baseConfig: default
+      userServiceCircuitBreaker:
+        baseConfig: default
+      productServiceCircuitBreaker:
+        baseConfig: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.socialecommerceecosystem: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: INFO
+
+security:
+  ignored-paths: /actuator/**,/api/public/**,/api/auth/**,/fallback
+
+# Test-specific properties
+test:
+  mock:
+    jwt-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c

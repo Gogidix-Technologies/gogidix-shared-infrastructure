@@ -1,0 +1,429 @@
+  // Build product detail HTML
+  return `
+    <div 
+      id="${productDetailId}" 
+      class="product-detail ${className}" 
+      dir="${dir}"
+      data-product-id="${id}"
+      style="
+        max-width: 1200px;
+        margin: 0 auto;
+      "
+      ${Object.entries(otherProps).map(([key, value]) => `${key}="${value}"`).join(' ')}
+    >
+      <div style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: ${tokens.spacing.xl};
+      ">
+        <div class="product-images" style="
+          flex: 1 1 500px;
+        ">
+          ${imageGalleryHtml}
+        </div>
+        
+        <div class="product-info" style="
+          flex: 1 1 400px;
+        ">
+          <div>
+            ${brand.name ? `
+              <div class="product-brand" style="
+                margin-bottom: ${tokens.spacing.sm};
+                font-size: ${tokens.typography.textStyles.bodyMedium.fontSize};
+                color: ${tokens.colors.brand.primary[600]};
+                font-weight: ${tokens.typography.fontWeights.medium};
+              ">
+                ${brand.name}
+              </div>
+            ` : ''}
+            
+            <h1 class="product-title" style="
+              margin-top: 0;
+              margin-bottom: ${tokens.spacing.sm};
+              font-size: ${tokens.typography.textStyles.heading1.fontSize};
+              font-weight: ${tokens.typography.fontWeights.semiBold};
+              line-height: ${tokens.typography.lineHeights.tight};
+            ">
+              ${title}
+            </h1>
+            
+            <div style="margin-bottom: ${tokens.spacing.md};">
+              ${ratingComponent}
+            </div>
+            
+            <div class="product-price" style="
+              margin-bottom: ${tokens.spacing.md};
+              font-size: ${tokens.typography.textStyles.heading3.fontSize};
+              font-weight: ${tokens.typography.fontWeights.semiBold};
+              display: flex;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: ${tokens.spacing.sm};
+            ">
+              <span style="
+                color: ${discount ? tokens.colors.semantic.success.dark : tokens.colors.neutral.gray[900]};
+              ">
+                ${formattedPrice}
+              </span>
+              
+              ${compareAtPrice ? `
+                <span style="
+                  text-decoration: line-through;
+                  color: ${tokens.colors.neutral.gray[500]};
+                  font-size: 0.8em;
+                ">
+                  ${formattedCompareAtPrice}
+                </span>
+              ` : ''}
+            </div>
+            
+            ${stockIndicatorHtml}
+            
+            <div class="product-description" style="
+              margin-bottom: ${tokens.spacing.lg};
+              line-height: ${tokens.typography.lineHeights.relaxed};
+              color: ${tokens.colors.neutral.gray[800]};
+            ">
+              ${description}
+            </div>
+            
+            <div class="product-options">
+              ${optionsHtml}
+            </div>
+            
+            <div class="product-actions" style="
+              margin-top: ${tokens.spacing.lg};
+            ">
+              ${addToCartButton}
+              ${saveForLaterButton}
+              ${shareButton}
+            </div>
+            
+            ${socialMetricsHtml}
+            
+            ${sku ? `
+              <div class="product-sku" style="
+                margin-top: ${tokens.spacing.lg};
+                font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+                color: ${tokens.colors.neutral.gray[600]};
+              ">
+                ${translations.sku}: ${sku}
+              </div>
+            ` : ''}
+            
+            ${categories && categories.length > 0 ? `
+              <div class="product-categories" style="
+                margin-top: ${tokens.spacing.sm};
+                font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+                color: ${tokens.colors.neutral.gray[600]};
+              ">
+                ${translations.categories}: ${categories.map(category => `
+                  <a 
+                    href="#" 
+                    onclick="navigateToCategory('${category.id || category}')"
+                    style="
+                      color: ${tokens.colors.brand.primary[600]};
+                      text-decoration: none;
+                      
+                      &:hover {
+                        text-decoration: underline;
+                      }
+                    "
+                  >
+                    ${category.name || category}
+                  </a>
+                `).join(', ')}
+              </div>
+            ` : ''}
+            
+            ${tags && tags.length > 0 ? `
+              <div class="product-tags" style="
+                margin-top: ${tokens.spacing.sm};
+                font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+              ">
+                ${tags.map(tag => `
+                  <a 
+                    href="#" 
+                    onclick="navigateToTag('${tag.id || tag}')"
+                    style="
+                      display: inline-block;
+                      padding: ${tokens.spacing.xs} ${tokens.spacing.sm};
+                      background-color: ${tokens.colors.neutral.gray[100]};
+                      color: ${tokens.colors.neutral.gray[700]};
+                      border-radius: ${tokens.borders.borderRadius.full};
+                      margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};
+                      margin-bottom: ${tokens.spacing.xs};
+                      text-decoration: none;
+                      
+                      &:hover {
+                        background-color: ${tokens.colors.neutral.gray[200]};
+                      }
+                    "
+                  >
+                    ${tag.name || tag}
+                  </a>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+      
+      ${shipping || returnsPolicy ? `
+        <div class="product-details" style="
+          margin-top: ${tokens.spacing.xl};
+          padding-top: ${tokens.spacing.lg};
+          border-top: 1px solid ${tokens.colors.neutral.gray[200]};
+        ">
+          <h2 style="
+            font-size: ${tokens.typography.textStyles.heading3.fontSize};
+            font-weight: ${tokens.typography.fontWeights.semiBold};
+            margin-bottom: ${tokens.spacing.md};
+          ">
+            ${translations.shippingInfo}
+          </h2>
+          
+          ${shipping ? `
+            <div class="shipping-info" style="
+              margin-bottom: ${tokens.spacing.lg};
+            ">
+              <div style="
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: ${tokens.spacing.sm};
+                gap: ${tokens.spacing.md};
+              ">
+                <i class="icon-truck" style="
+                  font-size: 1.5em;
+                  color: ${tokens.colors.neutral.gray[600]};
+                  margin-top: 0.2em;
+                "></i>
+                <div>
+                  ${shipping.freeShipping ? `
+                    <div style="font-weight: ${tokens.typography.fontWeights.medium};">
+                      ${translations.freeShipping}
+                    </div>
+                  ` : ''}
+                  
+                  ${shipping.deliveryEstimate ? `
+                    <div style="margin-top: ${tokens.spacing.xs};">
+                      ${translations.deliveryEstimate}: ${shipping.deliveryEstimate}
+                    </div>
+                  ` : ''}
+                  
+                  ${shipping.details ? `
+                    <div style="
+                      margin-top: ${tokens.spacing.xs};
+                      color: ${tokens.colors.neutral.gray[700]};
+                    ">
+                      ${shipping.details}
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          ` : ''}
+          
+          ${returnsPolicy ? `
+            <div class="returns-policy" style="
+              margin-bottom: ${tokens.spacing.lg};
+            ">
+              <div style="
+                display: flex;
+                align-items: flex-start;
+                gap: ${tokens.spacing.md};
+              ">
+                <i class="icon-refresh" style="
+                  font-size: 1.5em;
+                  color: ${tokens.colors.neutral.gray[600]};
+                  margin-top: 0.2em;
+                "></i>
+                <div>
+                  <div style="font-weight: ${tokens.typography.fontWeights.medium};">
+                    ${translations.returnsPolicy}
+                  </div>
+                  <div style="
+                    margin-top: ${tokens.spacing.xs};
+                    color: ${tokens.colors.neutral.gray[700]};
+                  ">
+                    ${returnsPolicy}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      ` : ''}
+      
+      ${reviewsHtml}
+    </div>
+    
+    <script>
+      // Product detail interactions
+      function switchProductImage(productId, imageIndex) {
+        const thumbnails = document.querySelectorAll(\`#\${productId} .product-thumbnail\`);
+        const mainImage = document.getElementById(\`\${productId}-main-image\`);
+        const images = ${JSON.stringify(images)};
+        
+        // Update main image
+        if (images && images[imageIndex]) {
+          mainImage.src = images[imageIndex].large || images[imageIndex].url;
+        }
+        
+        // Update thumbnails active state
+        thumbnails.forEach(thumbnail => {
+          if (parseInt(thumbnail.dataset.imageIndex) === imageIndex) {
+            thumbnail.style.borderColor = '${tokens.colors.brand.primary[500]}';
+          } else {
+            thumbnail.style.borderColor = '${tokens.colors.neutral.gray[300]}';
+          }
+        });
+      }
+      
+      function updateProductVariant(productId, optionName, value) {
+        // This would typically update the UI and selected variant
+        console.log('Update variant', productId, optionName, value);
+        
+        // Here you would normally:
+        // 1. Find the matching variant based on all currently selected options
+        // 2. Update the price, availability, and product images
+        // 3. Enable/disable the add to cart button based on availability
+      }
+      
+      // Hook up event handlers
+      ${onAddToCart ? `
+        function addToCart(productId) {
+          // Custom handler would be injected here
+          console.log('Add to cart', productId);
+        }
+      ` : ''}
+      
+      ${onShare ? `
+        function shareProduct(productId) {
+          // Custom handler would be injected here
+          console.log('Share product', productId);
+        }
+      ` : ''}
+      
+      ${onSaveForLater ? `
+        function saveForLater(productId) {
+          // Custom handler would be injected here
+          console.log('Save for later', productId);
+        }
+      ` : ''}
+      
+      ${onReviewSubmit ? `
+        function setReviewRating(productId, rating) {
+          // Custom handler would be injected here
+          console.log('Set review rating', productId, rating);
+        }
+        
+        function submitReview(productId) {
+          const title = document.getElementById(\`\${productId}-review-title\`).value;
+          const content = document.getElementById(\`\${productId}-review-content\`).value;
+          // Get rating from the UI (implementation depends on the Rating component)
+          
+          // Custom handler would be injected here
+          console.log('Submit review', productId, title, content);
+        }
+      ` : ''}
+      
+      function navigateToCategory(categoryId) {
+        // Implementation for category navigation
+        console.log('Navigate to category', categoryId);
+        return false; // Prevent default link behavior
+      }
+      
+      function navigateToTag(tagId) {
+        // Implementation for tag navigation
+        console.log('Navigate to tag', tagId);
+        return false; // Prevent default link behavior
+      }
+    </script>
+  `;
+}
+
+/**
+ * Get translations based on locale
+ */
+function getTranslations(locale) {
+  const translations = {
+    en: {
+      outOfStock: 'Out of Stock',
+      inStock: 'In Stock',
+      lowStock: 'Only {count} left',
+      addToCart: 'Add to Cart',
+      saveForLater: 'Save for Later',
+      share: 'Share',
+      customerReviews: 'Customer Reviews',
+      review: 'review',
+      reviews: 'reviews',
+      writeReview: 'Write a Review',
+      yourRating: 'Your Rating',
+      reviewTitle: 'Review Title',
+      reviewTitlePlaceholder: 'Give your review a title',
+      reviewContent: 'Review',
+      reviewContentPlaceholder: 'Share your experience with this product',
+      submitReview: 'Submit Review',
+      sku: 'SKU',
+      categories: 'Categories',
+      shippingInfo: 'Shipping & Returns',
+      freeShipping: 'Free Shipping',
+      deliveryEstimate: 'Delivery estimate',
+      returnsPolicy: 'Returns Policy'
+    },
+    ar: {
+      outOfStock: 'غير متوفر',
+      inStock: 'متوفر في المخزون',
+      lowStock: 'بقي {count} فقط',
+      addToCart: 'أضف إلى السلة',
+      saveForLater: 'احفظ لوقت لاحق',
+      share: 'مشاركة',
+      customerReviews: 'آراء العملاء',
+      review: 'رأي',
+      reviews: 'آراء',
+      writeReview: 'اكتب رأيك',
+      yourRating: 'تقييمك',
+      reviewTitle: 'عنوان التقييم',
+      reviewTitlePlaceholder: 'أعط تقييمك عنوانًا',
+      reviewContent: 'المراجعة',
+      reviewContentPlaceholder: 'شارك تجربتك مع هذا المنتج',
+      submitReview: 'إرسال المراجعة',
+      sku: 'رقم المنتج',
+      categories: 'الفئات',
+      shippingInfo: 'الشحن والإرجاع',
+      freeShipping: 'شحن مجاني',
+      deliveryEstimate: 'موعد التسليم المقدر',
+      returnsPolicy: 'سياسة الإرجاع'
+    },
+    fr: {
+      outOfStock: 'En rupture de stock',
+      inStock: 'En stock',
+      lowStock: 'Seulement {count} restants',
+      addToCart: 'Ajouter au panier',
+      saveForLater: 'Sauvegarder pour plus tard',
+      share: 'Partager',
+      customerReviews: 'Avis clients',
+      review: 'avis',
+      reviews: 'avis',
+      writeReview: 'Écrire un avis',
+      yourRating: 'Votre évaluation',
+      reviewTitle: 'Titre de l\'avis',
+      reviewTitlePlaceholder: 'Donnez un titre à votre avis',
+      reviewContent: 'Avis',
+      reviewContentPlaceholder: 'Partagez votre expérience avec ce produit',
+      submitReview: 'Soumettre l\'avis',
+      sku: 'Référence',
+      categories: 'Catégories',
+      shippingInfo: 'Livraison et retours',
+      freeShipping: 'Livraison gratuite',
+      deliveryEstimate: 'Estimation de livraison',
+      returnsPolicy: 'Politique de retour'
+    },
+    // Add more locales as needed
+  };
+  
+  return translations[locale] || translations['en'];
+}
+
+module.exports = ProductDetail;

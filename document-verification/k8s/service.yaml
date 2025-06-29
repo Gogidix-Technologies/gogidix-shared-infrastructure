@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-verification
+  namespace: shared-infrastructure
+  labels:
+    app: document-verification
+spec:
+  selector:
+    app: document-verification
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

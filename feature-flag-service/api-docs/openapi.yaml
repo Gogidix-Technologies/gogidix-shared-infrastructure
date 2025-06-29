@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: Feature Flag Service API
+  description: API for feature-flag-service
+  version: 1.0.0
+paths:
+  /actuator/health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service is healthy

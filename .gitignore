@@ -1,0 +1,66 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.log
+target/
+.mvn/
+mvnw
+mvnw.cmd
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+service.log
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+.backup/
+src.backup*/
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Security
+*.key
+*.pem
+*.crt
+secrets/

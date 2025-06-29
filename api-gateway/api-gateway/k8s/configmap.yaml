@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+  namespace: shared-infrastructure
+data:
+  application.yml: |
+    spring:
+      application:
+        name: api-gateway
+      profiles:
+        active: kubernetes
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: http://service-registry:8761/eureka/
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics

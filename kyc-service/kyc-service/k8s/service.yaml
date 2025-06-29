@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kyc-service
+  namespace: shared-infrastructure
+  labels:
+    app: kyc-service
+spec:
+  selector:
+    app: kyc-service
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

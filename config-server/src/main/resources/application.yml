@@ -1,0 +1,93 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  
+  cloud:
+    config:
+      server:
+        # Local file system configuration for development
+        native:
+          search-locations: classpath:/configurations/
+        
+        # Git configuration (can be enabled for production)
+        git:
+          uri: ${CONFIG_GIT_URI:file://${user.home}/config-repo}
+          default-label: ${CONFIG_GIT_BRANCH:main}
+          search-paths: ${CONFIG_SEARCH_PATHS:/**}
+          clone-on-start: true
+          force-pull: true
+          timeout: 10
+          
+        # Profile selection
+        default-profile: native
+        
+        # Health check
+        health:
+          enabled: true
+  
+  # Security configuration
+  security:
+    user:
+      name: ${CONFIG_SERVER_USERNAME:configuser}
+      password: ${CONFIG_SERVER_PASSWORD:configpass123}
+
+# Eureka Client Configuration - integrates with your existing service registry
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    healthcheck:
+      enabled: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,configprops,refresh,beans,mappings
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    info:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    build:
+      enabled: true
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.ecosystem.config: DEBUG
+    org.springframework.cloud.config: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.cloud.netflix.eureka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Info endpoint details
+info:
+  app:
+    name: ${spring.application.name}
+    description: Configuration Server for Micro-Social-Ecommerce-Ecosystems
+    version: 0.0.1-SNAPSHOT
+    encoding: UTF-8
+    java:
+      version: ${java.version}

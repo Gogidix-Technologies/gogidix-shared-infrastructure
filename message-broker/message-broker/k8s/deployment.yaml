@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-broker
+  namespace: shared-infrastructure
+  labels:
+    app: message-broker
+    domain: shared-infrastructure
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: message-broker
+  template:
+    metadata:
+      labels:
+        app: message-broker
+    spec:
+      containers:
+      - name: message-broker
+        image: social-ecommerce-ecosystem/message-broker:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: "http://service-registry:8761/eureka/"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "512Mi"
+            cpu: "250m"

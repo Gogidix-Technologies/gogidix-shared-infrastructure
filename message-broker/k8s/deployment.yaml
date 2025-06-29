@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-broker
+  namespace: exalt-shared
+  labels:
+    app: message-broker
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: message-broker
+  template:
+    metadata:
+      labels:
+        app: message-broker
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: message-broker
+        image: exalt/message-broker:latest
+        ports:
+        - containerPort: 8089
+          name: http
+        - containerPort: 9090
+          name: metrics
+        - containerPort: 9999
+          name: jmx
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8089"
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        - name: SCHEMA_REGISTRY_URL
+          value: "http://schema-registry:8081"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "message_broker_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "8"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: jwt-secret
+        - name: KAFKA_SASL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: kafka-username
+        - name: KAFKA_SASL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: kafka-password
+        - name: SCHEMA_REGISTRY_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: registry-username
+        - name: SCHEMA_REGISTRY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: message-broker-secrets
+              key: registry-password
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8089
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8089
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      restartPolicy: Always

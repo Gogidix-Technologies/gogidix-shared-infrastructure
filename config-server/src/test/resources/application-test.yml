@@ -1,0 +1,37 @@
+# Test Configuration for Config Server
+server:
+  port: 0  # Random available port for testing
+
+spring:
+  cloud:
+    config:
+      server:
+        default-profile: native
+        native:
+          search-locations: classpath:/configurations/
+  
+  security:
+    user:
+      name: testuser
+      password: testpass
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+
+# Disable Eureka for testing
+eureka:
+  client:
+    enabled: false
+
+# Minimal management endpoints for testing
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    root: WARN
+    com.ecosystem.config: DEBUG

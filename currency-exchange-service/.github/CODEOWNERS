@@ -1,0 +1,19 @@
+# This file defines the code owners for the repository
+# Code owners are automatically requested for review when someone opens a PR that modifies code they own
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @Exalt-Application-Limited/Administrators
+
+# Specific domain ownership
+/src/ @Exalt-Application-Limited/Infrastructure-Team
+/api/ @Exalt-Application-Limited/Infrastructure-Team
+/docs/ @Exalt-Application-Limited/Developers
+
+# Configuration files ownership
+*.yaml @Exalt-Application-Limited/Infrastructure-Team
+*.yml @Exalt-Application-Limited/Infrastructure-Team
+*.json @Exalt-Application-Limited/Infrastructure-Team
+
+# CI/CD workflow ownership
+/.github/ @Exalt-Application-Limited/Administrators

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-storage-service
+  namespace: shared-infrastructure
+  labels:
+    app: file-storage-service
+    domain: shared-infrastructure
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: file-storage-service
+  template:
+    metadata:
+      labels:
+        app: file-storage-service
+    spec:
+      containers:
+      - name: file-storage-service
+        image: social-ecommerce-ecosystem/file-storage-service:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          value: "http://service-registry:8761/eureka/"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+          requests:
+            memory: "512Mi"
+            cpu: "250m"

@@ -1,0 +1,97 @@
+{
+  "name": "@exalt/ui-design-system",
+  "version": "1.0.0",
+  "description": "Exalt Platform UI Design System and Component Library",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "tokens"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:tokens": "style-dictionary build",
+    "build-storybook": "storybook build",
+    "dev": "rollup -c -w",
+    "storybook": "storybook dev -p 6006",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "typecheck": "tsc --noEmit",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test && npm run lint && npm run build"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "@babel/preset-typescript": "^7.22.0",
+    "@rollup/plugin-babel": "^6.0.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@storybook/addon-actions": "^7.0.0",
+    "@storybook/addon-docs": "^7.0.0",
+    "@storybook/addon-essentials": "^7.0.0",
+    "@storybook/addon-links": "^7.0.0",
+    "@storybook/react": "^7.0.0",
+    "@storybook/react-vite": "^7.0.0",
+    "@testing-library/jest-dom": "^5.16.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.0",
+    "@types/jest": "^29.5.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "prettier": "^2.8.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.23.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "style-dictionary": "^3.8.0",
+    "storybook": "^7.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "clsx": "^1.2.1",
+    "phosphor-react": "^1.4.1",
+    "styled-components": "^6.0.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "design-system",
+    "components",
+    "exalt",
+    "storybook"
+  ],
+  "author": "Exalt Platform Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exalt/ui-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/exalt/ui-design-system/issues"
+  },
+  "homepage": "https://ui.exalt.com",
+  "publishConfig": {
+    "access": "public"
+  }
+}

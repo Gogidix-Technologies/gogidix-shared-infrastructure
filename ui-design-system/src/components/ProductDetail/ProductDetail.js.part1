@@ -1,0 +1,62 @@
+/**
+ * ProductDetail Component
+ * A comprehensive product detail page template integrating product information,
+ * social features, and commerce functionality
+ * For use by Team Alpha in customer-facing interfaces
+ */
+
+const tokens = require('../../tokens');
+const localization = require('../../utils/localization');
+const Button = require('../Button');
+const Rating = require('../Rating');
+const { Comment, CommentForm } = require('../Comment');
+const Review = require('../Review');
+
+/**
+ * ProductDetail component generator
+ * @param {object} props - Component properties
+ * @returns {string} - HTML for the product detail element
+ */
+function ProductDetail({
+  id,
+  product = {},
+  locale = localization.DEFAULT_LOCALE,
+  onAddToCart,
+  onShare,
+  onSaveForLater,
+  onReviewSubmit,
+  className = '',
+  ...otherProps
+}) {
+  // Get text direction based on locale
+  const dir = localization.getTextDirection(locale);
+  
+  // Generate unique ID if not provided
+  const productDetailId = id || `product-detail-${Math.random().toString(36).substring(2, 9)}`;
+  
+  // Get translations
+  const translations = getTranslations(locale);
+  
+  // Parse product information
+  const {
+    title = '',
+    description = '',
+    price = 0,
+    compareAtPrice,
+    discount,
+    currency = 'USD',
+    images = [],
+    variants = [],
+    options = [],
+    ratings = { average: 0, count: 0 },
+    reviews = [],
+    inStock = true,
+    stockLevel,
+    sku = '',
+    brand = {},
+    categories = [],
+    tags = [],
+    shipping = {},
+    returnsPolicy = '',
+    socialMetrics = { likes: 0, shares: 0, views: 0 }
+  } = product;

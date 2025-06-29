@@ -1,0 +1,211 @@
+/**
+ * VendorList Template (Part 1)
+ * 
+ * A comprehensive vendor listing template with search, filtering, and sorting features
+ * for Social Commerce applications. This template displays vendors in a grid or list view
+ * and provides tools for users to find specific vendors.
+ * 
+ * Part 1 contains:
+ * - Main layout structure
+ * - VendorCard component
+ * - EmptyState component
+ * - ViewToggle component (grid/list view)
+ * 
+ * @module templates/VendorList
+ * @requires utilities/localization
+ * @requires utilities/design-tokens
+ */
+
+// Import required dependencies
+const { getLocaleDirection, getTranslation } = require('../../utilities/localization');
+const { colors, spacing, typography } = require('../../utilities/design-tokens');
+const Button = require('../../components/Button');
+
+/**
+ * EmptyState Component
+ * 
+ * Displays a message when no vendors are found or available
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.message - Message to display
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for empty state
+ */
+function EmptyState({ message, locale = 'en-US' }) {
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-empty-state--rtl' : '';
+  
+  return `
+    <div class="vendor-empty-state ${rtlClass}">
+      <div class="vendor-empty-state__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h3 class="vendor-empty-state__title">${getTranslation('vendor.noResults', locale) || 'No vendors found'}</h3>
+      <p class="vendor-empty-state__message">${message}</p>
+      <div class="vendor-empty-state__action">
+        ${Button({
+          text: getTranslation('vendor.clearFilters', locale) || 'Clear filters',
+          variant: 'primary',
+          attributes: 'data-action="clear-vendor-filters"',
+          locale
+        })}
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * ViewToggle Component
+ * 
+ * Provides controls to toggle between grid and list view
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.currentView - Current view type ('grid' or 'list')
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for view toggle controls
+ */
+function ViewToggle({ currentView = 'grid', locale = 'en-US' }) {
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-view-toggle--rtl' : '';
+  
+  return `
+    <div class="vendor-view-toggle ${rtlClass}">
+      <button 
+        class="vendor-view-toggle__button ${currentView === 'grid' ? 'vendor-view-toggle__button--active' : ''}" 
+        data-view="grid" 
+        aria-label="${getTranslation('vendor.gridView', locale) || 'Grid view'}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+        </svg>
+      </button>
+      <button 
+        class="vendor-view-toggle__button ${currentView === 'list' ? 'vendor-view-toggle__button--active' : ''}" 
+        data-view="list" 
+        aria-label="${getTranslation('vendor.listView', locale) || 'List view'}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * VendorCard Component
+ * 
+ * Displays an individual vendor card with logo, name, rating, and category
+ * 
+ * @param {Object} props - Component props
+ * @param {Object} props.vendor - Vendor data object
+ * @param {string} props.viewType - View type ('grid' or 'list')
+ * @param {string} props.locale - Locale code
+ * @returns {string} HTML for vendor card
+ */
+function VendorCard({ vendor, viewType = 'grid', locale = 'en-US' }) {
+  if (!vendor) return '';
+  
+  const direction = getLocaleDirection(locale);
+  const rtlClass = direction === 'rtl' ? 'vendor-card--rtl' : '';
+  const viewClass = `vendor-card--${viewType}`;
+  
+  // Calculate rating stars
+  const rating = vendor.rating || 0;
+  const fullStars = Math.floor(rating);
+  const halfStar = rating % 1 >= 0.5;
+  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+  
+  const starRating = `
+    <div class="vendor-card__rating">
+      ${Array(fullStars).fill().map(() => 
+        `<span class="vendor-card__star vendor-card__star--full">★</span>`
+      ).join('')}
+      ${halfStar ? `<span class="vendor-card__star vendor-card__star--half">★</span>` : ''}
+      ${Array(emptyStars).fill().map(() => 
+        `<span class="vendor-card__star vendor-card__star--empty">★</span>`
+      ).join('')}
+      <span class="vendor-card__rating-value">${rating.toFixed(1)}</span>
+      <span class="vendor-card__review-count">(${vendor.reviewCount || 0})</span>
+    </div>
+  `;
+  
+  return `
+    <div class="vendor-card ${rtlClass} ${viewClass}" data-vendor-id="${vendor.id}">
+      <div class="vendor-card__header">
+        <div class="vendor-card__logo-container">
+          <img 
+            src="${vendor.logo || 'https://via.placeholder.com/150x50?text=Vendor'}" 
+            alt="${vendor.name}" 
+            class="vendor-card__logo"
+          />
+        </div>
+        ${vendor.verified ? 
+          `<span class="vendor-card__verified-badge" title="${getTranslation('vendor.verified', locale)}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </span>` 
+        : ''}
+      </div>
+      
+      <div class="vendor-card__content">
+        <h3 class="vendor-card__name">${vendor.name}</h3>
+        
+        ${starRating}
+        
+        ${vendor.category ? 
+          `<div class="vendor-card__category">
+            <span class="vendor-card__category-label">${getTranslation('vendor.category', locale)}:</span>
+            <span class="vendor-card__category-value">${vendor.category}</span>
+          </div>` 
+        : ''}
+        
+        ${vendor.location ? 
+          `<div class="vendor-card__location">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>${vendor.location}</span>
+          </div>` 
+        : ''}
+        
+        ${viewType === 'list' && vendor.description ? 
+          `<p class="vendor-card__description">${vendor.description}</p>` 
+        : ''}
+      </div>
+      
+      <div class="vendor-card__footer">
+        <div class="vendor-card__action">
+          ${Button({
+            text: getTranslation('vendor.viewProfile', locale),
+            variant: 'outline',
+            size: 'small',
+            attributes: `data-action="view-vendor" data-vendor-id="${vendor.id}"`,
+            locale
+          })}
+        </div>
+        
+        ${vendor.featured ? 
+          `<div class="vendor-card__featured-badge">
+            <span>${getTranslation('vendor.featured', locale)}</span>
+          </div>` 
+        : ''}
+      </div>
+    </div>
+  `;
+}

@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: exalt-shared
+  labels:
+    app: notification-service
+    component: infrastructure
+    domain: shared
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+        component: infrastructure
+        domain: shared
+    spec:
+      containers:
+      - name: notification-service
+        image: exalt/notification-service:latest
+        ports:
+        - containerPort: 8091
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "production"
+        - name: SERVER_PORT
+          value: "8091"
+        - name: DB_HOST
+          value: "postgres-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "notification_db"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: db-username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: db-password
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DATABASE
+          value: "10"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: jwt-secret
+        - name: SMTP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: smtp-username
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: smtp-password
+        - name: TWILIO_ACCOUNT_SID
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: twilio-account-sid
+        - name: TWILIO_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: twilio-auth-token
+        - name: FIREBASE_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: firebase-private-key
+        - name: SLACK_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: slack-bot-token
+        - name: WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: notification-secrets
+              key: webhook-secret
+        - name: EUREKA_SERVER_URL
+          value: "http://service-registry:8761/eureka"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8091
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8091
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: notification-attachments
+          mountPath: /var/notifications/attachments
+      volumes:
+      - name: notification-attachments
+        persistentVolumeClaim:
+          claimName: notification-attachments-pvc
+      restartPolicy: Always

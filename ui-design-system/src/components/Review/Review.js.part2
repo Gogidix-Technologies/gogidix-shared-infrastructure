@@ -1,0 +1,91 @@
+  // Create verified badge if applicable
+  const verifiedBadge = verifiedPurchase ? `
+    <span class="verified-badge" style="
+      display: inline-block;
+      margin-${dir === 'rtl' ? 'right' : 'left'}: ${tokens.spacing.sm};
+      padding: ${tokens.spacing.xs} ${tokens.spacing.sm};
+      background-color: ${tokens.colors.brand.primary[50]};
+      color: ${tokens.colors.brand.primary[700]};
+      border-radius: ${tokens.borders.borderRadius.sm};
+      font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+      font-weight: ${tokens.typography.fontWeights.medium};
+    ">
+      <i class="icon-check-circle" style="margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};"></i>
+      ${translations.verifiedPurchase}
+    </span>
+  ` : '';
+  
+  // Create image gallery if provided
+  let imagesHtml = '';
+  if (images && images.length > 0) {
+    imagesHtml = `
+      <div class="review-images" style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: ${tokens.spacing.sm};
+        margin-top: ${tokens.spacing.md};
+        margin-bottom: ${tokens.spacing.md};
+      ">
+        ${images.map((image, index) => `
+          <div class="review-image" style="
+            width: 80px;
+            height: 80px;
+            border-radius: ${tokens.borders.borderRadius.sm};
+            overflow: hidden;
+            cursor: pointer;
+          " onclick="openImageGallery('${reviewId}', ${index})">
+            <img 
+              src="${image.thumbnail || image.url}" 
+              alt="${translations.reviewImage} ${index + 1}"
+              loading="lazy"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              "
+            />
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  
+  // Create helpful button
+  const helpfulButton = `
+    <button 
+      class="helpful-button ${isHelpful ? 'is-helpful' : ''}" 
+      onclick="${onHelpfulClick ? `handleHelpful('${reviewId}')` : ''}"
+      style="
+        display: inline-flex;
+        align-items: center;
+        background: none;
+        border: 1px solid ${tokens.colors.neutral.gray[300]};
+        padding: ${tokens.spacing.xs} ${tokens.spacing.md};
+        border-radius: ${tokens.borders.borderRadius.md};
+        cursor: pointer;
+        font-size: ${tokens.typography.textStyles.bodySmall.fontSize};
+        color: ${isHelpful ? tokens.colors.brand.primary[600] : tokens.colors.neutral.gray[700]};
+        background-color: ${isHelpful ? tokens.colors.brand.primary[50] : 'transparent'};
+        ${!onHelpfulClick ? 'pointer-events: none;' : ''}
+        
+        &:hover {
+          background-color: ${isHelpful ? tokens.colors.brand.primary[100] : tokens.colors.neutral.gray[50]};
+        }
+        
+        &:focus {
+          outline: none;
+          box-shadow: ${tokens.shadows.presets.button.focus};
+        }
+      "
+    >
+      <i class="icon-thumb-up" style="margin-${dir === 'rtl' ? 'left' : 'right'}: ${tokens.spacing.xs};"></i>
+      ${translations.helpful}
+      <span style="
+        margin-${dir === 'rtl' ? 'right' : 'left'}: ${tokens.spacing.xs};
+        font-weight: ${tokens.typography.fontWeights.medium};
+        ${helpfulCount === 0 ? 'display: none;' : ''}
+      ">
+        (${localization.formatLocalizedNumber(helpfulCount, locale)})
+      </span>
+    </button>
+  `;

@@ -1,0 +1,199 @@
+  // Create product cards
+  let productsHtml = '';
+  let layoutStyle = '';
+  
+  if (products.length === 0) {
+    // Empty state
+    productsHtml = `
+      <div class="product-list-empty" style="
+        padding: ${tokens.spacing.xl} ${tokens.spacing.md};
+        text-align: center;
+        background-color: ${tokens.colors.neutral.gray[50]};
+        border-radius: ${tokens.borders.borderRadius.md};
+      ">
+        <i class="icon-search" style="
+          font-size: 3rem;
+          color: ${tokens.colors.neutral.gray[400]};
+          margin-bottom: ${tokens.spacing.md};
+          display: block;
+        "></i>
+        <h2 style="
+          font-size: ${tokens.typography.textStyles.heading3.fontSize};
+          font-weight: ${tokens.typography.fontWeights.semiBold};
+          margin-top: 0;
+          margin-bottom: ${tokens.spacing.sm};
+        ">
+          ${emptyStateMessage || translations.noProductsFound}
+        </h2>
+        <p style="
+          color: ${tokens.colors.neutral.gray[600]};
+          margin-bottom: ${tokens.spacing.lg};
+        ">
+          ${translations.tryAdjustingFilters}
+        </p>
+      </div>
+    `;
+  } else {
+    switch (layout) {
+      case 'list':
+        layoutStyle = `
+          display: flex;
+          flex-direction: column;
+          gap: ${gaps.list.row};
+        `;
+        break;
+        
+      case 'carousel':
+        layoutStyle = `
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          gap: ${gaps.carousel.column};
+          scrollbar-width: thin;
+          scrollbar-color: ${tokens.colors.neutral.gray[400]} ${tokens.colors.neutral.gray[200]};
+          padding-bottom: ${tokens.spacing.md}; /* for scrollbar space */
+          
+          &::-webkit-scrollbar {
+            height: 8px;
+          }
+          
+          &::-webkit-scrollbar-track {
+            background: ${tokens.colors.neutral.gray[200]};
+            border-radius: ${tokens.borders.borderRadius.full};
+          }
+          
+          &::-webkit-scrollbar-thumb {
+            background-color: ${tokens.colors.neutral.gray[400]};
+            border-radius: ${tokens.borders.borderRadius.full};
+          }
+        `;
+        break;
+        
+      case 'grid':
+      default:
+        // Design mobile-first grid that adjusts columns based on screen size
+        layoutStyle = `
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: ${gaps.grid.row} ${gaps.grid.column};
+          
+          @media (min-width: 576px) {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          @media (min-width: 768px) {
+            grid-template-columns: repeat(${Math.min(columns, 3)}, 1fr);
+          }
+          
+          @media (min-width: 992px) {
+            grid-template-columns: repeat(${Math.min(columns, 4)}, 1fr);
+          }
+          
+          @media (min-width: 1200px) {
+            grid-template-columns: repeat(${columns}, 1fr);
+          }
+        `;
+    }
+
+    // Create product cards based on layout
+    productsHtml = `
+      <div class="products-container" style="${layoutStyle}">
+        ${products.map(product => {
+          const cardProps = {
+            ...product,
+            layout: layout === 'list' ? 'horizontal' : 'vertical',
+            onClick: onProductClick ? `productClicked('${productListId}', '${product.id}')` : '',
+            showSocialMetrics,
+            locale
+          };
+          
+          // Generate card HTML
+          return ProductCard(cardProps);
+        }).join('')}
+      </div>
+    `;
+  }
+  
+  // Create pagination controls
+  let paginationHtml = '';
+  
+  if (pagination && pagination.total > pagination.perPage) {
+    const totalPages = Math.ceil(pagination.total / pagination.perPage);
+    const currentPage = pagination.page;
+    
+    // Create numeric page buttons with previous/next controls
+    const createPageButton = (pageNum, label, isActive = false, isDisabled = false) => {
+      return `
+        <button 
+          class="page-btn ${isActive ? 'active' : ''}"
+          onclick="${!isDisabled ? `changePage('${productListId}', ${pageNum})` : ''}"
+          ${isDisabled ? 'disabled' : ''}
+          style="
+            min-width: 36px;
+            height: 36px;
+            border: 1px solid ${isActive ? tokens.colors.brand.primary[500] : tokens.colors.neutral.gray[300]};
+            background-color: ${isActive ? tokens.colors.brand.primary[500] : 'white'};
+            color: ${isActive ? 'white' : tokens.colors.neutral.gray[900]};
+            cursor: ${isDisabled ? 'not-allowed' : 'pointer'};
+            border-radius: ${tokens.borders.borderRadius.md};
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+            opacity: ${isDisabled ? '0.5' : '1'};
+          "
+        >
+          ${label}
+        </button>
+      `;
+    };
+    
+    // Determine which page buttons to show
+    const maxButtons = 5;
+    let pageButtons = [];
+    
+    // Always show first and last page
+    if (totalPages <= maxButtons) {
+      // Show all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pageButtons.push(createPageButton(i, i.toString(), i === currentPage));
+      }
+    } else {
+      // Show limited pages with ellipsis
+      pageButtons.push(createPageButton(1, '1', currentPage === 1));
+      
+      if (currentPage > 3) {
+        pageButtons.push(`<span class="ellipsis" style="margin: 0 ${tokens.spacing.xs};">...</span>`);
+      }
+      
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        pageButtons.push(createPageButton(i, i.toString(), i === currentPage));
+      }
+      
+      if (currentPage < totalPages - 2) {
+        pageButtons.push(`<span class="ellipsis" style="margin: 0 ${tokens.spacing.xs};">...</span>`);
+      }
+      
+      pageButtons.push(createPageButton(totalPages, totalPages.toString(), currentPage === totalPages));
+    }
+    
+    // Add previous/next buttons
+    const prevButton = createPageButton(currentPage - 1, `<i class="icon-chevron-${dir === 'rtl' ? 'right' : 'left'}"></i>`, false, currentPage === 1);
+    const nextButton = createPageButton(currentPage + 1, `<i class="icon-chevron-${dir === 'rtl' ? 'left' : 'right'}"></i>`, false, currentPage === totalPages);
+    
+    pageButtons = [prevButton, ...pageButtons, nextButton];
+
+    paginationHtml = `
+      <div class="pagination" style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: ${tokens.spacing.lg};
+        gap: ${tokens.spacing.xs};
+        flex-wrap: wrap;
+      ">
+        ${pageButtons.join('')}
+      </div>
+    `;
+  }

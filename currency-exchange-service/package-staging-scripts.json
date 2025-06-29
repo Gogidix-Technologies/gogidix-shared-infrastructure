@@ -1,0 +1,5 @@
+{
+  "build:staging": "NODE_ENV=staging npm run build",
+  "start:staging": "NODE_ENV=staging npm start",
+  "deploy:staging": "vercel --prod --confirm"
+}

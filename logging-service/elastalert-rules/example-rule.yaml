@@ -1,0 +1,15 @@
+# Example ElastAlert rule: Alert on error logs
+
+name: Error Log Alert
+
+type: any
+
+index: service-logs-*
+
+filter:
+- term:
+    level: "error"
+
+alert:
+- debug
+# To enable real alerts, add email, slack, etc. to the alert array 
