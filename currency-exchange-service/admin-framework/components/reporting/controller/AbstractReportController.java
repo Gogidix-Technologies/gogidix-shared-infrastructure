@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.reporting.controller;
+package com.gogidix.shared.admin.components.reporting.controller;
 
 import com.microsocial.admin.components.reporting.model.BaseReport;
 import com.microsocial.admin.components.reporting.service.AbstractReportService;

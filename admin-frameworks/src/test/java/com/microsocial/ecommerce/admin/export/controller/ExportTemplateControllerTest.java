@@ -1,8 +1,8 @@
-package com.exalt.ecommerce.admin.export.controller;
+package com.gogidix.ecommerce.admin.export.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.exalt.ecommerce.admin.export.model.ExportTemplate;
-import com.exalt.ecommerce.admin.export.service.ExportTemplateService;
+import com.gogidix.ecommerce.admin.export.model.ExportTemplate;
+import com.gogidix.ecommerce.admin.export.service.ExportTemplateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

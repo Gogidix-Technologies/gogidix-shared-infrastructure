@@ -1,4 +1,4 @@
-﻿package com.exalt.ecommerce.admin.components.policy;
+﻿package com.gogidix.ecommerce.admin.components.policy;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

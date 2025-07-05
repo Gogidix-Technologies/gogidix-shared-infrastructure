@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.ratelimit;
+package com.gogidix.shared.ecommerce.admin.websocket.ratelimit;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

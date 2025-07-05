@@ -1,4 +1,4 @@
-﻿package com.exalt.ecommerce.admin.components.region;
+﻿package com.gogidix.ecommerce.admin.components.region;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

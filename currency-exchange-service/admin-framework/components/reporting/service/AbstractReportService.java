@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.reporting.service;
+package com.gogidix.shared.admin.components.reporting.service;
 
 import com.microsocial.admin.components.reporting.model.BaseReport;
 import com.microsocial.admin.util.ExportFormat;

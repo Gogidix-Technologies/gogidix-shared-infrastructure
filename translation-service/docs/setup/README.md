@@ -1603,7 +1603,7 @@ kubectl run test-pod --image=curlimages/curl -it --rm --restart=Never -- \
 ```bash
 # Enable debug logging
 export LOG_LEVEL=DEBUG
-export LOGGING_LEVEL_COM_EXALT_ECOSYSTEM_SHARED_TRANSLATION=DEBUG
+export LOGGING_LEVEL_COM_GOGIDIX_ECOSYSTEM_SHARED_TRANSLATION=DEBUG
 
 # Enable Spring Boot debug mode
 export DEBUG=true

@@ -148,7 +148,7 @@ sudo yum install tesseract tesseract-langpack-eng
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/document-verification
 ```
 
@@ -247,11 +247,11 @@ sudo mkdir -p /opt/models/document-verification
 sudo chown -R $USER:$USER /opt/models/document-verification
 
 # Download fraud detection model
-curl -L "https://models.exalt.com/fraud_detector_v1.model" \
+curl -L "https://models.gogidix.com/fraud_detector_v1.model" \
   -o /opt/models/document-verification/fraud_detector_v1.model
 
 # Download document classification model
-curl -L "https://models.exalt.com/doc_classifier_v1.model" \
+curl -L "https://models.gogidix.com/doc_classifier_v1.model" \
   -o /opt/models/document-verification/doc_classifier_v1.model
 ```
 
@@ -387,11 +387,11 @@ kubectl logs -f deployment/document-verification -n shared-infrastructure
 
 ```bash
 # Add Helm repository
-helm repo add exalt https://charts.exalt.com
+helm repo add gogidix https://charts.gogidix.com
 helm repo update
 
 # Install the chart
-helm install document-verification exalt/document-verification \
+helm install document-verification gogidix/document-verification \
   --namespace shared-infrastructure \
   --set image.tag=latest \
   --set service.port=8405 \
@@ -665,7 +665,7 @@ export DEBUG_ML=true
 # Or in application.yml
 logging:
   level:
-    com.exalt.verification: DEBUG
+    com.gogidix.verification: DEBUG
     org.springframework.security: DEBUG
 ```
 
@@ -702,4 +702,4 @@ export TF_ENABLE_GPU_MEMORY_GROWTH=true
 - **Model Documentation**: `/docs/ml-models`
 - **Issues**: GitHub Issues
 - **Team Chat**: Slack #document-verification
-- **Email**: verification-team@exalt.com
+- **Email**: verification-team@gogidix.com

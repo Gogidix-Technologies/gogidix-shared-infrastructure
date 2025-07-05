@@ -287,7 +287,7 @@ slos:
 ## Observability Standards
 
 ### Metrics Standards
-- **Naming Convention**: `com_exalt_<service>_<metric_name>`
+- **Naming Convention**: `com_gogidix_<service>_<metric_name>`
 - **Labels**: Consistent labeling strategy
 - **Cardinality**: Controlled label cardinality
 - **Documentation**: All metrics documented
@@ -382,7 +382,7 @@ public class BusinessMetrics {
         "type": "graph",
         "targets": [
           {
-            "expr": "rate(com_exalt_orders_total[5m])",
+            "expr": "rate(com_gogidix_orders_total[5m])",
             "legendFormat": "Orders/sec"
           }
         ]
@@ -399,7 +399,7 @@ groups:
   - name: business.rules
     rules:
     - alert: HighOrderFailureRate
-      expr: rate(com_exalt_orders_failed_total[5m]) / rate(com_exalt_orders_total[5m]) > 0.05
+      expr: rate(com_gogidix_orders_failed_total[5m]) / rate(com_gogidix_orders_total[5m]) > 0.05
       for: 2m
       labels:
         severity: critical

@@ -1,7 +1,7 @@
-package com.exalt.shared.admin.components.policy.controller;
+package com.gogidix.shared.admin.components.policy.controller;
 
-import com.exalt.shared.admin.components.policy.model.BasePolicy;
-import com.exalt.shared.admin.components.policy.service.AbstractPolicyService;
+import com.gogidix.shared.admin.components.policy.model.BasePolicy;
+import com.gogidix.shared.admin.components.policy.service.AbstractPolicyService;
 
 import java.util.Date;
 import java.util.List;

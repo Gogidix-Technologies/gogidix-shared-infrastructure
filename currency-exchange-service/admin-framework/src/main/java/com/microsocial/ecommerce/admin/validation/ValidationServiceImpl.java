@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.validation;
+package com.gogidix.shared.ecommerce.admin.validation;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;

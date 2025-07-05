@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.scheduling;
+package com.gogidix.shared.ecommerce.admin.scheduling;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.components.dashboard;
+﻿package com.gogidix.shared.ecommerce.admin.components.dashboard;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

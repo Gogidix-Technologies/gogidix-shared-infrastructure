@@ -1,8 +1,8 @@
-package com.exalt.ecommerce.admin.export.service;
+package com.gogidix.ecommerce.admin.export.service;
 
-import com.exalt.ecosystem.shared.admin.export.exception.TemplateException;
-import com.exalt.ecosystem.shared.admin.export.model.ExportTemplate;
-import com.exalt.ecosystem.shared.admin.export.service.ExportTemplateService;
+import com.gogidix.ecosystem.shared.admin.export.exception.TemplateException;
+import com.gogidix.ecosystem.shared.admin.export.model.ExportTemplate;
+import com.gogidix.ecosystem.shared.admin.export.service.ExportTemplateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

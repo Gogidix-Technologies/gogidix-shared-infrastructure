@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.components.policy;
+﻿package com.gogidix.shared.ecommerce.admin.components.policy;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

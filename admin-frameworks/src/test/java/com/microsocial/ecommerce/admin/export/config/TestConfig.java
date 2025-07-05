@@ -1,11 +1,11 @@
-package com.exalt.ecommerce.admin.export.config;
+package com.gogidix.ecommerce.admin.export.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.exalt.ecommerce.admin.export.ExportService;
-import com.exalt.ecommerce.admin.export.handler.*;
-import com.exalt.ecommerce.admin.export.repository.ExportTemplateRepository;
-import com.exalt.ecommerce.admin.export.service.ExportTemplateService;
-import com.exalt.ecommerce.admin.export.service.TemplateProcessor;
+import com.gogidix.ecommerce.admin.export.ExportService;
+import com.gogidix.ecommerce.admin.export.handler.*;
+import com.gogidix.ecommerce.admin.export.repository.ExportTemplateRepository;
+import com.gogidix.ecommerce.admin.export.service.ExportTemplateService;
+import com.gogidix.ecommerce.admin.export.service.TemplateProcessor;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -45,9 +45,9 @@ public class TestConfig {
             List<ExportTemplateHandler> templateHandlers,
             ExportTemplateService exportTemplateService,
             TemplateProcessor templateProcessor) {
-        return new com.exalt.ecommerce.admin.export.ExportService() {
+        return new com.gogidix.ecommerce.admin.export.ExportService() {
             @Override
-            public <T> void exportData(List<T> data, com.exalt.ecommerce.admin.export.ExportFormat format, java.io.OutputStream outputStream, java.util.Map<String, Object> options) {
+            public <T> void exportData(List<T> data, com.gogidix.ecommerce.admin.export.ExportFormat format, java.io.OutputStream outputStream, java.util.Map<String, Object> options) {
                 // Mock implementation
             }
 
@@ -57,16 +57,16 @@ public class TestConfig {
             }
 
             @Override
-            public java.util.List<com.exalt.ecommerce.admin.export.ExportFormat> getSupportedFormats() {
-                return java.util.List.of(com.exalt.ecommerce.admin.export.ExportFormat.CSV, 
-                                       com.exalt.ecommerce.admin.export.ExportFormat.EXCEL,
-                                       com.exalt.ecommerce.admin.export.ExportFormat.PDF,
-                                       com.exalt.ecommerce.admin.export.ExportFormat.JSON,
-                                       com.exalt.ecommerce.admin.export.ExportFormat.XML);
+            public java.util.List<com.gogidix.ecommerce.admin.export.ExportFormat> getSupportedFormats() {
+                return java.util.List.of(com.gogidix.ecommerce.admin.export.ExportFormat.CSV, 
+                                       com.gogidix.ecommerce.admin.export.ExportFormat.EXCEL,
+                                       com.gogidix.ecommerce.admin.export.ExportFormat.PDF,
+                                       com.gogidix.ecommerce.admin.export.ExportFormat.JSON,
+                                       com.gogidix.ecommerce.admin.export.ExportFormat.XML);
             }
 
             @Override
-            public boolean isFormatSupported(com.exalt.ecommerce.admin.export.ExportFormat format) {
+            public boolean isFormatSupported(com.gogidix.ecommerce.admin.export.ExportFormat format) {
                 return true;
             }
         };

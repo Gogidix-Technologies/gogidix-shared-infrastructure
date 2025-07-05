@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.integration;
+﻿package com.gogidix.shared.ecommerce.admin.integration;
 
 import java.util.ArrayList;
 import java.util.HashMap;

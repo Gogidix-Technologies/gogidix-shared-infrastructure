@@ -76,12 +76,12 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t exalt/currency-exchange-service:${{ github.sha }} .
-        docker tag exalt/currency-exchange-service:${{ github.sha }} exalt/currency-exchange-service:latest
+        docker build -t gogidix/currency-exchange-service:${{ github.sha }} .
+        docker tag gogidix/currency-exchange-service:${{ github.sha }} gogidix/currency-exchange-service:latest
 
     - name: Test Docker image
       run: |
-        docker run -d --name test-currency-exchange -p 8082:8082 exalt/currency-exchange-service:latest
+        docker run -d --name test-currency-exchange -p 8082:8082 gogidix/currency-exchange-service:latest
         sleep 15
         curl -f http://localhost:8082/health || exit 1
         docker stop test-currency-exchange

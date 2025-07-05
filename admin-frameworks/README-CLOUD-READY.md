@@ -111,7 +111,7 @@ The GitHub Actions workflow will automatically:
 ### **Add to Admin Dashboard pom.xml:**
 ```xml
 <dependency>
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>admin-framework</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>

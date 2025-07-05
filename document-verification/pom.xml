@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>com.exalt.ecosystem.shared</groupId>
+	<groupId>com.gogidix.ecosystem.shared</groupId>
 	<artifactId>document-verification</artifactId>
 	<version>1.0.0</version>
 	<name>document-verification</name>

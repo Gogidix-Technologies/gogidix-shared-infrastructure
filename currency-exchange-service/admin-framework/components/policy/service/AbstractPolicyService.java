@@ -1,4 +1,4 @@
-package com.exalt.shared.shared.admin.components.policy.service;
+package com.gogidix.shared.shared.admin.components.policy.service;
 
 import com.microsocial.shared.admin.components.policy.model.BasePolicy;
 

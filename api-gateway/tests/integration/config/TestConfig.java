@@ -1,4 +1,4 @@
-package com.exalt.shared.apigateway.config;
+package com.gogidix.shared.apigateway.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

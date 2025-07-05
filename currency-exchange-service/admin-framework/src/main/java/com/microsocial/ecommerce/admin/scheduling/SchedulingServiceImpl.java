@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.scheduling;
+package com.gogidix.shared.ecommerce.admin.scheduling;
 
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;

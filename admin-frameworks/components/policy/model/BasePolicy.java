@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.policy.model;
+package com.gogidix.shared.admin.components.policy.model;
 
 import java.util.Date;
 import java.util.HashSet;

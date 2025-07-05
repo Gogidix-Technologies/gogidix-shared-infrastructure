@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.metrics;
+package com.gogidix.shared.ecommerce.admin.websocket.metrics;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

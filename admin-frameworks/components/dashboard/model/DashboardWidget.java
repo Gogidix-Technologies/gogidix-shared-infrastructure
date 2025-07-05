@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.dashboard.model;
+package com.gogidix.shared.admin.components.dashboard.model;
 
 import java.util.Date;
 import java.util.UUID;

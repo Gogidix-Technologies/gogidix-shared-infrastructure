@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.ratelimit;
+package com.gogidix.shared.ecommerce.admin.websocket.ratelimit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

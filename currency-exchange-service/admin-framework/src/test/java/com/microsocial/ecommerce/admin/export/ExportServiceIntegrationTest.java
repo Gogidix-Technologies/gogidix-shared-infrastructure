@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export;
+package com.gogidix.shared.ecommerce.admin.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsocial.ecommerce.admin.export.config.TestConfig;

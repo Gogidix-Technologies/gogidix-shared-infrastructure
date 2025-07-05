@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.region.examples;
+package com.gogidix.shared.admin.components.region.examples;
 
 import com.microsocial.admin.components.region.service.AbstractRegionService;
 import org.springframework.beans.factory.annotation.Autowired;

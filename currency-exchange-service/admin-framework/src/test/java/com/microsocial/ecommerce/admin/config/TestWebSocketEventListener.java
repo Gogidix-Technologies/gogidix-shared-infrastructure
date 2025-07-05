@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.config;
+package com.gogidix.shared.ecommerce.admin.config;
 
 import java.util.ArrayList;
 import java.util.List;

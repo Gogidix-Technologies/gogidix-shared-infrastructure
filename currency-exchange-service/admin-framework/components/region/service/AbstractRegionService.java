@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.region.service;
+package com.gogidix.shared.admin.components.region.service;
 
 import com.microsocial.admin.components.region.model.BaseRegion;
 import com.microsocial.admin.components.region.repository.BaseRegionRepository;

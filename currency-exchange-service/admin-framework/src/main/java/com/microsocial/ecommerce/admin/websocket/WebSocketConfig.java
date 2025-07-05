@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket;
+package com.gogidix.shared.ecommerce.admin.websocket;
 
 import com.microsocial.ecommerce.admin.websocket.acknowledge.AcknowledgmentChannelInterceptor;
 import com.microsocial.ecommerce.admin.websocket.metrics.WebSocketMetricsInterceptor;

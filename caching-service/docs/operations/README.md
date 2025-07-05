@@ -553,7 +553,7 @@ kubectl get configmap caching-service-config -n caching-system -o yaml > \
 # Security audit
 npm run security:audit
 kubectl run security-scan --image=aquasec/trivy --rm -i --restart=Never -- \
-    image exalt/caching-service:latest
+    image gogidix/caching-service:latest
 
 echo "Weekly maintenance completed"
 ```
@@ -564,19 +564,19 @@ echo "Weekly maintenance completed"
 
 ```bash
 # Pre-update validation
-kubectl run pre-update-test --image=exalt/caching-service:new-version --rm -i --restart=Never -- \
+kubectl run pre-update-test --image=gogidix/caching-service:new-version --rm -i --restart=Never -- \
     /app/scripts/compatibility-check.sh
 
 # Perform rolling update
 kubectl set image deployment/caching-service \
-    caching-service=exalt/caching-service:new-version \
+    caching-service=gogidix/caching-service:new-version \
     -n caching-system
 
 # Monitor rollout
 kubectl rollout status deployment/caching-service -n caching-system --timeout=600s
 
 # Post-update validation
-kubectl run post-update-test --image=exalt/caching-service:new-version --rm -i --restart=Never -- \
+kubectl run post-update-test --image=gogidix/caching-service:new-version --rm -i --restart=Never -- \
     /app/scripts/smoke-test.sh
 
 # Rollback if needed
@@ -724,7 +724,7 @@ curl -X PUT http://caching-service:8403/admin/cache/strategies \
 
 BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="/backup/redis/$BACKUP_DATE"
-S3_BUCKET="exalt-cache-backups"
+S3_BUCKET="gogidix-cache-backups"
 
 # Create backup directory
 mkdir -p $BACKUP_DIR
@@ -784,7 +784,7 @@ kubectl exec redis-cluster-0 -n caching-system -- cat /etc/redis/redis.conf > \
     $CONFIG_BACKUP_DIR/redis.conf
 
 # Upload to S3
-aws s3 sync $CONFIG_BACKUP_DIR s3://exalt-cache-backups/config/$BACKUP_DATE/
+aws s3 sync $CONFIG_BACKUP_DIR s3://gogidix-cache-backups/config/$BACKUP_DATE/
 
 echo "Configuration backup completed: $BACKUP_DATE"
 ```
@@ -809,7 +809,7 @@ echo "Recovering Redis data from backup: $BACKUP_DATE"
 kubectl scale statefulset redis-cluster --replicas=0 -n caching-system
 
 # Download backup
-aws s3 sync s3://exalt-cache-backups/redis/$BACKUP_DATE/ /tmp/redis-restore/
+aws s3 sync s3://gogidix-cache-backups/redis/$BACKUP_DATE/ /tmp/redis-restore/
 
 # Restore each node
 for i in {0..5}; do
@@ -859,7 +859,7 @@ kubectl scale deployment caching-service --replicas=3 -n caching-system
 kubectl wait --for=condition=available deployment/caching-service -n caching-system --timeout=300s
 
 # Run smoke tests
-kubectl run recovery-test --image=exalt/caching-service:latest --rm -i --restart=Never -- \
+kubectl run recovery-test --image=gogidix/caching-service:latest --rm -i --restart=Never -- \
     /app/scripts/smoke-test.sh
 
 echo "Service recovery completed"
@@ -959,7 +959,7 @@ echo "Certificate rotation completed"
 echo "=== Cache Service Security Audit - $(date) ==="
 
 # Check for security vulnerabilities
-trivy image exalt/caching-service:latest
+trivy image gogidix/caching-service:latest
 
 # Audit Kubernetes security
 kube-bench run --targets node,policies,managedservices
@@ -978,7 +978,7 @@ cat > /tmp/security-audit-$(date +%Y%m%d).json << EOF
 {
   "auditDate": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "service": "caching-service",
-  "vulnerabilities": $(trivy image --format json exalt/caching-service:latest),
+  "vulnerabilities": $(trivy image --format json gogidix/caching-service:latest),
   "networkPolicies": $(kubectl get networkpolicy -n caching-system -o json),
   "rbacConfig": $(kubectl get rolebinding -n caching-system -o json)
 }
@@ -1199,11 +1199,11 @@ echo "=== Health Check Complete ==="
 
 ### Contact Information
 
-- **Primary On-Call**: +1-555-0200 (cache-ops@exalt.com)
-- **Secondary On-Call**: +1-555-0201 (infrastructure-ops@exalt.com)
-- **Database Team**: dba-emergency@exalt.com
-- **Security Team**: security-ops@exalt.com
-- **Platform Team**: platform-ops@exalt.com
+- **Primary On-Call**: +1-555-0200 (cache-ops@gogidix.com)
+- **Secondary On-Call**: +1-555-0201 (infrastructure-ops@gogidix.com)
+- **Database Team**: dba-emergency@gogidix.com
+- **Security Team**: security-ops@gogidix.com
+- **Platform Team**: platform-ops@gogidix.com
 
 ---
 

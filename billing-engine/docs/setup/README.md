@@ -158,7 +158,7 @@ docker run -d --name redis-billing -p 6379:6379 redis:6-alpine
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/billing-engine
 ```
 
@@ -239,14 +239,14 @@ TAXJAR_SANDBOX=true
 
 # Email Service (SendGrid)
 SENDGRID_API_KEY=your-sendgrid-api-key
-EMAIL_FROM=billing@exalt.com
-EMAIL_REPLY_TO=support@exalt.com
+EMAIL_FROM=billing@gogidix.com
+EMAIL_REPLY_TO=support@gogidix.com
 
 # File Storage (AWS S3)
 AWS_ACCESS_KEY_ID=your-aws-access-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
 AWS_REGION=us-east-1
-S3_BUCKET_NAME=exalt-billing-documents
+S3_BUCKET_NAME=gogidix-billing-documents
 
 # Service Discovery
 EUREKA_ENABLED=true
@@ -1029,7 +1029,7 @@ curl http://localhost:3401/health/payment-gateways
 - **API Reference**: `http://localhost:3401/api-docs`
 - **Health Check**: `http://localhost:3401/health`
 - **Metrics**: `http://localhost:3401/metrics`
-- **Support Email**: billing-support@exalt.com
+- **Support Email**: billing-support@gogidix.com
 
 ---
 

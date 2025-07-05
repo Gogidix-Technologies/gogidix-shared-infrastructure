@@ -96,11 +96,11 @@ access_control:
 
 ```bash
 # Create development directory
-mkdir -p ~/dev/exalt/caching-service
-cd ~/dev/exalt/caching-service
+mkdir -p ~/dev/gogidix/caching-service
+cd ~/dev/gogidix/caching-service
 
 # Clone repository
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/caching-service
 ```
 
@@ -283,7 +283,7 @@ management:
 # Logging Configuration
 logging:
   level:
-    com.exalt.caching: DEBUG
+    com.gogidix.caching: DEBUG
     org.springframework.cache: DEBUG
     redis: DEBUG
   pattern:
@@ -316,7 +316,7 @@ curl http://localhost:8403/actuator/health
 <component name="RunManager">
   <configuration name="CachingServiceApplication" type="SpringBootApplicationConfigurationType">
     <module name="caching-service" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.exalt.caching.CachingServiceApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.gogidix.caching.CachingServiceApplication" />
     <option name="ACTIVE_PROFILES" value="dev" />
     <option name="VM_PARAMETERS" value="-Xmx2g -Xms512m -XX:+UseG1GC" />
     <method v="2">
@@ -337,7 +337,7 @@ curl http://localhost:8403/actuator/health
       "type": "java",
       "name": "Launch CachingServiceApplication",
       "request": "launch",
-      "mainClass": "com.exalt.caching.CachingServiceApplication",
+      "mainClass": "com.gogidix.caching.CachingServiceApplication",
       "projectName": "caching-service",
       "args": "--spring.profiles.active=dev",
       "vmArgs": "-Xmx2g -Xms512m -XX:+UseG1GC"
@@ -514,7 +514,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: caching-service
-        image: exalt/caching-service:1.0.0
+        image: gogidix/caching-service:1.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8403
@@ -798,7 +798,7 @@ management:
 logging:
   level:
     root: INFO
-    com.exalt.caching: INFO
+    com.gogidix.caching: INFO
     org.springframework.cache: WARN
     redis: WARN
   

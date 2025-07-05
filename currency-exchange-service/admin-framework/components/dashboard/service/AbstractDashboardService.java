@@ -1,4 +1,4 @@
-package com.exalt.shared.shared.admin.components.dashboard.service;
+package com.gogidix.shared.shared.admin.components.dashboard.service;
 
 import com.microsocial.shared.admin.components.dashboard.model.BaseDashboard;
 import com.microsocial.shared.admin.components.dashboard.model.DashboardWidget;

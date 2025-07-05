@@ -242,7 +242,7 @@ public class GitRepositoryConfig {
             .enableAutoCommit(true)
             .commitMessage("Config update via Config Server")
             .authorName("Config Server")
-            .authorEmail("config-server@exalt.com")
+            .authorEmail("config-server@gogidix.com")
             .enableMergeStrategy(MergeStrategy.RECURSIVE)
             .conflictResolution(ConflictResolution.MANUAL)
             .build();
@@ -690,7 +690,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: config-server
-        image: exalt/config-server:1.0.0
+        image: gogidix/config-server:1.0.0
         ports:
         - containerPort: 8404
           name: http

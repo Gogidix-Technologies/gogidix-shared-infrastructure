@@ -1,7 +1,7 @@
-package com.exalt.admin.components.region.service;
+package com.gogidix.admin.components.region.service;
 
-import com.exalt.admin.components.region.model.BaseRegion;
-import com.exalt.admin.components.region.repository.BaseRegionRepository;
+import com.gogidix.admin.components.region.model.BaseRegion;
+import com.gogidix.admin.components.region.repository.BaseRegionRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

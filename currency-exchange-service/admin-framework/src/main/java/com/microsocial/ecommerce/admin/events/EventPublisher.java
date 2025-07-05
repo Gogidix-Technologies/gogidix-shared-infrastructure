@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.events;
+package com.gogidix.shared.ecommerce.admin.events;
 
 /**
  * Interface for publishing events within the admin framework.

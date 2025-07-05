@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.components.region;
+﻿package com.gogidix.shared.ecommerce.admin.components.region;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

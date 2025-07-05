@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.exception;
+package com.gogidix.shared.ecommerce.admin.export.exception;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

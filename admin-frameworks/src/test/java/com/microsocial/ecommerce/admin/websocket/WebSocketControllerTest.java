@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket;
+package com.gogidix.ecommerce.admin.websocket;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 import java.security.Principal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.exalt.ecommerce.admin.websocket.acknowledge.AcknowledgmentService;
+import com.gogidix.ecommerce.admin.websocket.acknowledge.AcknowledgmentService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
-package com.exalt.ecommerce.admin.export.handler.pdf;
+package com.gogidix.ecommerce.admin.export.handler.pdf;
 
-import com.exalt.ecommerce.admin.export.ExportException;
+import com.gogidix.ecommerce.admin.export.ExportException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

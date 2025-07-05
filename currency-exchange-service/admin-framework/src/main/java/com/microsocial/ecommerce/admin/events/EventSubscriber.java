@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.events;
+package com.gogidix.shared.ecommerce.admin.events;
 
 /**
  * Interface for components that want to subscribe to events from the EventPublisher.

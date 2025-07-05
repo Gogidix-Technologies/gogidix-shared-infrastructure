@@ -50,27 +50,27 @@ The Document Verification Service provides automated document validation, verifi
 ### Core Components
 
 #### Document Processing Engine
-- **com.exalt.shared.verification.DocumentProcessor**: Main processing orchestrator
-- **com.exalt.shared.verification.DocumentParser**: Document format parsing
-- **com.exalt.shared.verification.ImagePreprocessor**: Image enhancement and cleanup
-- **com.exalt.shared.verification.DocumentClassifier**: Document type classification
+- **com.gogidix.shared.verification.DocumentProcessor**: Main processing orchestrator
+- **com.gogidix.shared.verification.DocumentParser**: Document format parsing
+- **com.gogidix.shared.verification.ImagePreprocessor**: Image enhancement and cleanup
+- **com.gogidix.shared.verification.DocumentClassifier**: Document type classification
 
 #### OCR and Text Extraction
-- **com.exalt.shared.verification.OcrEngine**: Optical Character Recognition
-- **com.exalt.shared.verification.TextExtractor**: Text extraction and normalization
-- **com.exalt.shared.verification.FieldExtractor**: Structured data extraction
-- **com.exalt.shared.verification.LanguageDetector**: Multi-language support
+- **com.gogidix.shared.verification.OcrEngine**: Optical Character Recognition
+- **com.gogidix.shared.verification.TextExtractor**: Text extraction and normalization
+- **com.gogidix.shared.verification.FieldExtractor**: Structured data extraction
+- **com.gogidix.shared.verification.LanguageDetector**: Multi-language support
 
 #### Validation and Verification
-- **com.exalt.shared.verification.ValidationService**: Core validation logic
-- **com.exalt.shared.verification.RuleEngine**: Business rule processing
-- **com.exalt.shared.verification.ComplianceChecker**: Regulatory compliance validation
-- **com.exalt.shared.verification.FraudDetector**: Fraud and tampering detection
+- **com.gogidix.shared.verification.ValidationService**: Core validation logic
+- **com.gogidix.shared.verification.RuleEngine**: Business rule processing
+- **com.gogidix.shared.verification.ComplianceChecker**: Regulatory compliance validation
+- **com.gogidix.shared.verification.FraudDetector**: Fraud and tampering detection
 
 #### External Integration
-- **com.exalt.shared.verification.ExternalVerificationClient**: Third-party service integration
-- **com.exalt.shared.verification.GovernmentApiClient**: Government database verification
-- **com.exalt.shared.verification.BiometricService**: Biometric verification support
+- **com.gogidix.shared.verification.ExternalVerificationClient**: Third-party service integration
+- **com.gogidix.shared.verification.GovernmentApiClient**: Government database verification
+- **com.gogidix.shared.verification.BiometricService**: Biometric verification support
 
 ### Supporting Components
 

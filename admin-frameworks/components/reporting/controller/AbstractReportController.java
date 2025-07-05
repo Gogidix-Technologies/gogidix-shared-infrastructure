@@ -1,8 +1,8 @@
-package com.exalt.admin.components.reporting.controller;
+package com.gogidix.admin.components.reporting.controller;
 
-import com.exalt.admin.components.reporting.model.BaseReport;
-import com.exalt.admin.components.reporting.service.AbstractReportService;
-import com.exalt.admin.util.ExportFormat;
+import com.gogidix.admin.components.reporting.model.BaseReport;
+import com.gogidix.admin.components.reporting.service.AbstractReportService;
+import com.gogidix.admin.util.ExportFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

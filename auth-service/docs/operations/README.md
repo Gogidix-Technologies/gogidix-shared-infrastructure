@@ -131,7 +131,7 @@ curl -X PUT http://localhost:8083/actuator/auth/rate-limiting \
 curl http://localhost:8083/actuator/auth/failed-logins | jq '.'
 
 # Get failed logins for specific user
-curl "http://localhost:8083/actuator/auth/failed-logins?email=user@exalt.com"
+curl "http://localhost:8083/actuator/auth/failed-logins?email=user@gogidix.com"
 
 # Monitor brute force attempts
 curl http://localhost:8083/actuator/auth/brute-force-attempts
@@ -247,7 +247,7 @@ curl -X PUT http://localhost:8083/api/v1/admin/users/user-id \
   -d '{
     "firstName": "Updated",
     "lastName": "Name",
-    "email": "updated@exalt.com"
+    "email": "updated@gogidix.com"
   }'
 
 # Enable/disable user account
@@ -598,7 +598,7 @@ else
 fi
 
 # Upload to cloud storage (optional)
-aws s3 cp $BACKUP_DIR/auth_db_$DATE.sql.gz s3://exalt-backups/auth-service/
+aws s3 cp $BACKUP_DIR/auth_db_$DATE.sql.gz s3://gogidix-backups/auth-service/
 ```
 
 #### Backup Schedule
@@ -811,7 +811,7 @@ curl "http://localhost:8083/actuator/auth/failed-logins?hours=24" | jq 'length' 
 curl -X POST http://localhost:8083/actuator/auth/sessions/cleanup
 
 # Send report
-mail -s "Auth Service Daily Report" auth-team@exalt.com < /tmp/auth-maintenance.log
+mail -s "Auth Service Daily Report" auth-team@gogidix.com < /tmp/auth-maintenance.log
 ```
 
 #### Weekly Tasks
@@ -880,11 +880,11 @@ psql -h localhost -U authservice -d authservice_db -f rollback-scripts/V2_1__rol
 
 ### Emergency Contacts
 
-- **Primary On-Call**: +1-555-0200 (auth-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0201 (auth-secondary@exalt.com)
-- **Security Team**: security-emergency@exalt.com
-- **DBA Team**: dba-emergency@exalt.com
-- **DevOps Team**: devops-emergency@exalt.com
+- **Primary On-Call**: +1-555-0200 (auth-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0201 (auth-secondary@gogidix.com)
+- **Security Team**: security-emergency@gogidix.com
+- **DBA Team**: dba-emergency@gogidix.com
+- **DevOps Team**: devops-emergency@gogidix.com
 
 ### Escalation Procedures
 

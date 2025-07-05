@@ -40,12 +40,12 @@ To use the Admin Framework, follow these steps:
 
 ### Creating a New Admin Application
 `java
-import com.exalt.admin.core.BaseAdminApplication;
-import com.exalt.admin.core.SecurityConfig;
-import com.exalt.admin.components.reporting.ReportingComponent;
-import com.exalt.admin.components.dashboard.DashboardComponent;
-import com.exalt.admin.components.region.RegionManagement;
-import com.exalt.admin.components.policy.PolicyManagement;
+import com.gogidix.admin.core.BaseAdminApplication;
+import com.gogidix.admin.core.SecurityConfig;
+import com.gogidix.admin.components.reporting.ReportingComponent;
+import com.gogidix.admin.components.dashboard.DashboardComponent;
+import com.gogidix.admin.components.region.RegionManagement;
+import com.gogidix.admin.components.policy.PolicyManagement;
 
 public class MyAdminApplication extends BaseAdminApplication {
     private final SecurityConfig securityConfig;
@@ -70,9 +70,9 @@ public class MyAdminApplication extends BaseAdminApplication {
 
 ### Using the Data Access Layer
 `java
-import com.exalt.admin.dal.Repository;
-import com.exalt.admin.dal.JpaRepository;
-import com.exalt.admin.components.region.Region;
+import com.gogidix.admin.dal.Repository;
+import com.gogidix.admin.dal.JpaRepository;
+import com.gogidix.admin.components.region.Region;
 
 public class RegionService {
     private final Repository<Region> regionRepository;
@@ -102,7 +102,7 @@ public class RegionService {
 
 ### Using the REST Client
 `java
-import com.exalt.admin.integration.RestClient;
+import com.gogidix.admin.integration.RestClient;
 
 public class ExternalService {
     private final RestClient restClient;
@@ -123,7 +123,7 @@ public class ExternalService {
 
 ### Using the Message Broker
 `java
-import com.exalt.admin.integration.MessageBroker;
+import com.gogidix.admin.integration.MessageBroker;
 
 public class NotificationService {
     private final MessageBroker messageBroker;

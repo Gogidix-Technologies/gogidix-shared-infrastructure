@@ -1,6 +1,6 @@
-package com.exalt.admin.components.region.examples;
+package com.gogidix.admin.components.region.examples;
 
-import com.exalt.admin.components.region.controller.AbstractRegionController;
+import com.gogidix.admin.components.region.controller.AbstractRegionController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

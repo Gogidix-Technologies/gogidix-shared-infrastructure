@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket;
+package com.gogidix.ecommerce.admin.websocket;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -15,7 +15,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.exalt.ecommerce.admin.events.Event;
+import com.gogidix.ecommerce.admin.events.Event;
 
 @ExtendWith(MockitoExtension.class)
 public class WebSocketEventPublisherTest {

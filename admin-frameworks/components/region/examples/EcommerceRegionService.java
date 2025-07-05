@@ -1,6 +1,6 @@
-package com.exalt.admin.components.region.examples;
+package com.gogidix.admin.components.region.examples;
 
-import com.exalt.admin.components.region.service.AbstractRegionService;
+import com.gogidix.admin.components.region.service.AbstractRegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

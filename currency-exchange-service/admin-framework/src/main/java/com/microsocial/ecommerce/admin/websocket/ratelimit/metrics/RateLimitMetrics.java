@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.ratelimit.metrics;
+package com.gogidix.shared.ecommerce.admin.websocket.ratelimit.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;

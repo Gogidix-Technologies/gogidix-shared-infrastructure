@@ -45,12 +45,12 @@ To use the API Gateway, follow these steps:
 ### Configuring the API Gateway
 
 ```java
-import com.exalt.gateway.core.GatewayRouter;
-import com.exalt.gateway.core.SecurityConfig;
-import com.exalt.gateway.filters.AuthenticationFilter;
-import com.exalt.gateway.filters.AuthorizationFilter;
-import com.exalt.gateway.filters.RateLimitingFilter;
-import com.exalt.gateway.discovery.ServiceDiscovery;
+import com.gogidix.gateway.core.GatewayRouter;
+import com.gogidix.gateway.core.SecurityConfig;
+import com.gogidix.gateway.filters.AuthenticationFilter;
+import com.gogidix.gateway.filters.AuthorizationFilter;
+import com.gogidix.gateway.filters.RateLimitingFilter;
+import com.gogidix.gateway.discovery.ServiceDiscovery;
 
 @SpringBootApplication
 @EnableGatewayApplication
@@ -105,8 +105,8 @@ public class ApiGatewayApplication {
 ### Custom Authentication Filter
 
 ```java
-import com.exalt.gateway.filters.AuthenticationFilter;
-import com.exalt.gateway.security.JWTProcessor;
+import com.gogidix.gateway.filters.AuthenticationFilter;
+import com.gogidix.gateway.security.JWTProcessor;
 
 @Component
 public class CustomAuthenticationFilter extends AuthenticationFilter {
@@ -168,8 +168,8 @@ public class CustomAuthenticationFilter extends AuthenticationFilter {
 ### Rate Limiting Configuration
 
 ```java
-import com.exalt.gateway.filters.RateLimitingFilter;
-import com.exalt.gateway.ratelimit.RateLimitConfig;
+import com.gogidix.gateway.filters.RateLimitingFilter;
+import com.gogidix.gateway.ratelimit.RateLimitConfig;
 
 @Configuration
 public class RateLimitingConfiguration {
@@ -212,8 +212,8 @@ public class RateLimitingConfiguration {
 ### Circuit Breaker Implementation
 
 ```java
-import com.exalt.gateway.resilience.CircuitBreaker;
-import com.exalt.gateway.resilience.CircuitBreakerConfig;
+import com.gogidix.gateway.resilience.CircuitBreaker;
+import com.gogidix.gateway.resilience.CircuitBreakerConfig;
 
 @Component
 public class ServiceCircuitBreaker {
@@ -260,8 +260,8 @@ public class ServiceCircuitBreaker {
 ### Service Discovery Integration
 
 ```java
-import com.exalt.gateway.discovery.ServiceDiscovery;
-import com.exalt.gateway.discovery.ServiceInstance;
+import com.gogidix.gateway.discovery.ServiceDiscovery;
+import com.gogidix.gateway.discovery.ServiceInstance;
 
 @Service
 public class DynamicRoutingService {

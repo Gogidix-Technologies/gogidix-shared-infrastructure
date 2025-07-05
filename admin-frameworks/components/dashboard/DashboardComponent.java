@@ -1,10 +1,10 @@
-﻿package com.exalt.shared.admin.components.dashboard;
+﻿package com.gogidix.shared.admin.components.dashboard;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import com.exalt.shared.admin.components.dashboard.model.DashboardWidget;
+import com.gogidix.shared.admin.components.dashboard.model.DashboardWidget;
 
 /**
  * Dashboard component for admin applications.

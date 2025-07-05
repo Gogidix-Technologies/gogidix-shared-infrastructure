@@ -1,4 +1,4 @@
-package com.exalt.shared.shared.admin.components.dashboard.model;
+package com.gogidix.shared.shared.admin.components.dashboard.model;
 
 /**
  * Represents the position and size of a widget in the dashboard layout.

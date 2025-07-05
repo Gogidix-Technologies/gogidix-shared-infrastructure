@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.repository;
+package com.gogidix.shared.ecommerce.admin.export.repository;
 
 import com.microsocial.ecommerce.admin.export.model.ExportTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;

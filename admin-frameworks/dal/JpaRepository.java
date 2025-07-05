@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.dal;
+﻿package com.gogidix.shared.ecommerce.admin.dal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

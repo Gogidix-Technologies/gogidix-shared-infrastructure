@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.handler.pdf;
+package com.gogidix.shared.ecommerce.admin.export.handler.pdf;
 
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.colors.Color;

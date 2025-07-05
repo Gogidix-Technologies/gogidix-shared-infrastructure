@@ -48,21 +48,21 @@ The Currency Exchange Service provides real-time currency conversion capabilitie
 ### Core Components
 
 #### Exchange Rate Management
-- **com.exalt.shared.currency.RateProvider**: External rate provider integration
-- **com.exalt.shared.currency.RateCache**: Redis-based rate caching
-- **com.exalt.shared.currency.RateScheduler**: Automatic rate updates
-- **com.exalt.shared.currency.RateValidator**: Rate validation and sanity checks
+- **com.gogidix.shared.currency.RateProvider**: External rate provider integration
+- **com.gogidix.shared.currency.RateCache**: Redis-based rate caching
+- **com.gogidix.shared.currency.RateScheduler**: Automatic rate updates
+- **com.gogidix.shared.currency.RateValidator**: Rate validation and sanity checks
 
 #### Currency Conversion
-- **com.exalt.shared.currency.ConversionService**: Core conversion logic
-- **com.exalt.shared.currency.ConversionController**: REST API endpoints
-- **com.exalt.shared.currency.ConversionCalculator**: Mathematical operations
-- **com.exalt.shared.currency.ConversionHistory**: Transaction history
+- **com.gogidix.shared.currency.ConversionService**: Core conversion logic
+- **com.gogidix.shared.currency.ConversionController**: REST API endpoints
+- **com.gogidix.shared.currency.ConversionCalculator**: Mathematical operations
+- **com.gogidix.shared.currency.ConversionHistory**: Transaction history
 
 #### Regional Support
-- **com.exalt.shared.currency.RegionalRates**: Region-specific rates
-- **com.exalt.shared.currency.CurrencyLocalization**: Locale-aware formatting
-- **com.exalt.shared.currency.RegionalPolicyManager**: Regional currency policies
+- **com.gogidix.shared.currency.RegionalRates**: Region-specific rates
+- **com.gogidix.shared.currency.CurrencyLocalization**: Locale-aware formatting
+- **com.gogidix.shared.currency.RegionalPolicyManager**: Regional currency policies
 
 ### Supporting Components
 

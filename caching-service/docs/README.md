@@ -49,10 +49,10 @@ To use the Caching Service, follow these steps:
 ### Configuring the Caching Service
 
 ```java
-import com.exalt.caching.core.CacheManager;
-import com.exalt.caching.core.CacheConfiguration;
-import com.exalt.caching.strategy.CacheAsideStrategy;
-import com.exalt.caching.redis.RedisClusterManager;
+import com.gogidix.caching.core.CacheManager;
+import com.gogidix.caching.core.CacheConfiguration;
+import com.gogidix.caching.strategy.CacheAsideStrategy;
+import com.gogidix.caching.redis.RedisClusterManager;
 
 @Configuration
 @EnableCaching
@@ -91,7 +91,7 @@ public class CachingServiceConfiguration {
     @Bean
     public CacheKeyGenerator cacheKeyGenerator() {
         return CacheKeyGenerator.builder()
-            .namespace("exalt:cache")
+            .namespace("gogidix:cache")
             .version("v1")
             .includeVersion(true)
             .hashLongKeys(true)
@@ -103,9 +103,9 @@ public class CachingServiceConfiguration {
 ### Cache-Aside Pattern Implementation
 
 ```java
-import com.exalt.caching.annotation.Cacheable;
-import com.exalt.caching.annotation.CacheEvict;
-import com.exalt.caching.annotation.CachePut;
+import com.gogidix.caching.annotation.Cacheable;
+import com.gogidix.caching.annotation.CacheEvict;
+import com.gogidix.caching.annotation.CachePut;
 
 @Service
 public class ProductCacheService {
@@ -175,8 +175,8 @@ public class ProductCacheService {
 ### Advanced Caching Patterns
 
 ```java
-import com.exalt.caching.strategy.RefreshAheadStrategy;
-import com.exalt.caching.warming.CacheWarmingService;
+import com.gogidix.caching.strategy.RefreshAheadStrategy;
+import com.gogidix.caching.warming.CacheWarmingService;
 
 @Service
 public class AdvancedCachingService {
@@ -246,8 +246,8 @@ public class AdvancedCachingService {
 ### Cache Metrics and Monitoring
 
 ```java
-import com.exalt.caching.metrics.CacheMetricsCollector;
-import com.exalt.caching.analytics.CacheAnalytics;
+import com.gogidix.caching.metrics.CacheMetricsCollector;
+import com.gogidix.caching.analytics.CacheAnalytics;
 
 @Service
 public class CacheMonitoringService {
@@ -307,9 +307,9 @@ public class CacheMonitoringService {
 ### Multi-Level Caching
 
 ```java
-import com.exalt.caching.multilevel.MultiLevelCache;
-import com.exalt.caching.local.L1Cache;
-import com.exalt.caching.distributed.L2Cache;
+import com.gogidix.caching.multilevel.MultiLevelCache;
+import com.gogidix.caching.local.L1Cache;
+import com.gogidix.caching.distributed.L2Cache;
 
 @Service
 public class MultiLevelCachingService {
@@ -361,8 +361,8 @@ public class MultiLevelCachingService {
 ### Cache Synchronization and Consistency
 
 ```java
-import com.exalt.caching.sync.CacheReplicationManager;
-import com.exalt.caching.consistency.CacheConsistencyManager;
+import com.gogidix.caching.sync.CacheReplicationManager;
+import com.gogidix.caching.consistency.CacheConsistencyManager;
 
 @Service
 public class CacheSynchronizationService {

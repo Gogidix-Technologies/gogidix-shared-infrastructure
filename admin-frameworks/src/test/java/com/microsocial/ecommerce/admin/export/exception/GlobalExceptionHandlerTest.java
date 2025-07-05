@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.export.exception;
+package com.gogidix.ecommerce.admin.export.exception;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

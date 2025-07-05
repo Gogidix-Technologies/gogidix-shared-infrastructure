@@ -1,4 +1,4 @@
-package com.exalt.ecosystem.shared.adminframeworks;
+package com.gogidix.ecosystem.shared.adminframeworks;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

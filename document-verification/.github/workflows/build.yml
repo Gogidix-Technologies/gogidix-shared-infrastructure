@@ -37,12 +37,12 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t exalt/document-verification:${{ github.sha }} .
-        docker tag exalt/document-verification:${{ github.sha }} exalt/document-verification:latest
+        docker build -t gogidix/document-verification:${{ github.sha }} .
+        docker tag gogidix/document-verification:${{ github.sha }} gogidix/document-verification:latest
 
     - name: Test Docker image
       run: |
-        docker run -d --name test-document-verification -p 8085:8085 exalt/document-verification:latest
+        docker run -d --name test-document-verification -p 8085:8085 gogidix/document-verification:latest
         sleep 20
         curl -f http://localhost:8085/actuator/health || exit 1
         docker stop test-document-verification

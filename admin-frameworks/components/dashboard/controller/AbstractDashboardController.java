@@ -1,8 +1,8 @@
-package com.exalt.shared.admin.components.dashboard.controller;
+package com.gogidix.shared.admin.components.dashboard.controller;
 
-import com.exalt.shared.admin.components.dashboard.model.BaseDashboard;
-import com.exalt.shared.admin.components.dashboard.model.DashboardWidget;
-import com.exalt.shared.admin.components.dashboard.service.AbstractDashboardService;
+import com.gogidix.shared.admin.components.dashboard.model.BaseDashboard;
+import com.gogidix.shared.admin.components.dashboard.model.DashboardWidget;
+import com.gogidix.shared.admin.components.dashboard.service.AbstractDashboardService;
 
 import java.util.List;
 import java.util.UUID;

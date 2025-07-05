@@ -1,4 +1,4 @@
-package com.exalt.shared.apigateway.util;
+package com.gogidix.shared.apigateway.util;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

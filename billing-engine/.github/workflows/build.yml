@@ -37,12 +37,12 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t exalt/billing-engine:${{ github.sha }} .
-        docker tag exalt/billing-engine:${{ github.sha }} exalt/billing-engine:latest
+        docker build -t gogidix/billing-engine:${{ github.sha }} .
+        docker tag gogidix/billing-engine:${{ github.sha }} gogidix/billing-engine:latest
 
     - name: Test Docker image
       run: |
-        docker run -d --name test-billing-engine -p 8080:8080 exalt/billing-engine:latest
+        docker run -d --name test-billing-engine -p 8080:8080 gogidix/billing-engine:latest
         sleep 10
         curl -f http://localhost:8080/health || exit 1
         docker stop test-billing-engine

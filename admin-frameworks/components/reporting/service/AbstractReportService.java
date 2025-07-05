@@ -1,7 +1,7 @@
-package com.exalt.admin.components.reporting.service;
+package com.gogidix.admin.components.reporting.service;
 
-import com.exalt.admin.components.reporting.model.BaseReport;
-import com.exalt.admin.util.ExportFormat;
+import com.gogidix.admin.components.reporting.model.BaseReport;
+import com.gogidix.admin.util.ExportFormat;
 
 import java.time.LocalDate;
 import java.util.List;

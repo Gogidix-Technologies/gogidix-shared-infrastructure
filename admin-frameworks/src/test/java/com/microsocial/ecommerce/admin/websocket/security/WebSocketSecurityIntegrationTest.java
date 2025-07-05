@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket.security;
+package com.gogidix.ecommerce.admin.websocket.security;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

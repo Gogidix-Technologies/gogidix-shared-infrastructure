@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export;
+package com.gogidix.shared.ecommerce.admin.export;
 
 /**
  * Exception thrown when an error occurs during export operations.

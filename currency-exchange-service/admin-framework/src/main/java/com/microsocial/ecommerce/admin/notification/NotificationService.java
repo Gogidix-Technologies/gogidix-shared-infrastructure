@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.notification;
+package com.gogidix.shared.ecommerce.admin.notification;
 
 import java.util.Map;
 

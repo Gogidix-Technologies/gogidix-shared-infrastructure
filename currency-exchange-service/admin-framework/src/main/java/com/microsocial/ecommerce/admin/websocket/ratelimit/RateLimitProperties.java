@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.ratelimit;
+package com.gogidix.shared.ecommerce.admin.websocket.ratelimit;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

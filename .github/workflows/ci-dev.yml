@@ -7,9 +7,9 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  EKS_CLUSTER_NAME: exalt-dev-cluster
+  EKS_CLUSTER_NAME: gogidix-dev-cluster
   EUREKA_URL: http://localhost:8761
-  NAMESPACE: exalt-dev
+  NAMESPACE: gogidix-dev
 
 jobs:
   build-and-test:

@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket.acknowledge;
+package com.gogidix.ecommerce.admin.websocket.acknowledge;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

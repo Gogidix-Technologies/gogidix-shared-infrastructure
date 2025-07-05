@@ -602,7 +602,7 @@ artillery run tests/load/concurrent-users.yml
 
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="/backup/billing"
-S3_BUCKET="exalt-billing-backups"
+S3_BUCKET="gogidix-billing-backups"
 
 # Create backup directory
 mkdir -p $BACKUP_DIR
@@ -832,7 +832,7 @@ curl -X POST http://localhost:3401/admin/webhooks/cleanup \
   -H "Authorization: Bearer $ADMIN_TOKEN"
 
 # Send report
-mail -s "Billing Engine Daily Report" billing-ops@exalt.com < /tmp/billing-maintenance.log
+mail -s "Billing Engine Daily Report" billing-ops@gogidix.com < /tmp/billing-maintenance.log
 ```
 
 #### Weekly Tasks
@@ -848,7 +848,7 @@ curl -X POST http://localhost:3401/admin/exchange-rates/update \
 # Generate revenue report
 curl -X POST http://localhost:3401/api/v1/reports/weekly-revenue \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
-  -d '{"email": "finance@exalt.com"}'
+  -d '{"email": "finance@gogidix.com"}'
 
 # Clean up old invoices
 curl -X POST http://localhost:3401/admin/invoices/archive \
@@ -932,11 +932,11 @@ curl -X POST http://localhost:3401/admin/emergency/export-all \
 
 ### Contact Information
 
-- **Primary On-Call**: +1-555-0300 (billing-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0301 (billing-secondary@exalt.com)
-- **Finance Team**: finance-emergency@exalt.com
-- **Security Team**: security-emergency@exalt.com
-- **Database Team**: dba-emergency@exalt.com
+- **Primary On-Call**: +1-555-0300 (billing-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0301 (billing-secondary@gogidix.com)
+- **Finance Team**: finance-emergency@gogidix.com
+- **Security Team**: security-emergency@gogidix.com
+- **Database Team**: dba-emergency@gogidix.com
 
 ---
 

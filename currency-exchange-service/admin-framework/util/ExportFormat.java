@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.util;
+package com.gogidix.shared.admin.util;
 
 /**
  * Enum representing the available export formats for reports and data.

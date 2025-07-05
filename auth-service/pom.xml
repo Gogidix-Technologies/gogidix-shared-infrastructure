@@ -14,7 +14,7 @@
     </parent>
 
     <!-- Service Identity -->
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>auth-service</artifactId>
     <version>1.0.0</version>
     <name>auth-service</name>

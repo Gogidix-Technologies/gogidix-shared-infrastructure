@@ -104,7 +104,7 @@ sudo yum install -y nodejs
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/currency-exchange-service
 ```
 
@@ -321,11 +321,11 @@ kubectl logs -f deployment/currency-exchange-service -n shared-infrastructure
 
 ```bash
 # Add Helm repository
-helm repo add exalt https://charts.exalt.com
+helm repo add gogidix https://charts.gogidix.com
 helm repo update
 
 # Install the chart
-helm install currency-exchange-service exalt/currency-exchange-service \
+helm install currency-exchange-service gogidix/currency-exchange-service \
   --namespace shared-infrastructure \
   --set image.tag=latest \
   --set service.port=3402
@@ -554,4 +554,4 @@ redis-cli CONFIG SET maxmemory-policy allkeys-lru
 - **API Reference**: `http://localhost:3402/docs`
 - **Issues**: GitHub Issues
 - **Team Chat**: Slack #currency-exchange
-- **Email**: currency-team@exalt.com
+- **Email**: currency-team@gogidix.com

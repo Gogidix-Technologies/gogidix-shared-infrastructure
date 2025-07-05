@@ -1,4 +1,4 @@
-﻿package com.exalt.ecommerce.admin.components.reporting;
+﻿package com.gogidix.ecommerce.admin.components.reporting;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

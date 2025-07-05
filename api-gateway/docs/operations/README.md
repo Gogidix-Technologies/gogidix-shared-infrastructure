@@ -171,7 +171,7 @@ openssl x509 -in /etc/ssl/certs/api-gateway.crt -noout -dates
 openssl verify -CAfile /etc/ssl/ca-bundle.crt /etc/ssl/certs/api-gateway.crt
 
 # Test SSL connectivity
-openssl s_client -connect api.exalt.com:443 -servername api.exalt.com
+openssl s_client -connect api.gogidix.com:443 -servername api.gogidix.com
 
 # Update certificate (zero-downtime)
 kubectl create secret tls api-gateway-tls-new \
@@ -192,7 +192,7 @@ curl http://localhost:8080/actuator/configprops | grep cors
 
 # Test CORS preflight request
 curl -X OPTIONS http://localhost:8080/api/v1/test \
-  -H "Origin: https://app.exalt.com" \
+  -H "Origin: https://app.gogidix.com" \
   -H "Access-Control-Request-Method: POST" \
   -H "Access-Control-Request-Headers: Authorization,Content-Type"
 
@@ -200,7 +200,7 @@ curl -X OPTIONS http://localhost:8080/api/v1/test \
 curl -X PUT http://localhost:8080/actuator/cors/config \
   -H "Content-Type: application/json" \
   -d '{
-    "allowedOrigins": ["https://app.exalt.com", "https://admin.exalt.com"],
+    "allowedOrigins": ["https://app.gogidix.com", "https://admin.gogidix.com"],
     "allowedMethods": ["GET", "POST", "PUT", "DELETE"],
     "maxAge": 3600
   }'
@@ -719,7 +719,7 @@ openssl x509 -in /etc/ssl/certs/api-gateway.crt -noout -dates >> /tmp/gateway-ma
 df -h >> /tmp/gateway-maintenance.log
 
 # Send report
-mail -s "API Gateway Daily Report" gateway-team@exalt.com < /tmp/gateway-maintenance.log
+mail -s "API Gateway Daily Report" gateway-team@gogidix.com < /tmp/gateway-maintenance.log
 ```
 
 #### Weekly Tasks
@@ -846,10 +846,10 @@ kubectl patch service api-gateway \
 
 ### Emergency Contacts
 
-- **Primary On-Call**: +1-555-0100 (gateway-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0101 (gateway-secondary@exalt.com)
-- **Security Team**: security-emergency@exalt.com
-- **DevOps Team**: devops-emergency@exalt.com
+- **Primary On-Call**: +1-555-0100 (gateway-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0101 (gateway-secondary@gogidix.com)
+- **Security Team**: security-emergency@gogidix.com
+- **DevOps Team**: devops-emergency@gogidix.com
 
 ---
 

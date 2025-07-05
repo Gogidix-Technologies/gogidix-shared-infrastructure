@@ -49,10 +49,10 @@ To use the Feature Flag Service, follow these steps:
 ### Basic Feature Flag Service Setup
 
 ```javascript
-import { FeatureFlagService } from '@exalt/feature-flag-service';
-import { RedisCache } from '@exalt/cache-manager';
-import { PostgreSQLStore } from '@exalt/data-store';
-import { RuleEngine } from '@exalt/rule-engine';
+import { FeatureFlagService } from '@gogidix/feature-flag-service';
+import { RedisCache } from '@gogidix/cache-manager';
+import { PostgreSQLStore } from '@gogidix/data-store';
+import { RuleEngine } from '@gogidix/rule-engine';
 
 class FeatureFlagServiceApplication {
     constructor() {
@@ -433,7 +433,7 @@ const updateFlagTargeting = async (flagKey, newRules) => {
             enabled: true,
             rules: newRules,
             lastModified: new Date().toISOString(),
-            modifiedBy: 'admin@exalt.com'
+            modifiedBy: 'admin@gogidix.com'
         }
     });
     
@@ -555,11 +555,11 @@ const getExperimentResults = async (experimentKey) => {
 
 ```javascript
 // Browser SDK integration
-import { FeatureFlagClient } from '@exalt/feature-flag-client';
+import { FeatureFlagClient } from '@gogidix/feature-flag-client';
 
 const flagClient = new FeatureFlagClient({
     apiKey: 'your-client-api-key',
-    baseUrl: 'https://feature-flags.exalt.com',
+    baseUrl: 'https://feature-flags.gogidix.com',
     environment: 'production',
     
     // User context

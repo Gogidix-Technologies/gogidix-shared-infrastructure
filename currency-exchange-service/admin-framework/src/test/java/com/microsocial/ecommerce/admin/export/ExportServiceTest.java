@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export;
+package com.gogidix.shared.ecommerce.admin.export;
 
 import com.microsocial.ecommerce.admin.export.handler.CsvExportHandler;
 import org.junit.jupiter.api.BeforeEach;

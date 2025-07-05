@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket;
+package com.gogidix.ecommerce.admin.websocket;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,8 +27,8 @@ import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.exalt.ecommerce.admin.config.TestWebSocketConfig;
-import com.exalt.ecommerce.admin.events.Event;
+import com.gogidix.ecommerce.admin.config.TestWebSocketConfig;
+import com.gogidix.ecommerce.admin.events.Event;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebSocketIntegrationTest {

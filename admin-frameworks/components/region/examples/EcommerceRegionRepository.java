@@ -1,7 +1,7 @@
-package com.exalt.admin.components.region.examples;
+package com.gogidix.admin.components.region.examples;
 
-import com.exalt.admin.components.region.model.BaseRegion;
-import com.exalt.admin.components.region.repository.BaseRegionRepository;
+import com.gogidix.admin.components.region.model.BaseRegion;
+import com.gogidix.admin.components.region.repository.BaseRegionRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

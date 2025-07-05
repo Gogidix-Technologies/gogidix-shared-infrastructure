@@ -1,6 +1,6 @@
-package com.exalt.admin.components.region.repository;
+package com.gogidix.admin.components.region.repository;
 
-import com.exalt.admin.components.region.model.BaseRegion;
+import com.gogidix.admin.components.region.model.BaseRegion;
 
 import java.util.List;
 import java.util.Optional;

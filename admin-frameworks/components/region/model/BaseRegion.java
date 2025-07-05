@@ -1,4 +1,4 @@
-package com.exalt.admin.components.region.model;
+package com.gogidix.admin.components.region.model;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.validation;
+package com.gogidix.shared.ecommerce.admin.validation;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.admin.core;
+﻿package com.gogidix.shared.admin.core;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

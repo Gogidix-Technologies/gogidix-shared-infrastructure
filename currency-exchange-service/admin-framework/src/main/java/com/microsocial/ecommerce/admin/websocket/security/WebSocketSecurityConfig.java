@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.security;
+package com.gogidix.shared.ecommerce.admin.websocket.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

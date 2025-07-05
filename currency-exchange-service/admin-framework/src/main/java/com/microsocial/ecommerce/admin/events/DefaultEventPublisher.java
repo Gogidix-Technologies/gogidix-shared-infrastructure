@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.events;
+package com.gogidix.shared.ecommerce.admin.events;
 
 import java.util.ArrayList;
 import java.util.List;

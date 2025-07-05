@@ -559,7 +559,7 @@ curl http://localhost:3402/api/v1/cache/stats >> /tmp/maintenance.log
 tail -100 /var/log/currency-exchange/service.log | grep ERROR >> /tmp/maintenance.log
 
 # Send report
-mail -s "Currency Exchange Daily Report" currency-team@exalt.com < /tmp/maintenance.log
+mail -s "Currency Exchange Daily Report" currency-team@gogidix.com < /tmp/maintenance.log
 ```
 
 #### Weekly Tasks
@@ -626,10 +626,10 @@ kubectl rollout undo deployment/currency-exchange-service -n shared-infrastructu
 
 ### Emergency Contacts
 
-- **Primary On-Call**: +1-555-0125 (currency-team-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0126 (currency-team-secondary@exalt.com)
-- **DevOps Team**: devops-emergency@exalt.com
-- **External Provider Support**: provider-support@exalt.com
+- **Primary On-Call**: +1-555-0125 (currency-team-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0126 (currency-team-secondary@gogidix.com)
+- **DevOps Team**: devops-emergency@gogidix.com
+- **External Provider Support**: provider-support@gogidix.com
 
 ## Compliance and Auditing
 

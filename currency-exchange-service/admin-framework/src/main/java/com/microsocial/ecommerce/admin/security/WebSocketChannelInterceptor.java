@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.security;
+package com.gogidix.shared.ecommerce.admin.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

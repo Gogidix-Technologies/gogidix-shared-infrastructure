@@ -190,7 +190,7 @@ redis-cli ping
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/auth-service
 ```
 
@@ -229,8 +229,8 @@ REDIS_DATABASE=0
 JWT_SECRET=your-256-bit-secret-key-change-this-in-production
 JWT_EXPIRATION_ACCESS=3600
 JWT_EXPIRATION_REFRESH=2592000
-JWT_ISSUER=auth.exalt.com
-JWT_AUDIENCE=exalt-services
+JWT_ISSUER=auth.gogidix.com
+JWT_AUDIENCE=gogidix-services
 
 # Password Policy
 PASSWORD_MIN_LENGTH=8
@@ -245,14 +245,14 @@ ACCOUNT_LOCKOUT_DURATION=1800
 SESSION_TIMEOUT=28800
 
 # MFA Configuration
-MFA_TOTP_ISSUER=Exalt E-commerce
+MFA_TOTP_ISSUER=Gogidix E-commerce
 MFA_SMS_ENABLED=false
 MFA_EMAIL_ENABLED=true
 
 # External Services (Optional)
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USERNAME=your-email@exalt.com
+SMTP_USERNAME=your-email@gogidix.com
 SMTP_PASSWORD=your-app-password
 SMTP_TLS_ENABLED=true
 
@@ -458,8 +458,8 @@ security:
     expiration:
       access-token: ${JWT_EXPIRATION_ACCESS:3600}    # 1 hour
       refresh-token: ${JWT_EXPIRATION_REFRESH:2592000} # 30 days
-    issuer: ${JWT_ISSUER:auth.exalt.com}
-    audience: ${JWT_AUDIENCE:exalt-services}
+    issuer: ${JWT_ISSUER:auth.gogidix.com}
+    audience: ${JWT_AUDIENCE:gogidix-services}
     
   password-policy:
     min-length: ${PASSWORD_MIN_LENGTH:8}
@@ -508,8 +508,8 @@ cors:
   allowed-origins:
     - http://localhost:3000
     - http://localhost:3001
-    - https://app.exalt.com
-    - https://admin.exalt.com
+    - https://app.gogidix.com
+    - https://admin.gogidix.com
   allowed-methods:
     - GET
     - POST
@@ -670,7 +670,7 @@ kubectl create secret generic jwt-secret \
 
 # Create email credentials secret
 kubectl create secret generic email-secret \
-  --from-literal=username=your-email@exalt.com \
+  --from-literal=username=your-email@gogidix.com \
   --from-literal=password=your-app-password \
   -n auth-service
 ```
@@ -834,10 +834,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - auth.exalt.com
+    - auth.gogidix.com
     secretName: auth-service-tls
   rules:
-  - host: auth.exalt.com
+  - host: auth.gogidix.com
     http:
       paths:
       - path: /
@@ -875,7 +875,7 @@ kubectl port-forward service/auth-service 8083:8083 -n auth-service
 ```bash
 # For development - self-signed certificate
 openssl req -x509 -newkey rsa:2048 -keyout auth-service.key -out auth-service.crt -days 365 -nodes \
-  -subj "/CN=auth.exalt.com/O=Exalt/C=US"
+  -subj "/CN=auth.gogidix.com/O=Gogidix/C=US"
 
 # Create PKCS12 keystore
 openssl pkcs12 -export -in auth-service.crt -inkey auth-service.key -out auth-service.p12 -name auth-service
@@ -1037,7 +1037,7 @@ curl -X POST http://localhost:8083/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "username": "testuser",
-    "email": "test@exalt.com",
+    "email": "test@gogidix.com",
     "password": "TestPass123!",
     "firstName": "Test",
     "lastName": "User"
@@ -1047,7 +1047,7 @@ curl -X POST http://localhost:8083/api/v1/auth/register \
 curl -X POST http://localhost:8083/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "test@exalt.com",
+    "email": "test@gogidix.com",
     "password": "TestPass123!"
   }'
 
@@ -1252,7 +1252,7 @@ curl http://localhost:8083/actuator/metrics/jdbc.connections.active
 - **Metrics**: `http://localhost:8083/actuator/metrics`
 - **Health Checks**: `http://localhost:8083/actuator/health`
 - **Issues**: GitHub Issues
-- **Team Contact**: auth-team@exalt.com
+- **Team Contact**: auth-team@gogidix.com
 
 ---
 

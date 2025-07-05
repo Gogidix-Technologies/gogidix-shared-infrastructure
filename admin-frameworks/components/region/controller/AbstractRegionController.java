@@ -1,7 +1,7 @@
-package com.exalt.admin.components.region.controller;
+package com.gogidix.admin.components.region.controller;
 
-import com.exalt.admin.components.region.model.BaseRegion;
-import com.exalt.admin.components.region.service.AbstractRegionService;
+import com.gogidix.admin.components.region.model.BaseRegion;
+import com.gogidix.admin.components.region.service.AbstractRegionService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

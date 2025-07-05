@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.security;
+package com.gogidix.shared.ecommerce.admin.websocket.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

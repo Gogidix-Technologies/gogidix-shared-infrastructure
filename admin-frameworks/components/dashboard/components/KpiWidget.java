@@ -1,6 +1,6 @@
-package com.exalt.shared.admin.components.dashboard.components;
+package com.gogidix.shared.admin.components.dashboard.components;
 
-import com.exalt.shared.admin.components.dashboard.model.DashboardWidget;
+import com.gogidix.shared.admin.components.dashboard.model.DashboardWidget;
 
 import java.util.HashMap;
 import java.util.Map;

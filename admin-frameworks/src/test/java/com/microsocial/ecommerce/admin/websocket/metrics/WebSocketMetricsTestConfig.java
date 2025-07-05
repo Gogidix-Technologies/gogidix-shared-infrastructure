@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket.metrics;
+package com.gogidix.ecommerce.admin.websocket.metrics;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;

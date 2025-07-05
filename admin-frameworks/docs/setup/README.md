@@ -102,7 +102,7 @@ sudo yum install java-17-openjdk-devel
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/admin-frameworks
 ```
 
@@ -269,11 +269,11 @@ kubectl logs -f deployment/admin-frameworks -n shared-infrastructure
 
 ```bash
 # Add Helm repository
-helm repo add exalt https://charts.exalt.com
+helm repo add gogidix https://charts.gogidix.com
 helm repo update
 
 # Install the chart
-helm install admin-frameworks exalt/admin-frameworks \
+helm install admin-frameworks gogidix/admin-frameworks \
   --namespace shared-infrastructure \
   --set image.tag=latest \
   --set service.port=8400
@@ -450,7 +450,7 @@ export LOG_LEVEL=DEBUG
 # Or in application.yml
 logging:
   level:
-    com.exalt.admin: DEBUG
+    com.gogidix.admin: DEBUG
     org.springframework.security: DEBUG
 ```
 
@@ -482,4 +482,4 @@ export JAVA_OPTS="
 - **API Reference**: `http://localhost:8400/swagger-ui.html`
 - **Issues**: GitHub Issues
 - **Team Chat**: Slack #admin-frameworks
-- **Email**: admin-team@exalt.com
+- **Email**: admin-team@gogidix.com

@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.controller;
+package com.gogidix.shared.ecommerce.admin.export.controller;
 
 import com.microsocial.ecommerce.admin.export.model.ExportTemplate;
 import com.microsocial.ecommerce.admin.export.service.ExportTemplateService;

@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.model;
+package com.gogidix.shared.ecommerce.admin.export.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

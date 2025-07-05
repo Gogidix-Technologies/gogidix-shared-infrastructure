@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.integration.dashboard;
+package com.gogidix.shared.ecommerce.admin.integration.dashboard;
 
 import java.net.URI;
 import java.net.http.HttpRequest;

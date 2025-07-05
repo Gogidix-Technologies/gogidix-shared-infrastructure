@@ -49,11 +49,11 @@ To use the Document Verification Service, follow these steps:
 ### Basic Document Verification Setup
 
 ```java
-import com.exalt.document.verification.DocumentVerificationService;
-import com.exalt.document.verification.config.VerificationConfig;
-import com.exalt.document.verification.providers.PassportVerificationProvider;
-import com.exalt.document.verification.ocr.OCRProcessor;
-import com.exalt.document.verification.security.EncryptionService;
+import com.gogidix.document.verification.DocumentVerificationService;
+import com.gogidix.document.verification.config.VerificationConfig;
+import com.gogidix.document.verification.providers.PassportVerificationProvider;
+import com.gogidix.document.verification.ocr.OCRProcessor;
+import com.gogidix.document.verification.security.EncryptionService;
 
 @Configuration
 @EnableDocumentVerification
@@ -158,10 +158,10 @@ public class DocumentVerificationConfig {
 ### Document Verification Workflow
 
 ```java
-import com.exalt.document.verification.model.DocumentVerificationRequest;
-import com.exalt.document.verification.model.DocumentVerificationResult;
-import com.exalt.document.verification.model.DocumentType;
-import com.exalt.document.verification.service.DocumentVerificationService;
+import com.gogidix.document.verification.model.DocumentVerificationRequest;
+import com.gogidix.document.verification.model.DocumentVerificationResult;
+import com.gogidix.document.verification.model.DocumentType;
+import com.gogidix.document.verification.service.DocumentVerificationService;
 
 @Service
 @Transactional
@@ -360,9 +360,9 @@ public class DocumentVerificationWorkflow {
 ### Identity Verification Engine
 
 ```java
-import com.exalt.document.verification.identity.IdentityVerificationEngine;
-import com.exalt.document.verification.biometric.BiometricMatcher;
-import com.exalt.document.verification.compliance.KYCChecker;
+import com.gogidix.document.verification.identity.IdentityVerificationEngine;
+import com.gogidix.document.verification.biometric.BiometricMatcher;
+import com.gogidix.document.verification.compliance.KYCChecker;
 
 @Service
 public class IdentityVerificationService {
@@ -564,9 +564,9 @@ public class IdentityVerificationService {
 ### OCR and Document Processing
 
 ```java
-import com.exalt.document.verification.ocr.OCRProcessor;
-import com.exalt.document.verification.image.ImageProcessor;
-import com.exalt.document.verification.parsing.DocumentParser;
+import com.gogidix.document.verification.ocr.OCRProcessor;
+import com.gogidix.document.verification.image.ImageProcessor;
+import com.gogidix.document.verification.parsing.DocumentParser;
 
 @Service
 public class DocumentProcessingService {

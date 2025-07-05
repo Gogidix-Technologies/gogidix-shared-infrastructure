@@ -101,7 +101,7 @@ document:
 logging:
   level:
     root: INFO
-    com.exalt.verification: INFO
+    com.gogidix.verification: INFO
   file:
     name: /var/log/document-verification/application.log
     max-file-size: 100MB
@@ -665,7 +665,7 @@ find /var/tmp/document-processing -name "*.tmp" -mtime +1 -delete
 tail -100 /var/log/document-verification/application.log | grep ERROR >> /tmp/maintenance.log
 
 # Send report
-mail -s "Document Verification Daily Report" verification-team@exalt.com < /tmp/maintenance.log
+mail -s "Document Verification Daily Report" verification-team@gogidix.com < /tmp/maintenance.log
 ```
 
 #### Weekly Tasks
@@ -736,11 +736,11 @@ kubectl rollout undo deployment/document-verification -n shared-infrastructure
 
 ### Emergency Contacts
 
-- **Primary On-Call**: +1-555-0127 (verification-team-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0128 (verification-team-secondary@exalt.com)
-- **ML Team**: ml-team@exalt.com
-- **Security Team**: security-emergency@exalt.com
-- **Data Protection Officer**: dpo@exalt.com
+- **Primary On-Call**: +1-555-0127 (verification-team-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0128 (verification-team-secondary@gogidix.com)
+- **ML Team**: ml-team@gogidix.com
+- **Security Team**: security-emergency@gogidix.com
+- **Data Protection Officer**: dpo@gogidix.com
 
 ## Compliance and Auditing
 

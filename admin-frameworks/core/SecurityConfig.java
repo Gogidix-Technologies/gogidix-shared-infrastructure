@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.core;
+﻿package com.gogidix.shared.ecommerce.admin.core;
 
 import java.util.Arrays;
 import java.util.List;

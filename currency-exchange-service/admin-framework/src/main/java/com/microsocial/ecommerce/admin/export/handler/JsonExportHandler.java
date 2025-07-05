@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.handler;
+package com.gogidix.shared.ecommerce.admin.export.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

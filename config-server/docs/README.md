@@ -49,10 +49,10 @@ To use the Config Server, follow these steps:
 ### Configuring the Config Server
 
 ```java
-import com.exalt.config.core.ConfigServerApplication;
-import com.exalt.config.repository.GitConfigRepository;
-import com.exalt.config.security.ConfigSecurityConfig;
-import com.exalt.config.encryption.EncryptionService;
+import com.gogidix.config.core.ConfigServerApplication;
+import com.gogidix.config.repository.GitConfigRepository;
+import com.gogidix.config.security.ConfigSecurityConfig;
+import com.gogidix.config.encryption.EncryptionService;
 
 @SpringBootApplication
 @EnableConfigServer
@@ -128,7 +128,7 @@ management:
 logging:
   level:
     root: INFO
-    com.exalt: DEBUG
+    com.gogidix: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"
 
@@ -215,7 +215,7 @@ spring:
 logging:
   level:
     root: DEBUG
-    com.exalt: DEBUG
+    com.gogidix: DEBUG
     org.springframework: DEBUG
 
 ---
@@ -234,7 +234,7 @@ spring:
 logging:
   level:
     root: INFO
-    com.exalt: DEBUG
+    com.gogidix: DEBUG
 
 ---
 # config-repo/application-production.yml
@@ -255,7 +255,7 @@ spring:
 logging:
   level:
     root: INFO
-    com.exalt: WARN
+    com.gogidix: WARN
 
 security:
   require-ssl: true
@@ -265,8 +265,8 @@ security:
 ### Client Configuration
 
 ```java
-import com.exalt.config.client.ConfigClientBootstrap;
-import com.exalt.config.client.RefreshScope;
+import com.gogidix.config.client.ConfigClientBootstrap;
+import com.gogidix.config.client.RefreshScope;
 
 @SpringBootApplication
 @EnableConfigurationProperties
@@ -333,8 +333,8 @@ public class ClientApplication {
 ### Dynamic Configuration Refresh
 
 ```java
-import com.exalt.config.refresh.ConfigRefreshService;
-import com.exalt.config.client.ConfigurationUpdateEvent;
+import com.gogidix.config.refresh.ConfigRefreshService;
+import com.gogidix.config.client.ConfigurationUpdateEvent;
 
 @Service
 public class DynamicConfigurationService {
@@ -391,8 +391,8 @@ public class DynamicConfigurationService {
 ### Configuration Encryption
 
 ```java
-import com.exalt.config.encryption.PropertyEncryption;
-import com.exalt.config.encryption.ConfigEncryptionService;
+import com.gogidix.config.encryption.PropertyEncryption;
+import com.gogidix.config.encryption.ConfigEncryptionService;
 
 @Service
 public class ConfigurationEncryptionService {
@@ -436,8 +436,8 @@ public class ConfigurationEncryptionService {
 ### Configuration Profiles Management
 
 ```java
-import com.exalt.config.profile.ProfileResolver;
-import com.exalt.config.profile.EnvironmentConfigProvider;
+import com.gogidix.config.profile.ProfileResolver;
+import com.gogidix.config.profile.EnvironmentConfigProvider;
 
 @Service
 public class ConfigProfileService {
@@ -493,8 +493,8 @@ public class ConfigProfileService {
 ### Configuration Monitoring and Auditing
 
 ```java
-import com.exalt.config.audit.ConfigAuditService;
-import com.exalt.config.monitoring.ConfigMonitoringService;
+import com.gogidix.config.audit.ConfigAuditService;
+import com.gogidix.config.monitoring.ConfigMonitoringService;
 
 @Service
 public class ConfigAuditAndMonitoringService {

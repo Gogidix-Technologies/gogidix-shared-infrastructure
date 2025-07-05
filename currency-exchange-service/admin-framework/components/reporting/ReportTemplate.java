@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.components.reporting;
+﻿package com.gogidix.shared.ecommerce.admin.components.reporting;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

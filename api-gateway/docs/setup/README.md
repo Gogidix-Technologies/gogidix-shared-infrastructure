@@ -114,7 +114,7 @@ sudo yum install java-17-openjdk-devel maven
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/api-gateway
 ```
 
@@ -466,10 +466,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - api.exalt.com
+    - api.gogidix.com
     secretName: api-gateway-tls
   rules:
-  - host: api.exalt.com
+  - host: api.gogidix.com
     http:
       paths:
       - path: /
@@ -504,21 +504,21 @@ kubectl port-forward service/api-gateway 8080:80 -n api-gateway
 
 ```bash
 # Add Helm repository
-helm repo add exalt https://charts.exalt.com
+helm repo add gogidix https://charts.gogidix.com
 helm repo update
 
 # Install with custom values
-helm install api-gateway exalt/api-gateway \
+helm install api-gateway gogidix/api-gateway \
   --namespace api-gateway \
   --create-namespace \
   --set image.tag=latest \
   --set replicaCount=3 \
   --set ingress.enabled=true \
-  --set ingress.hostname=api.exalt.com \
+  --set ingress.hostname=api.gogidix.com \
   --set ssl.enabled=true
 
 # Upgrade deployment
-helm upgrade api-gateway exalt/api-gateway \
+helm upgrade api-gateway gogidix/api-gateway \
   --namespace api-gateway \
   --set image.tag=v1.1.0
 
@@ -536,8 +536,8 @@ security:
   jwt:
     secret: ${JWT_SECRET}
     expiration: 3600
-    issuer: "api-gateway.exalt.com"
-    audience: "exalt-services"
+    issuer: "api-gateway.gogidix.com"
+    audience: "gogidix-services"
     
   authentication:
     exclude-paths:
@@ -561,9 +561,9 @@ security:
 ```yaml
 cors:
   allowed-origins:
-    - "https://app.exalt.com"
-    - "https://admin.exalt.com"
-    - "https://mobile.exalt.com"
+    - "https://app.gogidix.com"
+    - "https://admin.gogidix.com"
+    - "https://mobile.gogidix.com"
   allowed-methods:
     - GET
     - POST
@@ -614,7 +614,7 @@ rate-limiting:
 ```bash
 # For development - self-signed certificate
 openssl req -x509 -newkey rsa:2048 -keyout api-gateway.key -out api-gateway.crt -days 365 -nodes \
-  -subj "/CN=localhost/O=Exalt/C=US"
+  -subj "/CN=localhost/O=Gogidix/C=US"
 
 # Create PKCS12 keystore
 openssl pkcs12 -export -in api-gateway.crt -inkey api-gateway.key -out api-gateway.p12 -name api-gateway
@@ -878,4 +878,4 @@ curl http://localhost:8080/actuator/metrics/gateway.requests
 - **Health**: `http://localhost:8080/actuator/health`
 - **Issues**: GitHub Issues
 - **Team Chat**: Slack #api-gateway
-- **Email**: gateway-team@exalt.com
+- **Email**: gateway-team@gogidix.com

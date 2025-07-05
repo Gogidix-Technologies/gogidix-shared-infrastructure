@@ -45,12 +45,12 @@ To use the Authentication Service, follow these steps:
 ### Configuring the Authentication Service
 
 ```java
-import com.exalt.auth.core.AuthenticationManager;
-import com.exalt.auth.core.AuthorizationManager;
-import com.exalt.auth.core.UserManager;
-import com.exalt.auth.core.TokenManager;
-import com.exalt.auth.security.SecurityConfig;
-import com.exalt.auth.security.PasswordEncoder;
+import com.gogidix.auth.core.AuthenticationManager;
+import com.gogidix.auth.core.AuthorizationManager;
+import com.gogidix.auth.core.UserManager;
+import com.gogidix.auth.core.TokenManager;
+import com.gogidix.auth.security.SecurityConfig;
+import com.gogidix.auth.security.PasswordEncoder;
 
 @SpringBootApplication
 @EnableAuthenticationService
@@ -92,11 +92,11 @@ public class AuthServiceApplication {
 ### User Registration and Authentication
 
 ```java
-import com.exalt.auth.service.UserService;
-import com.exalt.auth.service.AuthenticationService;
-import com.exalt.auth.dto.UserRegistrationRequest;
-import com.exalt.auth.dto.LoginRequest;
-import com.exalt.auth.dto.AuthenticationResponse;
+import com.gogidix.auth.service.UserService;
+import com.gogidix.auth.service.AuthenticationService;
+import com.gogidix.auth.dto.UserRegistrationRequest;
+import com.gogidix.auth.dto.LoginRequest;
+import com.gogidix.auth.dto.AuthenticationResponse;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -188,10 +188,10 @@ public class AuthController {
 ### Role-Based Authorization
 
 ```java
-import com.exalt.auth.authorization.RoleManager;
-import com.exalt.auth.authorization.PermissionManager;
-import com.exalt.auth.model.Role;
-import com.exalt.auth.model.Permission;
+import com.gogidix.auth.authorization.RoleManager;
+import com.gogidix.auth.authorization.PermissionManager;
+import com.gogidix.auth.model.Role;
+import com.gogidix.auth.model.Permission;
 
 @Service
 public class RoleBasedAuthorizationService {
@@ -267,9 +267,9 @@ public class RoleBasedAuthorizationService {
 ### Multi-Factor Authentication
 
 ```java
-import com.exalt.auth.mfa.MFAManager;
-import com.exalt.auth.mfa.TOTPGenerator;
-import com.exalt.auth.mfa.SMSProvider;
+import com.gogidix.auth.mfa.MFAManager;
+import com.gogidix.auth.mfa.TOTPGenerator;
+import com.gogidix.auth.mfa.SMSProvider;
 
 @Service
 public class MultiFactorAuthenticationService {
@@ -309,7 +309,7 @@ public class MultiFactorAuthenticationService {
         // Generate QR code for authenticator app
         String qrCodeUrl = totpGenerator.generateQRCodeUrl(
             user.getEmail(),
-            "Exalt E-commerce",
+            "Gogidix E-commerce",
             secretKey
         );
         
@@ -370,9 +370,9 @@ public class MultiFactorAuthenticationService {
 ### JWT Token Management
 
 ```java
-import com.exalt.auth.token.TokenManager;
-import com.exalt.auth.token.JWTProcessor;
-import com.exalt.auth.token.TokenBlacklist;
+import com.gogidix.auth.token.TokenManager;
+import com.gogidix.auth.token.JWTProcessor;
+import com.gogidix.auth.token.TokenBlacklist;
 
 @Service
 public class JWTTokenService {

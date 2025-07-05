@@ -84,7 +84,7 @@ spring:
 logging:
   level:
     root: INFO
-    com.exalt.admin: INFO
+    com.gogidix.admin: INFO
   file:
     name: /var/log/admin-frameworks/application.log
     max-file-size: 100MB
@@ -495,7 +495,7 @@ free -h >> /tmp/maintenance.log
 tail -100 /var/log/admin-frameworks/application.log | grep ERROR >> /tmp/maintenance.log
 
 # Send report
-mail -s "Admin Frameworks Daily Report" admin-team@exalt.com < /tmp/maintenance.log
+mail -s "Admin Frameworks Daily Report" admin-team@gogidix.com < /tmp/maintenance.log
 ```
 
 #### Weekly Tasks
@@ -581,10 +581,10 @@ kubectl patch service admin-frameworks \
 
 ### Emergency Contacts
 
-- **Primary On-Call**: +1-555-0123 (admin-team-primary@exalt.com)
-- **Secondary On-Call**: +1-555-0124 (admin-team-secondary@exalt.com)
-- **DevOps Team**: devops-emergency@exalt.com
-- **Database Team**: dba-team@exalt.com
+- **Primary On-Call**: +1-555-0123 (admin-team-primary@gogidix.com)
+- **Secondary On-Call**: +1-555-0124 (admin-team-secondary@gogidix.com)
+- **DevOps Team**: devops-emergency@gogidix.com
+- **Database Team**: dba-team@gogidix.com
 
 ## Compliance and Auditing
 

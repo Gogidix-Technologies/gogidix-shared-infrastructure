@@ -224,8 +224,8 @@ mvn spring-boot:run
 
 - **Team**: Shared Infrastructure Team
 - **Slack Channel**: #shared-infrastructure
-- **Email**: infrastructure-team@exalt.com
+- **Email**: infrastructure-team@gogidix.com
 
 ## License
 
-Copyright (c) 2024 Exalt Application Limited. All rights reserved.
+Copyright (c) 2024 Gogidix Application Limited. All rights reserved.

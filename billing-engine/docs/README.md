@@ -42,7 +42,7 @@ To use the Billing Engine, follow these steps:
 ### Configuring the Billing Engine
 
 ```javascript
-const { BillingEngine } = require('@exalt/billing-engine');
+const { BillingEngine } = require('@gogidix/billing-engine');
 
 const billingEngine = new BillingEngine({
   database: {
@@ -84,7 +84,7 @@ await billingEngine.initialize();
 ### Creating a Subscription Plan
 
 ```javascript
-const { SubscriptionManager } = require('@exalt/billing-engine');
+const { SubscriptionManager } = require('@gogidix/billing-engine');
 
 const subscriptionManager = new SubscriptionManager(billingEngine);
 
@@ -133,15 +133,15 @@ const premiumPlan = await subscriptionManager.createPlan({
 ### Processing Customer Subscriptions
 
 ```javascript
-const { CustomerManager } = require('@exalt/billing-engine');
+const { CustomerManager } = require('@gogidix/billing-engine');
 
 const customerManager = new CustomerManager(billingEngine);
 
 // Create customer
 const customer = await customerManager.createCustomer({
-  email: 'customer@exalt.com',
+  email: 'customer@gogidix.com',
   name: 'John Doe',
-  companyName: 'Exalt Store',
+  companyName: 'Gogidix Store',
   billingAddress: {
     line1: '123 Main St',
     line2: 'Suite 100',
@@ -173,7 +173,7 @@ const subscription = await subscriptionManager.createSubscription({
   ],
   coupon: 'WELCOME25',
   metadata: {
-    salesRep: 'jane.smith@exalt.com',
+    salesRep: 'jane.smith@gogidix.com',
     contractLength: '12-months'
   }
 });
@@ -182,7 +182,7 @@ const subscription = await subscriptionManager.createSubscription({
 ### Invoice Generation and Processing
 
 ```javascript
-const { InvoiceGenerator } = require('@exalt/billing-engine');
+const { InvoiceGenerator } = require('@gogidix/billing-engine');
 
 const invoiceGenerator = new InvoiceGenerator(billingEngine);
 
@@ -254,7 +254,7 @@ if (paymentResult.success) {
 ### Usage-Based Billing
 
 ```javascript
-const { UsageBillingManager } = require('@exalt/billing-engine');
+const { UsageBillingManager } = require('@gogidix/billing-engine');
 
 const usageBillingManager = new UsageBillingManager(billingEngine);
 
@@ -312,7 +312,7 @@ const usageInvoice = await usageBillingManager.generateUsageInvoice({
 ### Tax Calculation and Compliance
 
 ```javascript
-const { TaxCalculator } = require('@exalt/billing-engine');
+const { TaxCalculator } = require('@gogidix/billing-engine');
 
 const taxCalculator = new TaxCalculator(billingEngine);
 
@@ -355,7 +355,7 @@ await invoiceGenerator.applyTaxes({
 ### Revenue Recognition and Reporting
 
 ```javascript
-const { RevenueRecognition } = require('@exalt/billing-engine');
+const { RevenueRecognition } = require('@gogidix/billing-engine');
 
 const revenueRecognition = new RevenueRecognition(billingEngine);
 
@@ -395,7 +395,7 @@ const revenueReport = await revenueRecognition.generateReport({
 ### Payment Processing and Webhooks
 
 ```javascript
-const { PaymentProcessor, WebhookManager } = require('@exalt/billing-engine');
+const { PaymentProcessor, WebhookManager } = require('@gogidix/billing-engine');
 
 const paymentProcessor = new PaymentProcessor(billingEngine);
 const webhookManager = new WebhookManager(billingEngine);
@@ -450,7 +450,7 @@ const refund = await paymentProcessor.createRefund({
   reason: 'requested_by_customer',
   metadata: {
     refundReason: 'Not satisfied with service',
-    requestedBy: 'customer@exalt.com'
+    requestedBy: 'customer@gogidix.com'
   }
 });
 ```
@@ -458,7 +458,7 @@ const refund = await paymentProcessor.createRefund({
 ### Financial Reporting and Analytics
 
 ```javascript
-const { ReportingEngine } = require('@exalt/billing-engine');
+const { ReportingEngine } = require('@gogidix/billing-engine');
 
 const reportingEngine = new ReportingEngine(billingEngine);
 
@@ -498,7 +498,7 @@ const revenueWaterfall = await reportingEngine.generateRevenueWaterfall({
 await reportingEngine.exportReport({
   reportId: mrrReport.id,
   format: 'xlsx',
-  destination: 's3://exalt-reports/billing/',
+  destination: 's3://gogidix-reports/billing/',
   filename: `mrr-report-${new Date().toISOString().slice(0, 10)}.xlsx`
 });
 ```

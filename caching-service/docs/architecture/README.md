@@ -206,9 +206,9 @@ public class CacheRegion {
 ```
 Key Pattern: {namespace}:{region}:{version}:{actual-key}
 Examples:
-- exalt:products:v1:product:123
-- exalt:users:v2:user:456
-- exalt:search:v1:query:electronics:page:1
+- gogidix:products:v1:product:123
+- gogidix:users:v2:user:456
+- gogidix:search:v1:query:electronics:page:1
 
 Value Structure (JSON):
 {

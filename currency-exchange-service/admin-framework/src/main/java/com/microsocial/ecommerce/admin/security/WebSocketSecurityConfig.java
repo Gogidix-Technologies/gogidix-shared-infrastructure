@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.security;
+package com.gogidix.shared.ecommerce.admin.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

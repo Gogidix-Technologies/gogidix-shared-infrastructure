@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.test;
+package com.gogidix.ecommerce.admin.test;
 
 import java.util.*;
 import java.io.*;

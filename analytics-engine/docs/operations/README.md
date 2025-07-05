@@ -98,7 +98,7 @@ analytics:
 logging:
   level:
     root: INFO
-    com.exalt.analytics: INFO
+    com.gogidix.analytics: INFO
     org.apache.spark: WARN
   file:
     name: /var/log/analytics-engine/application.log
@@ -761,7 +761,7 @@ df -h >> /tmp/analytics-maintenance.log
 tail -100 /var/log/analytics-engine/application.log | grep ERROR >> /tmp/analytics-maintenance.log
 
 # Send report
-mail -s "Analytics Engine Daily Report" analytics-team@exalt.com < /tmp/analytics-maintenance.log
+mail -s "Analytics Engine Daily Report" analytics-team@gogidix.com < /tmp/analytics-maintenance.log
 ```
 
 #### Weekly Tasks

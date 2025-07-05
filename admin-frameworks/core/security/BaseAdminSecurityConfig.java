@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.core.security;
+package com.gogidix.shared.admin.core.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

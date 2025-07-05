@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.handler;
+package com.gogidix.shared.ecommerce.admin.export.handler;
 
 import com.microsocial.ecommerce.admin.export.ExportException;
 import org.junit.jupiter.api.BeforeEach;

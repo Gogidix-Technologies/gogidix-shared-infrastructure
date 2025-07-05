@@ -145,7 +145,7 @@ source ~/.bashrc
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/exalt/social-ecommerce-ecosystem.git
+git clone https://github.com/gogidix/social-ecommerce-ecosystem.git
 cd social-ecommerce-ecosystem/shared-infrastructure/analytics-engine
 ```
 
@@ -175,7 +175,7 @@ CLICKHOUSE_PASSWORD=secure_password
 # InfluxDB Configuration
 INFLUXDB_URL=http://localhost:8086
 INFLUXDB_TOKEN=your-influxdb-token
-INFLUXDB_ORG=exalt
+INFLUXDB_ORG=gogidix
 INFLUXDB_BUCKET=analytics
 
 # Kafka Configuration
@@ -415,12 +415,12 @@ kubectl get services -n analytics
 
 ```bash
 # Add Helm repositories
-helm repo add exalt https://charts.exalt.com
+helm repo add gogidix https://charts.gogidix.com
 helm repo add confluent https://confluentinc.github.io/cp-helm-charts/
 helm repo add elastic https://helm.elastic.co
 
 # Install the analytics stack
-helm install analytics-stack exalt/analytics-engine \
+helm install analytics-stack gogidix/analytics-engine \
   --namespace analytics \
   --set image.tag=latest \
   --set kafka.enabled=true \
@@ -469,7 +469,7 @@ analytics:
   influxdb:
     url: ${INFLUXDB_URL:http://localhost:8086}
     token: ${INFLUXDB_TOKEN:your-token}
-    org: ${INFLUXDB_ORG:exalt}
+    org: ${INFLUXDB_ORG:gogidix}
     bucket: ${INFLUXDB_BUCKET:analytics}
   
   spark:
@@ -753,4 +753,4 @@ clickhouse-client --query "
 - **Monitoring**: `http://localhost:3000` (Grafana)
 - **Issues**: GitHub Issues
 - **Team Chat**: Slack #analytics-engine
-- **Email**: analytics-team@exalt.com
+- **Email**: analytics-team@gogidix.com

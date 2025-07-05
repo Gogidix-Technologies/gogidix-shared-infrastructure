@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export;
+package com.gogidix.shared.ecommerce.admin.export;
 
 import java.io.OutputStream;
 import java.util.List;

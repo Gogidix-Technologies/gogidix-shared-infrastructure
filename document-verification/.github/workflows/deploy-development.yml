@@ -35,8 +35,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t exalt/document-verification:dev-${{ github.sha }} .
-          docker tag exalt/document-verification:dev-${{ github.sha }} exalt/document-verification:dev-latest
+          docker build -t gogidix/document-verification:dev-${{ github.sha }} .
+          docker tag gogidix/document-verification:dev-${{ github.sha }} gogidix/document-verification:dev-latest
 
       - name: Login to Container Registry
         uses: docker/login-action@v2
@@ -47,8 +47,8 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push exalt/document-verification:dev-${{ github.sha }}
-          docker push exalt/document-verification:dev-latest
+          docker push gogidix/document-verification:dev-${{ github.sha }}
+          docker push gogidix/document-verification:dev-latest
 
       - name: Deploy to Kubernetes
         uses: azure/k8s-deploy@v1
@@ -60,7 +60,7 @@ jobs:
             k8s/hpa.yaml
             k8s/configmap.yaml
           images: |
-            exalt/document-verification:dev-${{ github.sha }}
+            gogidix/document-verification:dev-${{ github.sha }}
 
       - name: Wait for deployment
         run: |

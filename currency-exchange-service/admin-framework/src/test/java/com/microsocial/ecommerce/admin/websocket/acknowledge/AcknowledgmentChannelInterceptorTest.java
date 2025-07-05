@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.acknowledge;
+package com.gogidix.shared.ecommerce.admin.websocket.acknowledge;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

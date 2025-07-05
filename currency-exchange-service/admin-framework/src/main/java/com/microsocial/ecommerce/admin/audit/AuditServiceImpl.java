@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.audit;
+package com.gogidix.shared.ecommerce.admin.audit;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;

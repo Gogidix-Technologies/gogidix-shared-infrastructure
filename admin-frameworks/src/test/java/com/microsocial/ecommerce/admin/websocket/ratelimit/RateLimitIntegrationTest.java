@@ -1,4 +1,4 @@
-package com.exalt.ecommerce.admin.websocket.ratelimit;
+package com.gogidix.ecommerce.admin.websocket.ratelimit;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.*;

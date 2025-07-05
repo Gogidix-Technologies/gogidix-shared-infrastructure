@@ -1,6 +1,6 @@
-package com.exalt.admin.components.region.examples;
+package com.gogidix.admin.components.region.examples;
 
-import com.exalt.admin.components.region.model.BaseRegion;
+import com.gogidix.admin.components.region.model.BaseRegion;
 
 import java.util.HashSet;
 import java.util.Set;

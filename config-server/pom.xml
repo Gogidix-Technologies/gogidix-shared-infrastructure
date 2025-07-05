@@ -14,7 +14,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
     </parent>
     
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>config-server</artifactId>
     <version>1.0.0</version>
     <description>Configuration Server for Micro-Social-Ecommerce-Ecosystems</description>

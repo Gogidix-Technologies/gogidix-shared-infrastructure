@@ -13,7 +13,7 @@
         <relativePath/>
     </parent>
     
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>payment-processing-service</artifactId>
     <version>1.0.0</version>
     <description>Shared Infrastructure - Payment Processing Service</description>

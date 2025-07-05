@@ -49,10 +49,10 @@ To use the Currency Exchange Service, follow these steps:
 ### Basic Currency Exchange Service Setup
 
 ```javascript
-import { ExchangeRateService } from '@exalt/currency-exchange-service';
-import { ForexProvider, CentralBankProvider } from '@exalt/currency-providers';
-import { RedisCacheManager } from '@exalt/cache-manager';
-import { ExchangeRateController } from '@exalt/controllers';
+import { ExchangeRateService } from '@gogidix/currency-exchange-service';
+import { ForexProvider, CentralBankProvider } from '@gogidix/currency-providers';
+import { RedisCacheManager } from '@gogidix/cache-manager';
+import { ExchangeRateController } from '@gogidix/controllers';
 
 class CurrencyExchangeServiceApplication {
     constructor() {
@@ -237,7 +237,7 @@ service.start();
 ### Exchange Rate Management
 
 ```javascript
-import { ExchangeRateService, RateUpdateStrategy } from '@exalt/currency-exchange-service';
+import { ExchangeRateService, RateUpdateStrategy } from '@gogidix/currency-exchange-service';
 
 class ExchangeRateManager {
     constructor(exchangeRateService, providerManager) {
@@ -420,7 +420,7 @@ class ExchangeRateManager {
 ### Currency Conversion Service
 
 ```javascript
-import { CurrencyConverter, ConversionRules, FeeCalculator } from '@exalt/currency-exchange-service';
+import { CurrencyConverter, ConversionRules, FeeCalculator } from '@gogidix/currency-exchange-service';
 
 class CurrencyConversionService {
     constructor(exchangeRateService, cacheManager) {
@@ -711,7 +711,7 @@ class CurrencyConversionService {
 ### Historical Rate Service
 
 ```javascript
-import { HistoricalRateService, DataAggregator, TrendAnalyzer } from '@exalt/currency-exchange-service';
+import { HistoricalRateService, DataAggregator, TrendAnalyzer } from '@gogidix/currency-exchange-service';
 
 class HistoricalRateManager {
     constructor(storageBackend, exchangeRateService) {

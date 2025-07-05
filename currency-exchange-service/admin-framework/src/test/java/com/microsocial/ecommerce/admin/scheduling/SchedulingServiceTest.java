@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.scheduling;
+package com.gogidix.shared.ecommerce.admin.scheduling;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

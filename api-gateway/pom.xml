@@ -14,7 +14,7 @@
     </parent>
 
     <!-- Service Identity -->
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>api-gateway</artifactId>
     <version>1.0.0</version>
     <name>api-gateway</name>

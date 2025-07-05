@@ -1,4 +1,4 @@
-package com.exalt.shared.apigateway;
+package com.gogidix.shared.apigateway;
 
 import com.socialecommerceecosystem.apigateway.config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;

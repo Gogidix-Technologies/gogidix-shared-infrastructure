@@ -1,4 +1,4 @@
-﻿package com.exalt.shared.ecommerce.admin.util;
+﻿package com.gogidix.shared.ecommerce.admin.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

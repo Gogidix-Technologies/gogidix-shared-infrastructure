@@ -43,12 +43,12 @@ To use the Analytics Engine, follow these steps:
 ### Initializing the Analytics Engine
 
 ```java
-import com.exalt.analytics.core.AnalyticsEngine;
-import com.exalt.analytics.core.DataProcessor;
-import com.exalt.analytics.components.BusinessIntelligence;
-import com.exalt.analytics.components.RealTimeAnalytics;
-import com.exalt.analytics.components.CustomerAnalytics;
-import com.exalt.analytics.pipeline.DataPipeline;
+import com.gogidix.analytics.core.AnalyticsEngine;
+import com.gogidix.analytics.core.DataProcessor;
+import com.gogidix.analytics.components.BusinessIntelligence;
+import com.gogidix.analytics.components.RealTimeAnalytics;
+import com.gogidix.analytics.components.CustomerAnalytics;
+import com.gogidix.analytics.pipeline.DataPipeline;
 
 public class EcommerceAnalyticsApplication {
     private final AnalyticsEngine analyticsEngine;
@@ -78,9 +78,9 @@ public class EcommerceAnalyticsApplication {
 ### Setting Up Data Pipelines
 
 ```java
-import com.exalt.analytics.pipeline.DataPipeline;
-import com.exalt.analytics.pipeline.DataSource;
-import com.exalt.analytics.pipeline.DataTransformer;
+import com.gogidix.analytics.pipeline.DataPipeline;
+import com.gogidix.analytics.pipeline.DataSource;
+import com.gogidix.analytics.pipeline.DataTransformer;
 
 public class SalesAnalyticsPipeline {
     private final DataPipeline salesPipeline;
@@ -113,9 +113,9 @@ public class SalesAnalyticsPipeline {
 ### Creating Real-Time Dashboards
 
 ```java
-import com.exalt.analytics.dashboard.DashboardService;
-import com.exalt.analytics.dashboard.Widget;
-import com.exalt.analytics.dashboard.Chart;
+import com.gogidix.analytics.dashboard.DashboardService;
+import com.gogidix.analytics.dashboard.Widget;
+import com.gogidix.analytics.dashboard.Chart;
 
 public class ExecutiveDashboard {
     private final DashboardService dashboardService;
@@ -161,9 +161,9 @@ public class ExecutiveDashboard {
 ### Implementing Customer Analytics
 
 ```java
-import com.exalt.analytics.customer.CustomerSegmentation;
-import com.exalt.analytics.customer.BehaviorAnalyzer;
-import com.exalt.analytics.customer.PredictiveModel;
+import com.gogidix.analytics.customer.CustomerSegmentation;
+import com.gogidix.analytics.customer.BehaviorAnalyzer;
+import com.gogidix.analytics.customer.PredictiveModel;
 
 public class CustomerInsights {
     private final CustomerSegmentation segmentation;

@@ -428,8 +428,8 @@ rate-limiting:
 ```yaml
 cors:
   allowed-origins:
-    - https://app.exalt.com
-    - https://admin.exalt.com
+    - https://app.gogidix.com
+    - https://admin.gogidix.com
   allowed-methods:
     - GET
     - POST

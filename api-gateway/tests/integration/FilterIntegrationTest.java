@@ -1,4 +1,4 @@
-package com.exalt.shared.apigateway;
+package com.gogidix.shared.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

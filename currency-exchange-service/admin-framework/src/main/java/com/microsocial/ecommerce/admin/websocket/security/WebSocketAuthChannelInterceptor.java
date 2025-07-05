@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.websocket.security;
+package com.gogidix.shared.ecommerce.admin.websocket.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
-package com.exalt.shared.admin.components.dashboard.service;
+package com.gogidix.shared.admin.components.dashboard.service;
 
-import com.exalt.shared.admin.components.dashboard.model.BaseDashboard;
-import com.exalt.shared.admin.components.dashboard.model.DashboardWidget;
+import com.gogidix.shared.admin.components.dashboard.model.BaseDashboard;
+import com.gogidix.shared.admin.components.dashboard.model.DashboardWidget;
 
 import java.util.List;
 import java.util.Optional;

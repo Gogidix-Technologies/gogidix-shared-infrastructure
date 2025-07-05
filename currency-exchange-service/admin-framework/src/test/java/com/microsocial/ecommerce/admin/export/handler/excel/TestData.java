@@ -1,4 +1,4 @@
-package com.exalt.shared.ecommerce.admin.export.handler.excel;
+package com.gogidix.shared.ecommerce.admin.export.handler.excel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

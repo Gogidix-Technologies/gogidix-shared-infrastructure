@@ -14,7 +14,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
     </parent>
     
-    <groupId>com.exalt.ecosystem.shared</groupId>
+    <groupId>com.gogidix.ecosystem.shared</groupId>
     <artifactId>file-storage-service</artifactId>
     <version>1.0.0</version>
     <description>Shared Infrastructure - file-storage-service Service</description>

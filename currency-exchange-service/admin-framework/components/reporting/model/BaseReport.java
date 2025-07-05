@@ -1,4 +1,4 @@
-package com.exalt.shared.admin.components.reporting.model;
+package com.gogidix.shared.admin.components.reporting.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
