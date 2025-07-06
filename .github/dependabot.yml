@@ -1,0 +1,146 @@
+version: 2
+updates:
+  # Java Maven dependencies
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "gogidix-dev-team"
+    assignees:
+      - "gogidix-dev-team"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "org.springframework.boot:*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "org.springframework.cloud:*"
+        update-types: ["version-update:semver-major"]
+
+  # Node.js npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "gogidix-dev-team"
+    assignees:
+      - "gogidix-dev-team"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  # Shared Infrastructure specific Maven
+  - package-ecosystem: "maven"
+    directory: "/shared-infrastructure"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(shared-infra)"
+
+  # Social Commerce specific Maven
+  - package-ecosystem: "maven"
+    directory: "/social-commerce"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "11:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(social-commerce)"
+
+  # Warehousing specific Maven
+  - package-ecosystem: "maven"
+    directory: "/warehousing"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "10:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(warehousing)"
+
+  # Courier Services specific Maven
+  - package-ecosystem: "maven"
+    directory: "/courier-services"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "11:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(courier)"
+
+  # Centralized Dashboard npm
+  - package-ecosystem: "npm"
+    directory: "/centralized-dashboard"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(dashboard)"
+
+  # Shared Libraries Maven
+  - package-ecosystem: "maven"
+    directory: "/shared-libraries"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "10:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(shared-libs)"
+
+  # Haulage Logistics Maven
+  - package-ecosystem: "maven"
+    directory: "/haulage-logistics"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "11:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(haulage)"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "first-monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "gogidix-dev-team"
+    commit-message:
+      prefix: "chore(ci)"
+
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(docker)"
