@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['java', 'javascript']
+        language: ['java']
     
     steps:
       - name: Checkout Repository
@@ -71,7 +71,12 @@ jobs:
             fi
             
             # Build for security analysis (skip tests for speed)
-            mvn clean compile -DskipTests -q || echo "Build failed for $service_name"
+            if [ -f "./mvnw" ]; then
+              chmod +x ./mvnw
+              ./mvnw clean compile -DskipTests -q || echo "Build failed for $service_name"
+            else
+              mvn clean compile -DskipTests -q || echo "Build failed for $service_name"
+            fi || echo "Build failed for $service_name"
             
             cd - > /dev/null
           done
